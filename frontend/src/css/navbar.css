@@ -211,4 +211,8 @@
   .nav-links.active {
     max-height: 300px;
   }
+
+  .notification-dropdown{
+    z-index: 1000;
+  }
 }
