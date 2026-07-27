@@ -1,0 +1,77 @@
+.notifications-container{
+    width: 90%;
+    max-width: 800px;
+    margin: 40px auto;
+}
+
+.notifications-container h1{
+    text-align: center;
+    color: #2e7d32;
+    margin-bottom: 30px;
+}
+
+.notification-card{
+    background: #fff;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    cursor: pointer;
+    transition: all .3s ease;
+    border-left: 5px solid transparent;
+}
+
+.notification-card:hover{
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(0,0,0,.15);
+}
+
+.notification-card h3{
+    margin: 0 0 8px;
+    color: #2e7d32;
+}
+
+.notification-card p{
+    margin: 0 0 10px;
+    color: #555;
+    line-height: 1.5;
+}
+
+.notification-card small{
+    color: #888;
+}
+
+/* Notification non lue */
+.notification-card.unread{
+    background: #e8f5e9;
+    border-left-color: #2e7d32;
+    font-weight: 600;
+}
+
+/* Notification lue */
+.notification-card.read{
+    background: #f5f5f5;
+    border-left-color: #bdbdbd;
+    opacity: .85;
+}
+
+/* Message lorsqu'il n'y a aucune notification */
+.notifications-container p{
+    text-align: center;
+    color: #666;
+}
+
+.read-all-btn{
+    background:#2e7d32;
+    color:white;
+    border:none;
+    padding:10px 20px;
+    border-radius:8px;
+    cursor:pointer;
+    margin-bottom:20px;
+    transition:.3s;
+}
+
+.read-all-btn:hover{
+    background:#256628;
+}

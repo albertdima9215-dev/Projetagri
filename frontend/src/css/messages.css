@@ -1,0 +1,70 @@
+.messages-page{
+    display:grid;
+    grid-template-columns:300px 1fr;
+    min-height:80vh;
+}
+
+.conversations{
+    border-right:1px solid #ddd;
+    padding:20px;
+}
+
+.conversation{
+    padding:15px;
+    border-bottom:1px solid #eee;
+    cursor:pointer;
+}
+
+.conversation:hover{
+    background:#f5f5f5;
+}
+
+.chat{
+    padding:20px;
+    display:flex;
+    flex-direction:column;
+}
+
+.messages-list{
+    flex:1;
+    overflow-y:auto;
+    margin-bottom:20px;
+}
+
+.message{
+    background:#f1f1f1;
+    padding:10px;
+    border-radius:8px;
+    margin-bottom:10px;
+}
+
+.message-form{
+    display:flex;
+    gap:10px;
+}
+
+.message-form input{
+    flex:1;
+    padding:12px;
+}
+
+.message-form button{
+    padding:12px 20px;
+    background:green;
+    color:white;
+    border:none;
+    cursor:pointer;
+}
+
+@media(max-width:768px){
+
+.messages-page{
+    grid-template-columns:1fr;
+}
+
+.conversations{
+    border-right:none;
+    border-bottom:1px solid #ddd;
+}
+
+}

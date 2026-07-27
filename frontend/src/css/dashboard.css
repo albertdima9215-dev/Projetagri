@@ -1,0 +1,105 @@
+.dashboard{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
+}
+
+.dashboard h1{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.dashboard a{
+    background:#28a745;
+    color:#fff;
+    font-weight: 600;
+    padding:8px 15px;
+    text-decoration:none;
+    border-radius:5px;
+    margin-left: 15px;
+}
+
+.dashboard-products{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:20px;
+}
+
+.dashboard-card{
+    background:#fff;
+    border-radius:10px;
+    overflow:hidden;
+    box-shadow:0 2px 10px rgba(0,0,0,.15);
+}
+
+.dashboard-card img{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+}
+
+.dashboard-card h3,
+.dashboard-card p{
+    padding:0 15px;
+}
+
+.actions{
+    display:flex;
+    justify-content:space-between;
+    padding:15px;
+}
+
+.actions .btn-modifier{
+    background:#28a745;
+    color:#fff;
+    padding:8px 15px;
+    text-decoration:none;
+    border-radius:5px;
+}
+
+.actions button{
+    background:#dc3545;
+    color:#fff;
+    border:none;
+    padding:8px 15px;
+    border-radius:5px;
+    cursor:pointer;
+}
+.edit-form{
+    margin-top:40px;
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,.15);
+}
+
+.edit-form h2{
+    margin-bottom:20px;
+}
+
+.edit-form input,
+.edit-form textarea{
+    width:100%;
+    margin-bottom:15px;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:6px;
+    box-sizing:border-box;
+}
+
+.edit-form textarea{
+    min-height:120px;
+    resize:vertical;
+}
+
+.edit-actions{
+    display:flex;
+    gap:15px;
+}
+
+.edit-actions button{
+    padding:12px 20px;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+}

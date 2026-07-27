@@ -1,0 +1,52 @@
+.admin-products{
+    width:100%;
+}
+
+.admin-products h1{
+    margin-bottom:25px;
+    color:#2e7d32;
+}
+
+.admin-products table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.admin-products th{
+    background:#2e7d32;
+    color:white;
+    padding:15px;
+}
+
+.admin-products td{
+    padding:15px;
+    border-bottom:1px solid #eee;
+}
+
+.admin-products tbody tr:hover{
+    background:#f8f8f8;
+}
+
+.admin-product-image{
+    width:70px;
+    height:70px;
+    object-fit:cover;
+    border-radius:8px;
+}
+
+.delete-btn{
+    background:#d32f2f;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.delete-btn:hover{
+    background:#b71c1c;
+}

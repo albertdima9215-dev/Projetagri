@@ -1,0 +1,40 @@
+.edit-profile{
+    max-width:700px;
+    margin:40px auto;
+    padding:30px;
+}
+
+.edit-profile h1{
+    text-align:center;
+    color:#2e7d32;
+    margin-bottom:30px;
+}
+
+.edit-profile form{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.edit-profile input,
+.edit-profile textarea{
+    padding:15px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:16px;
+}
+
+.edit-profile textarea{
+    min-height:120px;
+    resize:vertical;
+}
+
+.edit-profile button{
+    background:#2e7d32;
+    color:white;
+    border:none;
+    padding:15px;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:17px;
+}
