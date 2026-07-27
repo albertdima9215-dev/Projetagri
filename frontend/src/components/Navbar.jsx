@@ -5,6 +5,7 @@ import "../css/navbar.css";
 import { useFavorite } from "../context/FavoriteContext";
 import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { IoMdNotificationsOutline } from "react-icons/io";
+import { FiHome } from "react-icons/fi";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -106,7 +107,7 @@ function Navbar() {
       <ul className={menuOpen ? "nav-links active" : "nav-links"}>
         <li>
           <Link to="/" onClick={() => setMenuOpen(false)}>
-            Accueil
+            <FiHome />
           </Link>
         </li>
 
