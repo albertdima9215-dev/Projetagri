@@ -55,9 +55,9 @@ const createReview = async (req, res) => {
     await order.save();*/
 
     await Order.findByIdAndUpdate(
-  commande,
-  { avisLaisse: true }
-);
+      commande,
+      { avisLaisse: true }
+    );
 
     res.status(201).json({
       message: "Avis ajouté avec succès",
@@ -89,7 +89,25 @@ const getSellerReviews = async (req, res) => {
   }
 };
 
+// Avis d'un produit
+const getProductReviews = async (req, res) => {
+  try {
+    const reviews = await Review.find({
+      produit: req.params.id,
+    })
+      .populate("acheteur", "nom")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(reviews);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createReview,
   getSellerReviews,
+  getProductReviews,
 };

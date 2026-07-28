@@ -10,10 +10,16 @@ function ProductDetails() {
   const navigate = useNavigate();
   const [showOrder, setShowOrder] = useState(false);
   const [quantite, setQuantite] = useState(1);
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     fetchProduct();
   }, []);
+
+  useEffect(() => {
+    fetchReviews();
+  }, [])
+  
 
   const fetchProduct = async () => {
     try {
@@ -79,6 +85,11 @@ function ProductDetails() {
     alert(error.response?.data?.message || "Erreur");
   }
 };
+
+ const fetchReviews = async () => {
+  const res = await         api.get(`/reviews/product/${id}`);
+  setReviews(res.data);
+}; 
 
   if (!product) {
     return <h2>Chargement...</h2>;
@@ -190,7 +201,29 @@ function ProductDetails() {
         </div>
 
       </div>
-    )}
+      )}
+
+      <div className="reviews-section">
+  <h2>Avis des acheteurs</h2>
+
+  {reviews.length === 0 ? (
+    <p>Aucun avis pour le moment.</p>
+  ) : (
+    reviews.map((review) => (
+      <div key={review._id} className="review-card">
+        <strong>{review.acheteur.nom}</strong>
+
+        <p>{"⭐".repeat(review.note)}</p>
+
+        <p>{review.commentaire}</p>
+
+        <small>
+          {new Date(review.createdAt).toLocaleDateString("fr-FR")}
+        </small>
+      </div>
+    ))
+  )}
+</div>
 
     </div>
   );
