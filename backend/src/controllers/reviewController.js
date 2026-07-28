@@ -15,14 +15,14 @@ const createReview = async (req, res) => {
       });
     };
 
-    if (vendeurId === req.user.id) {
+    if (vendeurId === req.user._id) {
       return res.status(400).json({
         message: "Vous ne pouvez pas noter votre propre profil.",
       });
     };
 
     const reviewExists = await Review.findOne({
-    utilisateur: req.user._id,
+    acheteur: req.user._id,
     produit,
     });
 
@@ -33,13 +33,17 @@ const createReview = async (req, res) => {
     }
 
     const review = await Review.create({
+      produit,
       vendeur: vendeurId,
-      acheteur: req.user.id,
+      acheteur: req.user._id,
       note,
       commentaire,
     });
 
-    const order = await Order.findById(commande);
+    /*const order = await Order.findOne({
+      _id: commande,
+      acheteur: req.user._id,
+    });
 
     if (!order) {
   return res.status(404).json({
@@ -48,7 +52,12 @@ const createReview = async (req, res) => {
 }
 
     order.avisLaisse = true;
-await order.save();
+    await order.save();*/
+
+    await Order.findByIdAndUpdate(
+  commande,
+  { avisLaisse: true }
+);
 
     res.status(201).json({
       message: "Avis ajouté avec succès",

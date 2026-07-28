@@ -64,6 +64,11 @@ const orderSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+
+    avisLaisse: {
+      type: Boolean,
+      default: false,
+    }
   },
   {
     timestamps: true,
