@@ -221,6 +221,30 @@ const submitReview = async () => {
 
         </div>
       )}
+
+      <div className="order-progress">
+
+  <div className={`step ${["En attente", "Confirmée", "Expédiée", "Livrée"].includes(order.statut) ? "active" : ""}`} >
+    <span>1</span>
+    <p>Commande</p>
+  </div>
+
+  <div className={`step ${["Confirmée", "Expédiée", "Livrée"].includes(order.statut) ? "active" : ""}`} >
+    <span>2</span>
+    <p>Confirmée</p>
+  </div>
+
+  <div className={`step ${["Expédiée", "Livrée"].includes(order.statut) ? "active" : ""}`} >
+    <span>3</span>
+    <p>Expédiée</p>
+  </div>
+
+  <div className={`step ${order.statut === "Livrée" ? "active" : ""}`} >
+    <span>4</span>
+    <p>Livrée</p>
+  </div>
+
+</div>
       
     </div>
   );
