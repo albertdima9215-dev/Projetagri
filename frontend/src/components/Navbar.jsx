@@ -107,7 +107,7 @@ function Navbar() {
       <ul className={menuOpen ? "nav-links active" : "nav-links"}>
         <li>
           <Link to="/" onClick={() => setMenuOpen(false)}>
-            <FiHome />
+            <FiHome className="acceuil" />
           </Link>
         </li>
 
@@ -121,7 +121,7 @@ function Navbar() {
         <>
           <li>
             <Link to="/favorites" className="favorite-link">
-              <FaHeart/> Favoris
+              <FaHeart className="favori" /> Favoris
               {favoriteCount > 0 && (
               <span className="favorite-badge">
                 {favoriteCount}

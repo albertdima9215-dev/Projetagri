@@ -44,6 +44,10 @@
   font-weight: bold;
 }
 
+.nav-links a .acceuil, .nav-links a .favori{
+  font-size: 35px;
+}
+
 .nav-links a:hover {
   color: gold;
 }
