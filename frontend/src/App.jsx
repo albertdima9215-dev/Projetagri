@@ -25,6 +25,7 @@ import AdminUsers from "./pages/AdminUsers";
 import AdminLayout from "./layouts/AdminLayout";
 import AdminProducts from "./pages/AdminProducts";
 import AdminOrders from "./pages/AdminOrders";
+import AdminPayments from "./pages/AdminPayments";
 
 function App() {
   return (
@@ -141,6 +142,10 @@ function App() {
           <Route
   path="orders"
   element={<AdminOrders />}
+/>
+          <Route
+  path="payments"
+  element={<AdminPayments />}
 />
 
         </Route>

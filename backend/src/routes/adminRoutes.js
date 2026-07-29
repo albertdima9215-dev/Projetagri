@@ -11,6 +11,8 @@ const {
   deleteProduct,
   getOrders,
   updateOrderStatus,
+  getPayments,
+  updatePaymentStatus,
 } = require("../controllers/adminController");
 
 const router = express.Router();
@@ -69,6 +71,20 @@ router.put(
   protect,
   admin,
   updateOrderStatus
+);
+
+router.get(
+  "/payments",
+  protect,
+  admin,
+  getPayments
+);
+
+router.put(
+  "/payments/:id",
+  protect,
+  admin,
+  updatePaymentStatus
 );
 
 module.exports = router;

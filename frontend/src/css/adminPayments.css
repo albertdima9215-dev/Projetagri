@@ -1,0 +1,98 @@
+.admin-payments{
+    width:100%;
+}
+
+.admin-payments h1{
+    color:#2e7d32;
+    margin-bottom:25px;
+}
+
+.admin-payments table{
+    width:100%;
+    border-collapse:collapse;
+    background:#fff;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.admin-payments th{
+    background:#2e7d32;
+    color:white;
+    padding:15px;
+    text-align:left;
+}
+
+.admin-payments td{
+    padding:15px;
+    border-bottom:1px solid #eee;
+}
+
+.admin-payments tbody tr:hover{
+    background:#f8f8f8;
+}
+
+.status-container{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.status{
+    padding:8px 14px;
+    border-radius:30px;
+    color:white;
+    font-size:14px;
+    font-weight:bold;
+    width:fit-content;
+}
+
+.pending{
+    background:#ff9800;
+}
+
+.paid{
+    background:#2e7d32;
+}
+
+.failed{
+    background:#d32f2f;
+}
+
+.status-container select{
+    padding:8px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    cursor:pointer;
+}
+
+@media (max-width:768px){
+
+.admin-payments table,
+.admin-payments thead,
+.admin-payments tbody,
+.admin-payments th,
+.admin-payments td,
+.admin-payments tr{
+    display:block;
+}
+
+.admin-payments thead{
+    display:none;
+}
+
+.admin-payments tr{
+    margin-bottom:20px;
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 3px 8px rgba(0,0,0,.1);
+    padding:15px;
+}
+
+.admin-payments td{
+    border:none;
+    display:flex;
+    justify-content:space-between;
+    padding:10px 0;
+}
+}
