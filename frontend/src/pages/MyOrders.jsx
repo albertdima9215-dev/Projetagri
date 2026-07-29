@@ -110,6 +110,49 @@ const submitReview = async () => {
               </p>
 
               <p>Vendeur : {order.vendeur.nom}</p>
+              {order.numeroSuivi && (
+  <p>
+    🚚 Suivi : <strong>{order.numeroSuivi}</strong>
+  </p>
+)}
+
+{order.dateExpedition && (
+  <p>
+    📅 Expédiée le :
+    {new Date(order.dateExpedition).toLocaleDateString("fr-FR")}
+  </p>
+)}
+
+{order.dateLivraison && (
+  <p>
+    ✅ Livrée le :
+    {new Date(order.dateLivraison).toLocaleDateString("fr-FR")}
+  </p>
+)}
+
+<div className="order-progress">
+
+  <div className={`step ${["En attente", "Confirmée", "Expédiée", "Livrée"].includes(order.statut) ? "active" : ""}`} >
+    <span>1</span>
+    <p>Commande</p>
+  </div>
+
+  <div className={`step ${["Confirmée", "Expédiée", "Livrée"].includes(order.statut) ? "active" : ""}`} >
+    <span>2</span>
+    <p>Confirmée</p>
+  </div>
+
+  <div className={`step ${["Expédiée", "Livrée"].includes(order.statut) ? "active" : ""}`} >
+    <span>3</span>
+    <p>Expédiée</p>
+  </div>
+
+  <div className={`step ${order.statut === "Livrée" ? "active" : ""}`} >
+    <span>4</span>
+    <p>Livrée</p>
+  </div>
+
+</div>
 
             </div>
 
@@ -137,26 +180,6 @@ const submitReview = async () => {
           </div>
         ))
       )}
-
-      {order.numeroSuivi && (
-        <p>
-          🚚 Suivi : <strong>{order.numeroSuivi}</strong>
-        </p>
-      )}
-
-        {order.dateExpedition && (
-          <p>
-            📅 Expédiée le :
-            {new Date(order.dateExpedition).toLocaleDateString("fr-FR")}
-          </p>
-        )}
-
-        {order.dateLivraison && (
-          <p>
-            ✅ Livrée le :
-            {new Date(order.dateLivraison).toLocaleDateString("fr-FR")}
-          </p>
-        )}
 
       {showReviewModal && (
         <div className="modal-overlay">
@@ -221,30 +244,6 @@ const submitReview = async () => {
 
         </div>
       )}
-
-      <div className="order-progress">
-
-  <div className={`step ${["En attente", "Confirmée", "Expédiée", "Livrée"].includes(order.statut) ? "active" : ""}`} >
-    <span>1</span>
-    <p>Commande</p>
-  </div>
-
-  <div className={`step ${["Confirmée", "Expédiée", "Livrée"].includes(order.statut) ? "active" : ""}`} >
-    <span>2</span>
-    <p>Confirmée</p>
-  </div>
-
-  <div className={`step ${["Expédiée", "Livrée"].includes(order.statut) ? "active" : ""}`} >
-    <span>3</span>
-    <p>Expédiée</p>
-  </div>
-
-  <div className={`step ${order.statut === "Livrée" ? "active" : ""}`} >
-    <span>4</span>
-    <p>Livrée</p>
-  </div>
-
-</div>
       
     </div>
   );
