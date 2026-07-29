@@ -4,7 +4,7 @@ import "../css/orders.css";
 
 function SellerOrders() {
   const [orders, setOrders] = useState([]);
-  const [trackingNumber, setTrackingNumber] = useState("");
+  const [trackingNumber, setTrackingNumber] = useState({});
 
   useEffect(() => {
     fetchOrders();
@@ -28,38 +28,28 @@ function SellerOrders() {
   };
 
   const updateStatus = async (id, statut) => {
-    try {
-      const token = localStorage.getItem("token");
+  try {
+    const token = localStorage.getItem("token");
 
-      await api.put(
-        `/orders/${id}`,
-        { statut },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+    await api.put(
+      `/orders/${id}`,
+      {
+        statut,
+        numeroSuivi: trackingNumbers[id] || "",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
-      await api.put(
-  `/orders/${selectedOrder._id}`,
-  {
-    statut: newStatus,
-    numeroSuivi: trackingNumber,
-  },
-  {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    fetchOrders();
+
+  } catch (error) {
+    alert(error.response?.data?.message || "Erreur");
   }
-);
-
-      fetchOrders();
-
-    } catch (error) {
-      alert(error.response?.data?.message || "Erreur");
-    }
-  };
+};
 
   return (
     <div className="orders-container">
@@ -107,8 +97,13 @@ function SellerOrders() {
               <input
   type="text"
   placeholder="Numéro de suivi"
-  value={trackingNumber}
-  onChange={(e) => setTrackingNumber(e.target.value)}
+  value={trackingNumbers[order._id] || ""}
+  onChange={(e) =>
+    setTrackingNumbers({
+      ...trackingNumbers,
+      [order._id]: e.target.value,
+    })
+  }
 />
 
             </div>
