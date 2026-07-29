@@ -138,6 +138,26 @@ const submitReview = async () => {
         ))
       )}
 
+      {order.numeroSuivi && (
+        <p>
+          🚚 Suivi : <strong>{order.numeroSuivi}</strong>
+        </p>
+      )}
+
+        {order.dateExpedition && (
+          <p>
+            📅 Expédiée le :
+            {new Date(order.dateExpedition).toLocaleDateString("fr-FR")}
+          </p>
+        )}
+
+        {order.dateLivraison && (
+          <p>
+            ✅ Livrée le :
+            {new Date(order.dateLivraison).toLocaleDateString("fr-FR")}
+          </p>
+        )}
+
       {showReviewModal && (
         <div className="modal-overlay">
 

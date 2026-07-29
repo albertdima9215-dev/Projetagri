@@ -121,6 +121,18 @@ const updateOrderStatus = async (req, res) => {
 
     commande.statut = req.body.statut;
 
+    if (req.body.numeroSuivi) {
+      commande.numeroSuivi = req.body.numeroSuivi;
+    }
+
+    if (req.body.statut === "Expédiée") {
+      commande.dateExpedition = new Date();
+    }
+
+    if (req.body.statut === "Livrée") {
+      commande.dateLivraison = new Date();
+    }
+
     await commande.save();
 
     await Notification.create({

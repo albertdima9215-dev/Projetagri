@@ -4,6 +4,7 @@ import "../css/orders.css";
 
 function SellerOrders() {
   const [orders, setOrders] = useState([]);
+  const [trackingNumber, setTrackingNumber] = useState("");
 
   useEffect(() => {
     fetchOrders();
@@ -39,6 +40,19 @@ function SellerOrders() {
           },
         }
       );
+
+      await api.put(
+  `/orders/${selectedOrder._id}`,
+  {
+    statut: newStatus,
+    numeroSuivi: trackingNumber,
+  },
+  {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+);
 
       fetchOrders();
 
@@ -89,6 +103,13 @@ function SellerOrders() {
                 <option>Livrée</option>
                 <option>Annulée</option>
               </select>
+
+              <input
+  type="text"
+  placeholder="Numéro de suivi"
+  value={trackingNumber}
+  onChange={(e) => setTrackingNumber(e.target.value)}
+/>
 
             </div>
 

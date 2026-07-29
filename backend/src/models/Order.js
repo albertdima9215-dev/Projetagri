@@ -68,7 +68,20 @@ const orderSchema = new mongoose.Schema(
     avisLaisse: {
       type: Boolean,
       default: false,
-    }
+    },
+
+    numeroSuivi: {
+      type: String,
+      default: "",
+    },
+
+    dateExpedition: {
+      type: Date,
+    },
+
+    dateLivraison: {
+      type: Date,
+    },
   },
   {
     timestamps: true,
