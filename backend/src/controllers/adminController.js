@@ -290,14 +290,41 @@ const updatePaymentStatus = async (req, res) => {
       });
     }
 
+    // Empêcher la modification d'un paiement déjà confirmé
+    if (order.statutPaiement === "Payé") {
+      return res.status(400).json({
+        message: "Un paiement déjà confirmé ne peut plus être modifié.",
+      });
+    }
+
+    // Vérifier les transitions autorisées
+    const transitionsAutorisees = {
+      "En attente": ["Payé", "Échoué"],
+      "Échoué": ["En attente", "Payé"],
+    };
+
+    const transitions = transitionsAutorisees[order.statutPaiement] || [];
+
+    if (!transitions.includes(statutPaiement)) {
+      return res.status(400).json({
+        message: `Transition non autorisée : ${order.statutPaiement} → ${statutPaiement}`
+      });
+    }
+
     order.statutPaiement = statutPaiement;
+
+    // Synchroniser l'ancien champ paiement
+    order.paiement = statutPaiement === "Payé"
+      ? "Payé"
+      : "En attente";
 
     await order.save();
 
     res.status(200).json({
-      message: "Statut du paiement mis à jour",
+      message: "Statut du paiement mis à jour avec succès.",
       order,
     });
+
   } catch (error) {
     res.status(500).json({
       message: error.message,

@@ -92,14 +92,12 @@ function AdminPayments() {
                   </span>
 
                   <select
-                    value={payment.statutPaiement}
-                    onChange={(e) =>
-                      updateStatus(
-                        payment._id,
-                        e.target.value
-                      )
-                    }
-                  >
+  value={payment.statutPaiement}
+  disabled={payment.statutPaiement === "Payé"}
+  onChange={(e) =>
+    updateStatus(payment._id, e.target.value)
+  }
+>
                     <option>En attente</option>
                     <option>Payé</option>
                     <option>Échoué</option>
