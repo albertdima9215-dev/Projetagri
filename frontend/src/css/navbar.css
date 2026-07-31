@@ -215,5 +215,9 @@
   .nav-links.active {
     max-height: 300px;
   }
+
+  .nav-links li {
+    margin-bottom: 10px
+  }
   
 }
