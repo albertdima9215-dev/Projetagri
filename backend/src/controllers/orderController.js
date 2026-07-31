@@ -154,9 +154,104 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
+const PDFDocument = require("pdfkit");
+
+const downloadInvoice = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id)
+      .populate("produit")
+      .populate("acheteur", "nom email telephone")
+      .populate("vendeur", "nom email telephone");
+
+    if (!order) {
+      return res.status(404).json({
+        message: "Commande introuvable",
+      });
+    }
+
+    // Sécurité : seul l'acheteur ou l'admin peut télécharger
+    if (
+      order.acheteur._id.toString() !== req.user._id.toString() &&
+      req.user.role !== "admin"
+    ) {
+      return res.status(403).json({
+        message: "Accès refusé",
+      });
+    }
+
+    const doc = new PDFDocument({ margin: 50 });
+
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=facture-${order._id}.pdf`
+    );
+
+    res.setHeader("Content-Type", "application/pdf");
+
+    doc.pipe(res);
+
+    // Titre
+    doc.fontSize(22).text("AgriConnect Faso", { align: "center" });
+    doc.moveDown();
+
+    doc.fontSize(18).text("FACTURE", { align: "center" });
+    doc.moveDown(2);
+
+    // Infos facture
+    doc.fontSize(12);
+    doc.text(`Facture N° : ACF-${order._id.toString().slice(-6)}`);
+    doc.text(`Date : ${new Date(order.createdAt).toLocaleDateString("fr-FR")}`);
+    doc.moveDown();
+
+    // Acheteur
+    doc.fontSize(14).text("Acheteur", { underline: true });
+    doc.fontSize(12);
+    doc.text(`Nom : ${order.acheteur.nom}`);
+    doc.text(`Email : ${order.acheteur.email || "-"}`);
+    doc.text(`Téléphone : ${order.acheteur.telephone || "-"}`);
+    doc.moveDown();
+
+    // Vendeur
+    doc.fontSize(14).text("Vendeur", { underline: true });
+    doc.fontSize(12);
+    doc.text(`Nom : ${order.vendeur.nom}`);
+    doc.text(`Email : ${order.vendeur.email || "-"}`);
+    doc.text(`Téléphone : ${order.vendeur.telephone || "-"}`);
+    doc.moveDown(2);
+
+    // Produit
+    doc.fontSize(14).text("Détails de la commande", { underline: true });
+    doc.moveDown();
+
+    doc.fontSize(12);
+    doc.text(`Produit : ${order.produit.nom}`);
+    doc.text(`Quantité : ${order.quantite}`);
+    doc.text(`Prix unitaire : ${order.produit.prix} FCFA`);
+    doc.text(`Méthode de paiement : ${order.methodePaiement}`);
+    doc.text(`Statut du paiement : ${order.statutPaiement}`);
+    doc.moveDown(2);
+
+    // Total
+    doc.fontSize(16).text(`TOTAL : ${order.montant} FCFA`, { align: "right" });
+    doc.moveDown(3);
+
+    // Footer
+    doc.fontSize(10).text("Merci pour votre confiance envers AgriConnect Faso.", {
+      align: "center",
+    });
+
+    doc.end();
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createOrder,
   getMyOrders,
   getSellerOrders,
   updateOrderStatus,
+  downloadInvoice,
 };

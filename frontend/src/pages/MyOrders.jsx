@@ -168,6 +168,14 @@ const submitReview = async () => {
               Contacter le vendeur
             </a>
 
+            <a
+              href=                  {`${api.defaults.baseURL}/orders/${order._id}/invoice`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              📄 Télécharger la facture
+            </a>
+
             {order.statut === "Livrée" && !order.avisLaisse && (
               <button
     className="review-btn"

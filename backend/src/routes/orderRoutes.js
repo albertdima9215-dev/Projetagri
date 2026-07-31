@@ -6,6 +6,7 @@ const {
   getMyOrders,
   getSellerOrders,
   updateOrderStatus,
+  downloadInvoice,
 } = require("../controllers/orderController");
 
 const router = express.Router();
@@ -18,6 +19,9 @@ router.get("/my-orders", protect, getMyOrders);
 
 // Commandes reçues (vendeur)
 router.get("/seller-orders", protect, getSellerOrders);
+
+//Télécharger un fichier pdf
+router.get("/:id/invoice", protect, downloadInvoice);
 
 // Modifier le statut
 router.put("/:id", protect, updateOrderStatus);
