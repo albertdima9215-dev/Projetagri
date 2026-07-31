@@ -26,6 +26,18 @@
     border-radius:10px;
 }
 
+.downloadBtn{
+  position: relative;
+  width: 60px;
+  height: 50px;
+  top: 20px;
+  background: #222;
+  color: #fff;
+  font-size: 14px;
+  border: none;
+  border-radius: 8px;
+}
+
 .status{
     display:inline-block;
     padding:6px 12px;
@@ -57,7 +69,7 @@
 
 .orders-container a{
     display:inline-block;
-    margin:20px 0 0 25px;
+    margin:20px 0 0 10px;
     background:#27ae60;
     color:white;
     padding:10px 15px;
@@ -65,7 +77,7 @@
     text-decoration:none;
     font-weight:bold;
     transition:.3s;
-    height: 40px;
+    height: 50px;
 }
 
 .review-modal{

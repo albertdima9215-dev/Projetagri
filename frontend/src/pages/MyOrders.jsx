@@ -3,6 +3,9 @@ import api from "../services/api";
 import "../css/orders.css";
 import { Link } from "react-router-dom";
 
+//Icons
+import { FaArrowDown } from "react-icons/fa";
+
 function MyOrders() {
   const [orders, setOrders] = useState([]);
   const [showReviewModal, setShowReviewModal] = useState(false);
@@ -199,8 +202,8 @@ const downloadInvoice = async (orderId) => {
               Contacter le vendeur
             </a>
 
-            <button onClick={() => downloadInvoice(order._id)}>
-              📄 Télécharger la facture
+            <button className="downloadBtn" onClick={() => downloadInvoice(order._id)}>
+              <FaArrowDown /> Facture
             </button>
 
             {order.statut === "Livrée" && !order.avisLaisse && (

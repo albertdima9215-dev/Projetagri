@@ -3,9 +3,7 @@ import { Link } from "react-router-dom";
 import api from "../services/api";
 import "../css/navbar.css";
 import { useFavorite } from "../context/FavoriteContext";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { IoMdNotificationsOutline } from "react-icons/io";
-import { FiHome } from "react-icons/fi";
+
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -107,7 +105,7 @@ function Navbar() {
       <ul className={menuOpen ? "nav-links active" : "nav-links"}>
         <li>
           <Link to="/" onClick={() => setMenuOpen(false)}>
-            <FiHome className="acceuil" />
+            Acceuil
           </Link>
         </li>
 
@@ -121,7 +119,7 @@ function Navbar() {
         <>
           <li>
             <Link to="/favorites" className="favorite-link">
-              <FaHeart className="favori" /> Favoris
+              Favoris
               {favoriteCount > 0 && (
               <span className="favorite-badge">
                 {favoriteCount}
@@ -136,8 +134,7 @@ function Navbar() {
   className="notification-menu"
   onClick={() => setShowNotifications(!showNotifications)}
 >
-              <IoMdNotificationsOutline />
-
+              Notifications
               {unreadCount > 0 && (
                 <span className="notification-badge">
                   {unreadCount}
@@ -159,7 +156,8 @@ function Navbar() {
 >
                       <strong>{notification.titre}</strong>
 
-                      <p>{notification.message}</p>
+                      <p>                                            {notification.message}
+                      </p>
                     </Link>
                   ))
                 )}
@@ -184,7 +182,7 @@ function Navbar() {
           </li>
 
           <li>
-            <button onClick={logout}>Déconnexion</button>
+            <button className="logoutbtn" onClick={logout}>Déconnexion</button>
           </li>
           <li>
             <Link to="/dashboard">Dashboard</Link>

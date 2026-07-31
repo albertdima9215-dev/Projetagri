@@ -1,6 +1,12 @@
 import { Link, Outlet } from "react-router-dom";
 import "../css/adminLayout.css";
 
+//Icons
+import { FaUsers, FaProductHunt, FaHome, FaCreditCard } from "react-icons/fa";
+import { GiReceiveMoney, GiCardboardBox,} from "react-icons/gi";
+import { VscGraph } from "react-icons/vsc";
+
+
 function AdminLayout() {
   return (
     <div className="admin-layout">
@@ -12,27 +18,27 @@ function AdminLayout() {
         <nav>
 
           <Link to="/admin">
-            📊 Tableau de bord
+            <VscGraph /> Tableau de bord
           </Link>
 
           <Link to="/admin/users">
-            👥 Utilisateurs
+            <FaUsers /> Utilisateurs
           </Link>
 
           <Link to="/admin/products">
-            🌾 Produits
+            <FaProductHunt /> Produits
           </Link>
 
           <Link to="/admin/orders">
-            📦 Commandes
+            <GiCardboardBox /> Commandes
           </Link>
 
           <Link to="/admin/payments">
-            💳 Paiements
+            <FaCreditCard /> Paiements
           </Link>
 
           <Link to="/">
-            🏠 Retour au site
+            <FaHome /> Retour au site
           </Link>
 
         </nav>

@@ -2,6 +2,12 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import "../css/notifications.css";
 
+//Icons
+import { GiCardboardBox} from "react-icons/gi";
+import { FaHeart, FaCar } from "react-icons/fa";
+import { FaMessage } from "react-icons/fa6";
+import { IoIosNotifications } from "react-icons/io";
+
 function Notifications() {
   const [notifications, setNotifications] = useState([]);
 
@@ -50,22 +56,22 @@ function Notifications() {
   const getIcon = (type) => {
   switch (type) {
     case "commande":
-      return "📦";
+      return <GiCardboardBox />;
 
     case "message":
-      return "💬";
+      return <FaMessage />;
 
     case "favori":
-      return "❤️";
+      return <FaHeart />;
 
     case "avis":
       return "⭐";
 
     case "livraison":
-      return "🚚";
+      return <FaCar />;
 
     default:
-      return "🔔";
+      return <IoIosNotifications />;
   }
 };
 

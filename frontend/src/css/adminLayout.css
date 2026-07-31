@@ -38,3 +38,10 @@
     flex:1;
     padding:30px;
 }
+
+/*Responsive */
+@media (max-width: 768px) {
+  .admin-sidebar{
+    display: none;
+  }
+}

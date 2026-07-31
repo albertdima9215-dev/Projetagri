@@ -4,6 +4,12 @@ import "../css/adminDashboard.css";
 import { Link } from "react-router-dom";
 import OrdersChart from "../components/admin/OrdersChart";
 
+//Icons
+import { FaUsers, FaProductHunt, FaCheckSquare, FaCreditCard } from "react-icons/fa";
+import { GiReceiveMoney, GiCardboardBox, GiCancel,} from "react-icons/gi";
+import { CiNoWaitingSign } from "react-icons/ci";
+
+
 function AdminDashboard() {
   const [stats, setStats] = useState({
     totalUsers: 0,
@@ -40,37 +46,37 @@ function AdminDashboard() {
       <div className="stats-grid">
 
         <div className="stat-card">
-          <h2>👥 Utilisateurs</h2>
+          <h2><FaUsers /> Utilisateurs</h2>
           <p>{stats.totalUsers}</p>
         </div>
 
         <div className="stat-card">
-          <h2>🌾 Produits</h2>
+          <h2><FaProductHunt /> Produits</h2>
           <p>{stats.totalProducts}</p>
         </div>
 
         <div className="stat-card">
-          <h2>📦 Commandes</h2>
+          <h2><GiCardboardBox /> Commandes</h2>
           <p>{stats.totalOrders}</p>
         </div>
 
         <div className="stat-card">
-          <h2>💰 Revenus</h2>
+          <h2><GiReceiveMoney /> Revenus</h2>
           <p>{stats.totalRevenue} FCFA</p>
         </div>
 
         <div className="stat-card">
-          <h2>✅ Livrées</h2>
+          <h2><FaCheckSquare /> Livrées</h2>
           <p>{stats.deliveredOrders}</p>
         </div>
 
         <div className="stat-card">
-          <h2>🟡 En attente</h2>
+          <h2><CiNoWaitingSign /> En attente</h2>
           <p>{stats.pendingOrders}</p>
         </div>
 
         <div className="stat-card">
-          <h2>❌ Annulées</h2>
+          <h2><GiCancel /> Annulées</h2>
           <p>{stats.cancelledOrders}</p>
         </div>
 
@@ -83,19 +89,19 @@ function AdminDashboard() {
       <div className="admin-menu">
 
         <Link to="/admin/users">
-          👥 Gérer les utilisateurs
+          <FaUsers /> Gérer les utilisateurs
         </Link>
 
         <Link to="/admin/products">
-          🌾 Gérer les produits
+          <FaProductHunt /> Gérer les produits
         </Link>
 
         <Link to="/admin/orders">
-          📦 Gérer les commandes
+          <GiCardboardBox /> Gérer les commandes
         </Link>
 
         <Link to="/admin/payments">
-          💳 Paiements
+          <FaCreditCard /> Paiements
         </Link>
 
       </div>

@@ -44,10 +44,6 @@
   font-weight: bold;
 }
 
-.nav-links a .acceuil, .nav-links a .favori{
-  font-size: 35px;
-}
-
 .nav-links a:hover {
   color: gold;
 }
@@ -113,9 +109,9 @@
     font-weight:bold;
 }
 
-.notification-link{
+.nav-links .notif-link{
     position:relative;
-    font-size:24px;
+    font-size:35px;
     text-decoration:none;
 }
 
@@ -189,6 +185,12 @@
     background: #256628;
 }
 
+.logoutbtn{
+  border: none;
+  border-radius: 4px;
+  padding: 3px 5px;
+}
+
 /* Responsive */
 
 @media (max-width: 768px) {
@@ -213,11 +215,12 @@
   }
 
   .nav-links.active {
-    max-height: 300px;
+    max-height: 400px;
+    padding-bottom: 10px;
   }
 
-  .nav-links li {
-    margin-bottom: 10px
+  .nav-links ul{
+    min-height: 300px;
   }
   
 }
