@@ -86,16 +86,16 @@ const getMyOrders = async (req, res) => {
 
 const getSellerOrders = async (req, res) => {
   try {
-
     const commandes = await Order.find({
-      vendeur: req.user.id,
+      vendeur: req.user._id,
     })
       .populate("produit")
-      .populate("acheteur", "nom telephone");
+      .populate("acheteur", "nom telephone")
+      .sort({ createdAt: -1 });
 
     res.status(200).json(commandes);
-
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       message: error.message,
     });
