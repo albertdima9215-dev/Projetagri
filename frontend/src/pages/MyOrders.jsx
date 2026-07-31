@@ -77,6 +77,37 @@ const submitReview = async () => {
   }
 };
 
+const downloadInvoice = async (orderId) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const response = await api.get(
+      `/orders/${orderId}/invoice`,
+      {
+        responseType: "blob",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `facture-${orderId}.pdf`);
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    alert("Erreur lors du téléchargement de la facture");
+    console.log(error);
+  }
+};
+
   return (
     <div className="orders-container">
       <h1>Mes commandes</h1>
@@ -168,13 +199,9 @@ const submitReview = async () => {
               Contacter le vendeur
             </a>
 
-            <a
-              href=                  {`${api.defaults.baseURL}/orders/${order._id}/invoice`}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <button onClick={() => downloadInvoice(order._id)}>
               📄 Télécharger la facture
-            </a>
+            </button>
 
             {order.statut === "Livrée" && !order.avisLaisse && (
               <button
