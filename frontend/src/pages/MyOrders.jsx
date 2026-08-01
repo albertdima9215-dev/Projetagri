@@ -4,7 +4,7 @@ import "../css/orders.css";
 import { Link } from "react-router-dom";
 
 //Icons
-import { FaArrowDown } from "react-icons/fa";
+import { FaArrowDown, FaCar, FaRegCalendarAlt, FaCheckSquare, } from "react-icons/fa";
 
 function MyOrders() {
   const [orders, setOrders] = useState([]);
@@ -145,21 +145,21 @@ const downloadInvoice = async (orderId) => {
 
               <p>Vendeur : {order.vendeur.nom}</p>
               {order.numeroSuivi && (
-  <p>
-    🚚 Suivi : <strong>{order.numeroSuivi}</strong>
-  </p>
+              <p>
+                <FaCar /> Suivi : <strong>{order.numeroSuivi}</strong>
+              </p>
 )}
 
 {order.dateExpedition && (
-  <p>
-    📅 Expédiée le :
-    {new Date(order.dateExpedition).toLocaleDateString("fr-FR")}
-  </p>
+              <p>
+                <FaRegCalendarAlt /> Expédiée le :
+                {new Date(order.dateExpedition).toLocaleDateString("fr-FR")}
+              </p>
 )}
 
 {order.dateLivraison && (
   <p>
-    ✅ Livrée le :
+    <FaCheckSquare /> Livrée le :
     {new Date(order.dateLivraison).toLocaleDateString("fr-FR")}
   </p>
 )}

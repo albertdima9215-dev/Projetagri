@@ -173,3 +173,12 @@
     background:#2e7d32;
     color:#fff;
 }
+
+@media (max-width: 768px) {
+  .order-card{
+    flex-direction: column;
+  }
+  .order-card img{
+    width: 300px;
+  }
+}
