@@ -248,10 +248,59 @@ const downloadInvoice = async (req, res) => {
   }
 };
 
+// Dashboard vendeur
+const getSellerStats = async (req, res) => {
+  try {
+    const sellerId = req.user._id;
+
+    const orders = await Order.find({ vendeur: sellerId });
+
+    const totalOrders = orders.length;
+
+    const deliveredOrders = orders.filter(
+      (o) => o.statut === "Livrée"
+    ).length;
+
+    const totalRevenue = orders
+      .filter((o) => o.statutPaiement === "Payé")
+      .reduce((sum, o) => sum + o.montant, 0);
+
+    // Ventes par mois
+    const salesByMonth = Array(12).fill(0);
+
+    orders.forEach((order) => {
+      if (order.statutPaiement === "Payé") {
+        const month = new Date(order.createdAt).getMonth();
+        salesByMonth[month] += order.montant;
+      }
+    });
+
+    const monthNames = [
+      "Jan", "Fév", "Mar", "Avr", "Mai", "Juin",
+      "Juil", "Août", "Sep", "Oct", "Nov", "Déc"
+    ];
+
+    const chartData = monthNames.map((name, index) => ({
+      mois: name,
+      ventes: salesByMonth[index],
+    }));
+
+    res.status(200).json({
+      totalRevenue,
+      totalOrders,
+      deliveredOrders,
+      chartData,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 module.exports = {
   createOrder,
   getMyOrders,
   getSellerOrders,
   updateOrderStatus,
   downloadInvoice,
+  getSellerStats,
 };

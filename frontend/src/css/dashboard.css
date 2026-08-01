@@ -1,12 +1,12 @@
 .dashboard{
     max-width:1200px;
     margin:auto;
-    padding:20px;
+    padding: 20px;
 }
 
 .dashboard h1{
     text-align:center;
-    margin-bottom:30px;
+    margin-bottom:20px;
 }
 
 .dashboard a{
@@ -41,6 +41,10 @@
 .dashboard-card h3,
 .dashboard-card p{
     padding:0 15px;
+}
+
+.stats{
+  padding-top: 30px;
 }
 
 .actions{
@@ -102,4 +106,12 @@
     border:none;
     border-radius:6px;
     cursor:pointer;
+}
+
+/*Responsive*/
+@media (max-width:768px) {
+  .dashboard a{
+    display: inline-block;
+    margin-bottom: 20px;
+  }
 }

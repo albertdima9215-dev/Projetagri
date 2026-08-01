@@ -1,7 +1,17 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import "../css/dashboard.css";
-import {Link} from "react-router-dom"
+import {Link} from "react-router-dom";
+import {
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  Tooltip,
+} from "recharts";
+
+//Icons
 import { FaDollarSign,FaMapMarkedAlt } from "react-icons/fa";
 import { GiCardboardBox } from "react-icons/gi";
 
@@ -9,9 +19,16 @@ function Dashboard() {
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
   const [image, setImage] = useState(null);
+  const [stats, setStats] = useState({
+  totalRevenue: 0,
+  totalOrders: 0,
+  deliveredOrders: 0,
+  chartData: [],
+});
 
   useEffect(() => {
     fetchMyProducts();
+    fetchStats();
   }, []);
 
   const fetchMyProducts = async () => {
@@ -111,13 +128,30 @@ const totalLocations = new Set(
   products.map((product) => product.localisation)
 ).size;
 
+const fetchStats = async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await api.get("/orders/seller-stats", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    setStats(res.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+  
+
   return (
     <div className="dashboard">
       <h1>Mon tableau de bord</h1>
       <Link className="add-btn" to="/add-product">
         + Publier un produit
       </Link>
-      <Link className="modif-btn"
+      <Link
   to="/edit-profile"
   className="edit-profile-btn"
 >
@@ -131,6 +165,23 @@ const totalLocations = new Set(
         <p>Vous n'avez publié aucun produit.</p>
       ) : (
       <>
+        <div className="stats-grid">
+          <div className="stat-card">
+            <h3>💰 Revenus</h3>
+            <p>{stats.totalRevenue.toLocaleString()} FCFA</p>
+          </div>
+
+          <div className="stat-card">
+            <h3>📦 Commandes</h3>
+            <p>{stats.totalOrders}</p>
+          </div>
+
+          <div className="stat-card">
+            <h3>🚚 Livrées</h3>
+            <p>{stats.deliveredOrders}</p>
+          </div>
+        </div>
+        
         <div className="stats">
 
           <div className="stat-card">
@@ -152,6 +203,25 @@ const totalLocations = new Set(
           </div>
 
         </div>
+
+        <div className="chart-card">
+          <h2>📈 Ventes par mois</h2>
+
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={stats.chartData}>
+              <XAxis dataKey="mois" />
+              <YAxis />
+              <Tooltip />
+              <Line
+        type="monotone"
+        dataKey="ventes"
+        stroke="#2e7d32"
+        strokeWidth={3}
+      />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+        
         <div className="dashboard-products">
           {products.map((product) => (
           <div className="dashboard-card" key={product._id}>
