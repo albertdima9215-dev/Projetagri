@@ -10,6 +10,12 @@ function Products() {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("");
+  const [location, setLocation] = useState("");
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [sort, setSort] = useState("recent");
 
   useEffect(() => {
     getProducts();
@@ -70,19 +76,118 @@ function Products() {
 
   fetchFavorites();
 
-  if (loading) {
-    return <h2>Chargement des produits...</h2>;
-  }
+const filteredProducts = products
+  .filter((product) =>
+    product.nom.toLowerCase().includes(search.toLowerCase())
+  )
+  .filter((product) =>
+    category ? product.categorie === category : true
+  )
+  .filter((product) =>
+    location
+      ? product.localisation
+          .toLowerCase()
+          .includes(location.toLowerCase())
+      : true
+  )
+  .filter((product) =>
+    minPrice ? product.prix >= Number(minPrice) : true
+  )
+  .filter((product) =>
+    maxPrice ? product.prix <= Number(maxPrice) : true
+  )
+  .sort((a, b) => {
+    if (sort === "priceAsc") return a.prix - b.prix;
+    if (sort === "priceDesc") return b.prix - a.prix;
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  });
+
+if (loading) {
+  return <h2>Chargement des produits... </h2>;
+}
+  
 
   return (
     <div className="products-container">
       <h1>Nos Produits</h1>
 
+      <div className="filters">
+
+          <input
+    type="text"
+    placeholder="🔍 Rechercher un produit..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+  />
+
+          <select
+    value={category}
+    onChange={(e) => setCategory(e.target.value)}
+  >
+            <option value="">Toutes les catégories</option>
+            <option value="Céréales">Céréales</option>
+            <option value="Légumes">Légumes</option>
+            <option value="Fruits">Fruits</option>
+            <option value="Tubercules">Tubercules</option>
+            <option value="Élevage">Élevage</option>
+          </select>
+
+          <input
+    type="text"
+    placeholder="📍 Localité"
+    value={location}
+    onChange={(e) => setLocation(e.target.value)}
+  />
+
+          <input
+    type="number"
+    placeholder="Prix min"
+    value={minPrice}
+    onChange={(e) => setMinPrice(e.target.value)}
+  />
+
+          <input
+    type="number"
+    placeholder="Prix max"
+    value={maxPrice}
+    onChange={(e) => setMaxPrice(e.target.value)}
+  />
+
+          <select
+    value={sort}
+    onChange={(e) => setSort(e.target.value)}
+  >
+            <option value="recent">🆕 Plus récent</option>
+            <option value="priceAsc">💰 Prix croissant</option>
+            <option value="priceDesc">💰 Prix décroissant</option>
+          </select>
+
+        </div>
+
+        <p className="results-count">
+          {filteredProducts.length} produit(s) trouvé(s)
+        </p>
+
+        <button
+  className="reset-filters"
+  onClick={() => {
+    setSearch("");
+    setCategory("");
+    setLocation("");
+    setMinPrice("");
+    setMaxPrice("");
+    setSort("recent");
+  }}
+>
+          🔄 Réinitialiser
+        </button>
+
       <div className="products-grid">
-        {products.length === 0 ? (
+        
+        {filteredProducts.length === 0 ? (
           <p>Aucun produit disponible.</p>
         ) : (
-  products.map((product) => (
+        filteredProducts.map((product) => (
           <div className="product-card" key={product._id}>
 
             <button

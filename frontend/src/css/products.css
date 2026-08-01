@@ -76,3 +76,50 @@
     transform:scale(1.1);
     background:#ffecec;
 }
+
+.filters{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin:25px 0;
+    background:#fff;
+    padding:20px;
+    border-radius:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,.08);
+}
+
+.filters input,
+.filters select{
+    padding:12px;
+    border:1px solid #ddd;
+    border-radius:10px;
+    font-size:15px;
+}
+
+.filters input:focus,
+.filters select:focus{
+    outline:none;
+    border-color:#2e7d32;
+}
+
+.results-count{
+    margin-bottom:15px;
+    font-weight:600;
+    color:#555;
+}
+
+.reset-filters{
+    height: 50px;
+    margin-bottom:20px;
+    padding:10px 18px;
+    background:#2e7d32;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    font-size: 15px;
+}
+
+.reset-filters:hover{
+    background:#256428;
+}
