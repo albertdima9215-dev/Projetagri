@@ -12,18 +12,24 @@ import {
 } from "recharts";
 
 //Icons
-import { FaDollarSign,FaMapMarkedAlt } from "react-icons/fa";
+import { FaDollarSign,FaMapMarkedAlt, FaCar, } from "react-icons/fa";
 import { GiCardboardBox } from "react-icons/gi";
+import { IoMdCube } from "react-icons/io";
+import { GoGraph } from "react-icons/go";
+
 
 function Dashboard() {
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
   const [image, setImage] = useState(null);
   const [stats, setStats] = useState({
-  totalRevenue: 0,
-  totalOrders: 0,
-  deliveredOrders: 0,
-  chartData: [],
+    totalRevenue: 0,
+    totalOrders: 0,
+    deliveredOrders: 0,
+    chartData: [],
+    averageRating: 0,
+    totalReviews: 0,
+    latestReviews: [],
 });
 
   useEffect(() => {
@@ -138,7 +144,16 @@ const fetchStats = async () => {
       },
     });
 
-    setStats(res.data);
+    setStats({
+      totalRevenue: res.data.totalRevenue || 0,
+      totalOrders: res.data.totalOrders || 0,
+      deliveredOrders: res.data.deliveredOrders || 0,
+      chartData: res.data.chartData || [],
+      averageRating: res.data.averageRating || 0,
+      totalReviews: res.data.totalReviews || 0,
+      latestReviews: res.data.latestReviews || [],
+    });
+    
   } catch (error) {
     console.log(error);
   }
@@ -167,19 +182,26 @@ const fetchStats = async () => {
       <>
         <div className="stats-grid">
           <div className="stat-card">
-            <h3>💰 Revenus</h3>
+            <h3><FaDollarSign /> Revenus</h3>
             <p>{stats.totalRevenue.toLocaleString()} FCFA</p>
           </div>
 
           <div className="stat-card">
-            <h3>📦 Commandes</h3>
+            <h3><IoMdCube /> Commandes</h3>
             <p>{stats.totalOrders}</p>
           </div>
 
           <div className="stat-card">
-            <h3>🚚 Livrées</h3>
+            <h3><FaCar /> Livrées</h3>
             <p>{stats.deliveredOrders}</p>
           </div>
+
+          <div className="stat-card">
+            <h3>⭐ Note moyenne</h3>
+            <p>{stats.averageRating}/5</p>
+            <small>{stats.totalReviews} avis</small>
+          </div>
+          
         </div>
         
         <div className="stats">
@@ -205,7 +227,7 @@ const fetchStats = async () => {
         </div>
 
         <div className="chart-card">
-          <h2>📈 Ventes par mois</h2>
+          <h2><GoGraph /> Ventes par mois</h2>
 
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={stats.chartData}>
@@ -220,6 +242,29 @@ const fetchStats = async () => {
       />
             </LineChart>
           </ResponsiveContainer>
+        </div>
+
+        <div className="reviews-card">
+          <h2>⭐ Derniers avis reçus</h2>
+
+  {stats.latestReviews.length === 0 ? (
+          <p>Aucun avis reçu pour le moment.</p>
+          ) : (
+    (stats.latestReviews || []).map((review) => (
+            <div key={review._id} className="review-item">
+              <div className="review-header">
+                <strong>{review.acheteur?.nom || "Utilisateur"}</strong>
+                <span>{"⭐".repeat(Math.round(review.note || 0))}</span>
+              </div>
+
+              <p>{review.commentaire || "Aucun commentaire"}</p>
+
+              <small>
+                {new Date(review.createdAt).toLocaleDateString("fr-FR")}
+              </small>
+            </div>
+            ))
+          )}
         </div>
         
         <div className="dashboard-products">

@@ -134,7 +134,7 @@ function Navbar() {
   className="notification-menu"
   onClick={() => setShowNotifications(!showNotifications)}
 >
-              Notifications
+              Notifs
               {unreadCount > 0 && (
                 <span className="notification-badge">
                   {unreadCount}
@@ -177,7 +177,7 @@ function Navbar() {
 
           <li>
             <Link to="/my-orders">
-               Mes commandes
+               Commandes
             </Link>
           </li>
 

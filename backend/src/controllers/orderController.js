@@ -1,6 +1,7 @@
 const Order = require("../models/Order");
 const Product = require("../models/Product");
 const Notification = require("../models/Notification");
+const Review = require("../models/Review");
 
 // Créer une commande
 const createOrder = async (req, res) => {
@@ -285,11 +286,33 @@ const getSellerStats = async (req, res) => {
       ventes: salesByMonth[index],
     }));
 
+// Avis du vendeur
+const reviews = await Review.find({ vendeur: sellerId })
+  .populate("acheteur", "nom")
+  .sort({ createdAt: -1 });
+
+const totalReviews = reviews.length;
+
+let averageRating = 0;
+
+if (totalReviews > 0) {
+  const totalNotes = reviews.reduce((sum, review) => {
+    return sum + (review.note || 0);
+  }, 0);
+
+  averageRating = (totalNotes / totalReviews).toFixed(1);
+}
+
+const latestReviews = reviews.slice(0, 5);
+
     res.status(200).json({
       totalRevenue,
       totalOrders,
       deliveredOrders,
       chartData,
+      averageRating,
+      totalReviews,
+      latestReviews,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

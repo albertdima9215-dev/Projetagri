@@ -23,6 +23,7 @@
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
     gap:20px;
+    padding-top: 40px;
 }
 
 .dashboard-card{
@@ -106,6 +107,43 @@
     border:none;
     border-radius:6px;
     cursor:pointer;
+}
+
+.reviews-card{
+    background:#fff;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    margin:30px 0;
+}
+
+.review-item{
+    padding:15px 0;
+    border-bottom:1px solid #eee;
+}
+
+.review-item:last-child{
+    border-bottom:none;
+}
+
+.review-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:8px;
+}
+
+.review-header span{
+    color:#ff9800;
+}
+
+.review-item p{
+    margin:5px 0;
+    color:#555;
+}
+
+.review-item small{
+    color:#999;
 }
 
 /*Responsive*/
