@@ -101,8 +101,59 @@ const getMyProfile = async (req, res) => {
   }
 };
 
+const updateLocation = async (req, res) => {
+  try {
+    console.log("REQ.USER =", req.user);
+
+    const { latitude, longitude } = req.body;
+
+    const user = await User.findById(req.user.id);
+
+    if (!user) {
+      return res.status(404).json({
+        message: "Utilisateur introuvable",
+      });
+    }
+
+    user.latitude = latitude;
+    user.longitude = longitude;
+
+    await user.save();
+
+    res.status(200).json({
+      message: "Position mise à jour avec succès",
+      latitude,
+      longitude,
+    });
+  } catch (error) {
+    console.log(error);
+
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+const getSellersWithLocation = async (req, res) => {
+  try {
+    const sellers = await User.find({
+      role: "vendeur",
+      latitude: { $ne: null },
+      longitude: { $ne: null },
+    }).select("nom telephone latitude longitude");
+
+    res.status(200).json(sellers);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getSellerProfile,
   updateProfile,
   getMyProfile,
+  updateLocation,
+  getSellersWithLocation,
 };

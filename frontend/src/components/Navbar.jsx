@@ -10,6 +10,9 @@ function Navbar() {
   const navRef = useRef();
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem("theme") === "dark"
+  );
 
   useEffect(() => {
     function handleClick(e) {
@@ -28,6 +31,17 @@ function Navbar() {
   useEffect(() => {
     fetchNotifications();
   }, []);
+
+  useEffect(() => {
+  if (darkMode) {
+    document.body.classList.add("dark-mode");
+    localStorage.setItem("theme", "dark");
+  } else {
+    document.body.classList.remove("dark-mode");
+    localStorage.setItem("theme", "light");
+  }
+}, [darkMode]);
+  
 
   const token = localStorage.getItem("token");
 
@@ -206,6 +220,16 @@ function Navbar() {
             </Link>
           </li>
         )}
+
+        <li>
+          <button
+    className="theme-btn"
+    onClick={() => setDarkMode(!darkMode)}
+  >
+            {darkMode ? "☀️ Clair" : "🌙 Sombre"}
+          </button>
+        </li>
+        
       </ul>
     </nav>
   )

@@ -25,16 +25,21 @@ function Hero() {
           <Link to="/add-product" className="btn-secondary">
             Publier un produit
           </Link>
+
+          <Link to="/vendeurs-carte" className="btn-thirty">
+            🗺 Vendeurs proches
+          </Link>
+
         </div>
 
       </div>
 
-      <div className="hero-image">
+      {/*<div className="hero-image">
         <img
           src="/agri2.jpg"
           alt="Agriculture"
         />
-      </div>
+      </div>*/}
 
     </section>
   );

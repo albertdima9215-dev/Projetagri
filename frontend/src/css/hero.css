@@ -3,7 +3,7 @@
     justify-content:space-between;
     align-items:center;
     gap:50px;
-    padding:70px 8%;
+    padding:50px 8%;
     background:#f7fff6;
 }
 
@@ -31,7 +31,8 @@
 }
 
 .btn-primary,
-.btn-secondary{
+.btn-secondary,
+.btn-thirty{
     text-decoration:none;
     padding:15px 28px;
     border-radius:8px;
@@ -48,7 +49,8 @@
     background:#1b5e20;
 }
 
-.btn-secondary{
+.btn-secondary,
+.btn-thirty{
     background:white;
     color:#2e7d32;
     border:2px solid #2e7d32;

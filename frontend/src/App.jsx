@@ -26,6 +26,8 @@ import AdminLayout from "./layouts/AdminLayout";
 import AdminProducts from "./pages/AdminProducts";
 import AdminOrders from "./pages/AdminOrders";
 import AdminPayments from "./pages/AdminPayments";
+import SellersMap from "./pages/SellersMap";
+
 
 function App() {
   return (
@@ -73,6 +75,8 @@ function App() {
     path="/seller/:id"
     element={<SellerProfile />}
 />
+        <Route path="/vendeurs-carte" element={<SellersMap />} />
+        
         <Route
   path="/edit-profile"
   element={

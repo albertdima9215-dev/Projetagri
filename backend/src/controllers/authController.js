@@ -15,6 +15,33 @@ const register = async (req, res) => {
       });
     }
 
+    const weakPasswords = [
+      "12345678",
+      "password",
+      "azerty123",
+      "qwerty123",
+      "admin123",
+      "motdepasse",
+      "agriconnect",
+    ];
+
+    if     (weakPasswords.includes(motDePasse.toLowerCase())) {
+      return res.status(400).json({
+        message: "Ce mot de passe est trop courant. Choisissez-en un autre.",
+      });
+    }
+
+    //Si password sécurisé
+    const passwordRegex =
+  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
+
+      if (!passwordRegex.test(motDePasse)) {
+        return res.status(400).json({
+          message:
+      "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.",
+        });
+      }
+
     // Chiffrer le mot de passe
     const salt = await bcrypt.genSalt(10);
     const motDePasseHash = await bcrypt.hash(motDePasse, salt);

@@ -76,6 +76,57 @@ function EditProfile() {
     }
   };
 
+  const shareLocation = () => {
+  if (!navigator.geolocation) {
+    alert("Géolocalisation non supportée");
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    async (position) => {
+      try {
+        const token = localStorage.getItem("token");
+
+        console.log("TOKEN =", token);
+
+        console.log({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        });
+
+        const res = await api.put(
+          "/users/location",
+          {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log(res.data);
+
+        alert("Position enregistrée avec succès");
+      } catch (error) {
+        console.log(error.response?.data || error.message);
+
+        alert(
+          error.response?.data?.message ||
+            "Erreur lors de l'enregistrement"
+        );
+      }
+    },
+    (err) => {
+      console.log(err);
+
+      alert("Impossible d'obtenir votre position");
+    }
+  );
+};
+
   return (
     <div className="edit-profile">
 
@@ -119,6 +170,10 @@ function EditProfile() {
           accept="image/*"
           onChange={(e) => setPhoto(e.target.files[0])}
         />
+
+        <button type="button" onClick={shareLocation}>
+          📍 Partager ma position
+        </button>
 
         <button type="submit">
           Enregistrer
