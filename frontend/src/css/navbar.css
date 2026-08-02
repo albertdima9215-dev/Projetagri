@@ -5,6 +5,7 @@
 }
 
 .navbar {
+  min-height: 60px;
   background: #2e7d32;
   color: white;
   display: flex;
@@ -194,7 +195,7 @@
 /* Responsive */
 
 @media (max-width: 768px) {
-
+  
   .menu-icon {
     display: block;
   }
@@ -221,6 +222,19 @@
 
   .nav-links ul{
     min-height: 300px;
+  }
+
+  .notification-dropdown{
+    position: absolute;
+    top: -110px;
+    right: 20px;
+    min-height: 300px;
+    width: 250px
+  }
+
+  .notification-dropdown a{
+    height: 50px;
+    font-size: 15px;
   }
   
 }
