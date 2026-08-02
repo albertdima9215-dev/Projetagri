@@ -137,10 +137,11 @@ const updateLocation = async (req, res) => {
 const getSellersWithLocation = async (req, res) => {
   try {
     const sellers = await User.find({
-      role: "vendeur",
       latitude: { $ne: null },
       longitude: { $ne: null },
-    }).select("nom telephone latitude longitude");
+    }).select("nom telephone latitude longitude role");
+
+    console.log(sellers);
 
     res.status(200).json(sellers);
   } catch (error) {
@@ -149,6 +150,7 @@ const getSellersWithLocation = async (req, res) => {
     });
   }
 };
+
 
 module.exports = {
   getSellerProfile,
