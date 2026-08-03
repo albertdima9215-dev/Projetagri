@@ -34,6 +34,9 @@ function SellersMap() {
   const fetchSellers = async () => {
     try {
       const res = await api.get("/users/sellers-location");
+
+      console.log("SELLERS =", res.data);
+      
       setSellers(res.data);
     } catch (error) {
       console.log(error);
@@ -58,22 +61,30 @@ const calculateDistance = (lat1, lon1, lat2, lon2) => {
   return R * c;
 };
 
-const nearbySellers =                     sellers.filter((seller) => {
-  if (!userPosition) return true;
+const nearbySellers = sellers
+  .map((seller) => {
+    if (!userPosition) {
+      return seller;
+    }
 
-  const distance = calculateDistance(
-    userPosition[0],
-    userPosition[1],
-    seller.latitude,
-    seller.longitude
+    const distance = calculateDistance(
+      userPosition[0],
+      userPosition[1],
+      seller.latitude,
+      seller.longitude
+    );
+
+    return {
+      ...seller,
+      distance,
+    };
+  })
+  .filter(
+    (seller) =>
+      seller.latitude !== null &&
+      seller.longitude !== null &&
+      (!seller.distance || seller.distance <= radius)
   );
-
-  return {
-    ...seller,
-    distance,
-  };
-})
-.filter((seller) => !seller.distance || seller.distance <= radius);
 
   return (
     <>
@@ -102,8 +113,8 @@ const nearbySellers =                     sellers.filter((seller) => {
     
     <div style={{ height: "80vh", width: "100%" }}>
       <MapContainer
-        center={[12.3714, -1.5197]}
-        zoom={6}
+        center={[14.7167, -17.4677]}
+        zoom={11}
         style={{ height: "100%", width: "100%" }}
       >
         <TileLayer
@@ -114,7 +125,10 @@ const nearbySellers =                     sellers.filter((seller) => {
         {nearbySellers.map((seller) => (
           <Marker
             key={seller._id}
-            position={[seller.latitude, seller.longitude]}
+            position={[
+              parseFloat(seller.latitude),
+              parseFloat(seller.longitude),
+            ]}
             icon={icon}
           >
             <Popup>
