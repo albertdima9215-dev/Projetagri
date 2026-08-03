@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import api from "../services/api";
 import "../css/navbar.css";
 import { useFavorite } from "../context/FavoriteContext";
+import socket from "../services/socket";
 
 
 function Navbar() {
@@ -13,6 +14,7 @@ function Navbar() {
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("theme") === "dark"
   );
+  const [liveNotifications, setLiveNotifications] = useState([]);
 
   useEffect(() => {
     function handleClick(e) {
@@ -41,6 +43,29 @@ function Navbar() {
     localStorage.setItem("theme", "light");
   }
 }, [darkMode]);
+
+  useEffect(() => {
+  socket.on("newNotification", (notification) => {
+    setLiveNotifications((prev) => [notification, ...prev]);
+
+    // notification navigateur
+    if (Notification.permission === "granted") {
+      new window.Notification(notification.titre, {
+        body: notification.message,
+      });
+    }
+  });
+
+  return () => {
+    socket.off("newNotification");
+  };
+}, []);
+
+  useEffect(() => {
+  if ("Notification" in window) {
+    Notification.requestPermission();
+  }
+}, []);
   
 
   const token = localStorage.getItem("token");
@@ -148,6 +173,12 @@ function Navbar() {
   className="notification-menu"
   onClick={() => setShowNotifications(!showNotifications)}
 >
+              <div className="notification-badge">
+  🔔
+  {liveNotifications.length > 0 && (
+    <span>{liveNotifications.length}</span>
+  )}
+</div>
               Notifs
               {unreadCount > 0 && (
                 <span className="notification-badge">

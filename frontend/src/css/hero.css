@@ -32,15 +32,17 @@
 
 .btn-primary,
 .btn-secondary,
-.btn-thirty{
+.btn-thirty,
+.btn-four{
     text-decoration:none;
-    padding:15px 28px;
+    padding:10px 15px;
     border-radius:8px;
     font-weight:bold;
     transition:.3s;
 }
 
-.btn-primary{
+.btn-primary,
+.btn-four{
     background:#2e7d32;
     color:white;
 }

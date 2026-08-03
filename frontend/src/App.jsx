@@ -1,4 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
+import socket from "./services/socket";
 
 import Navbar from "./components/Navbar";
 import Products from "./pages/Products";
@@ -31,6 +33,15 @@ import ProductsMap from "./pages/ProductsMap";
 
 
 function App() {
+  useEffect(() => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (user?._id) {
+    socket.emit("register", user._id);
+  }
+}, []);
+
+  
   return (
     <BrowserRouter>
     <Navbar />

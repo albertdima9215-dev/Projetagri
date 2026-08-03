@@ -6,6 +6,19 @@ const Review = require("../models/Review");
 // Créer une commande
 const createOrder = async (req, res) => {
   try {
+
+    const io = req.app.get("io");
+    const users = req.app.get("users");
+
+    const vendeurSocket =         users[produit.vendeur.toString()];
+
+    if (vendeurSocket) {
+io.to(vendeurSocket).emit("newNotification", {
+    titre: "Nouvelle commande",
+    message: `Commande reçue pour ${produit.nom}`,
+      });
+    }
+    
     const { produitId, quantite } = req.body;
 
     const produit = await Product.findById(produitId);
@@ -142,6 +155,18 @@ const updateOrderStatus = async (req, res) => {
       message: `Votre commande est maintenant : ${commande.statut}.`,
       lien: "/my-orders",
     });
+
+    const io = req.app.get("io");
+const users = req.app.get("users");
+
+const acheteurSocket = users[commande.acheteur.toString()];
+
+if (acheteurSocket) {
+  io.to(acheteurSocket).emit("newNotification", {
+    titre: "Commande mise à jour",
+    message: `Votre commande est maintenant : ${commande.statut}`,
+  });
+}
 
     res.status(200).json({
       message: "Statut mis à jour",

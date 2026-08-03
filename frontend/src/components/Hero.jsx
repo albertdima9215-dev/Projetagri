@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import "../css/hero.css";
 
+//Icons
+import { FaMapMarkedAlt } from "react-icons/fa";
+
 function Hero() {
   return (
     <section className="hero">
@@ -27,7 +30,11 @@ function Hero() {
           </Link>
 
           <Link to="/vendeurs-carte" className="btn-thirty">
-            🗺 Vendeurs proches
+            <FaMapMarkedAlt /> Vendeurs proches
+          </Link>
+
+          <Link to="/produits-carte" className="btn-four">
+            <FaMapMarkedAlt /> Carte produits
           </Link>
 
         </div>
