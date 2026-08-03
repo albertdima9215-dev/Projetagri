@@ -37,7 +37,11 @@ function ProductsMap() {
   return (
     <div style={{ height: "100vh", width: "100%" }}>
       <MapContainer
-        center={[14.7219687, -17.4732815]}
+        center={
+          products.length > 0
+          ? [products[0].latitude,                       products[0].longitude]
+          : [14.7167, -17.4677]
+                }
         zoom={15}
         style={{ height: "100%", width: "100%" }}
       >
@@ -46,34 +50,44 @@ function ProductsMap() {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        {/* Marqueur fixe de test */}
-        <Marker
-          position={[14.7219687, -17.4732815]}
-          icon={customIcon}
-        >
-          <Popup>Test fixe</Popup>
-        </Marker>
+        {products.map((product, index) => {
+  const lat = parseFloat(product.latitude);
+  const lng = parseFloat(product.longitude);
 
-        {/* Marqueurs des produits */}
-        {products.map((product) => (
-  <Marker
-    key={product._id}
-    position={[
-      product.latitude,
-      product.longitude
-    ]}
-  >
-    <Popup>
-      <h3>{product.nom}</h3>
-      <p>{product.prix} FCFA</p>
-      <img 
-        src={product.image}
-        width="100"
-        alt={product.nom}
-      />
-    </Popup>
-  </Marker>
-))}
+          return (
+            <Marker
+      key={product._id}
+      position={[
+        lat + index * 0.0001,
+        lng + index * 0.0001,
+      ]}
+      icon={customIcon}
+    >
+              <Popup maxWidth={260}>
+                <div className="product-popup">
+                  <img
+            src={product.image}
+            alt={product.nom}
+            className="popup-image"
+          />
+
+                  <h3>{product.nom}</h3>
+
+                  <p className="popup-price">
+            {product.prix.toLocaleString()} FCFA
+                  </p>
+
+                  <Link
+            to={`/products/${product._id}`}
+            className="popup-btn"
+          >
+                    👁 Voir le produit
+                  </Link>
+                </div>
+              </Popup>
+            </Marker>
+          );
+        })}
       </MapContainer>
     </div>
   );
