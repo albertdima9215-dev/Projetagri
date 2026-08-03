@@ -1,5 +1,5 @@
 .testimonials{
-    padding:80px 8%;
+    padding:50px 4%;
     background:#f8f8f8;
     text-align:center;
 }
@@ -47,4 +47,32 @@
 
 .testimonial-card span{
     color:#777;
+}
+
+@media (max-width: 768px) {
+  .testimonials h2{
+    font-size: 25px;
+    margin-bottom: 20px;
+  }
+  .testimonial-container{
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+  }
+  .testimonial-card{
+    padding: 10px;
+  }
+  .stars{
+    font-size: 15px;
+    margin-bottom: 10px;
+  }
+  .text{
+    font-size: 10px;
+    margin-bottom: 10px;
+  }
+  .testimonial-card h3{
+    font-size: 14px;
+  }
+  .testimonial-card span{
+    font-size: 12px;
+  }
 }

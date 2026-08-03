@@ -1,5 +1,5 @@
 .home {
-  padding: 20px;
+  padding: 10px;
 }
 
 .home h1 {
@@ -64,4 +64,35 @@
 .loading {
   text-align: center;
   margin-top: 100px;
+}
+
+@media (max-width: 768px) {
+  .products {
+    grid-template-columns: repeat(2,1fr);
+    gap: 5px;
+  }
+  .card img{
+    height: 100px;
+  }
+  .card h3,
+  .card p,
+  .card h2 {
+    padding: 0 5px;
+    font-size: 10px;
+  }
+  .card a{
+    font-size: 12px;
+    height: 25px;
+  }
+  .home h1{
+    font-size: 25px;
+  }
+  .filters input{
+    height: 20px;
+    font-size: 8px;
+  }
+  .filters select{
+    height: 35px;
+    font-size: 8px;
+  }
 }

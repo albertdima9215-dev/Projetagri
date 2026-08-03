@@ -44,7 +44,6 @@ function Home() {
   return (
     <div className="home">
       <Hero />
-      <Features />
       <Categories />
       <h1>Produits agricoles</h1>
 
@@ -101,6 +100,8 @@ function Home() {
         ))}
 
       </div>
+
+      <Features />
 
       <Stats />
 

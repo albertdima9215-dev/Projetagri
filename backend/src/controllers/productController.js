@@ -1,6 +1,7 @@
 const Product = require("../models/Product.js");
 const cloudinary = require("../config/cloudinary.js");
 const streamifier = require("streamifier");
+const User = require("../models/User");
 
 /*création de produit*/
 const createProduct = async (req, res) => {
@@ -219,4 +220,32 @@ const getMyProducts = async (req, res) => {
   }
 };
 
-module.exports = {createProduct,getProducts,getProductById,updateProduct,deleteProduct, getMyProducts,};
+const getProductsForMap = async (req, res) => {
+  try {
+    const products = await Product.find()
+      .populate("vendeur", "latitude longitude nom")
+      .sort({ createdAt: -1 });
+
+    console.log("PRODUITS =", products);
+
+    const result = products
+      .filter((p) => p.vendeur && p.vendeur.latitude != null && p.vendeur.longitude != null)
+      .map((p) => ({
+        _id: p._id,
+        nom: p.nom,
+        prix: p.prix,
+        image: p.image,
+        latitude: p.vendeur.latitude,
+        longitude: p.vendeur.longitude,
+      }));
+
+    console.log("RESULT =", result);
+
+    res.status(200).json(result);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = {createProduct,getProducts,getProductById,updateProduct,deleteProduct, getMyProducts,getProductsForMap,};

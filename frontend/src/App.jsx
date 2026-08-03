@@ -27,6 +27,7 @@ import AdminProducts from "./pages/AdminProducts";
 import AdminOrders from "./pages/AdminOrders";
 import AdminPayments from "./pages/AdminPayments";
 import SellersMap from "./pages/SellersMap";
+import ProductsMap from "./pages/ProductsMap";
 
 
 function App() {
@@ -76,6 +77,8 @@ function App() {
     element={<SellerProfile />}
 />
         <Route path="/vendeurs-carte" element={<SellersMap />} />
+
+        <Route path="/produits-carte" element={<ProductsMap />} />
         
         <Route
   path="/edit-profile"

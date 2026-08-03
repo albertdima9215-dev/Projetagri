@@ -4,11 +4,15 @@ import L from "leaflet";
 import api from "../services/api";
 import "../css/sellersMap.css";
 
-const icon = new L.Icon({
-  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
+delete L.Icon.Default.prototype._getIconUrl;
+
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl:
+    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+  iconUrl:
+    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+  shadowUrl:
+    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
 });
 
 function SellersMap() {
@@ -124,23 +128,24 @@ const nearbySellers = sellers
 
         {nearbySellers.map((seller) => (
           <Marker
-            key={seller._id}
-            position={[
-              parseFloat(seller.latitude),
-              parseFloat(seller.longitude),
-            ]}
-            icon={icon}
-          >
+  key={seller._id}
+  position={[
+    parseFloat(seller.latitude),
+    parseFloat(seller.longitude),
+  ]}
+>
             <Popup>
               <div>
                 <h3>{seller.nom}</h3>
                 <p>📞 {seller.telephone}</p>
-                <p>
-  📏 {seller.distance?.toFixed(1)} km
-                </p>
-                <p>
-  🚚 ~{Math.round((seller.distance || 0) * 75)} FCFA
-                </p>
+                {seller.distance && seller.distance > 0.1 && (
+                  <>
+                    <p>📏                                      {seller.distance.toFixed(1)} km
+                    </p>
+                    <p>🚚 ~                                     {Math.round(seller.distance * 75)} FCFA
+                    </p>
+                  </>
+                )}
                 <a
                   href={`https://wa.me/226${seller.telephone}`}
                   target="_blank"

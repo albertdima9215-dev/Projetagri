@@ -1,5 +1,5 @@
 .features{
-    padding:70px 8%;
+    padding:50px 4%;
     background:#fff;
     text-align:center;
 }
@@ -28,7 +28,7 @@
     transform:translateY(-8px);
 }
 
-.icon{
+.feature-card .icon{
     font-size:50px;
     margin-bottom:20px;
 }
@@ -41,4 +41,33 @@
 .feature-card p{
     color:#555;
     line-height:1.6;
+}
+
+@media (max-width: 768px) {
+  .features{
+    padding: 30px 10px;
+  }
+  .features h2{
+    font-size: 25px;
+    margin-bottom: 10px;
+  }
+  .features-container{
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+  }
+  .feature-card{
+    gap: 15px;
+    padding: 10px;
+  }
+  .feature-card .icon{
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .feature-card h3{
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+  .feature-card p{
+    font-size: 8px;
+  }
 }

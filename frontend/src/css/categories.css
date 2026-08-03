@@ -1,11 +1,11 @@
 .categories{
-    padding:70px 8%;
+    padding:30px 8%;
     background:#f9f9f9;
 }
 
 .categories h2{
     text-align:center;
-    margin-bottom:40px;
+    margin-bottom:20px;
     color:#2e7d32;
     font-size:35px;
 }
@@ -34,4 +34,23 @@
 .category-icon{
     font-size:50px;
     margin-bottom:15px;
+}
+
+@media (max-width: 768px) {
+  .categories h2{
+    font-size: 25px;
+  }
+  .categories-grid{
+    grid-template-columns:repeat(3,1fr);
+    gap: 10px;
+  }
+  .category-card{
+    padding: 5px;
+  }
+  .category-icon{
+    font-size: 20px;
+  }
+  .category-card h3{
+    font-size: 12px;
+  }
 }

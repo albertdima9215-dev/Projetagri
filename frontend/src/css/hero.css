@@ -3,7 +3,7 @@
     justify-content:space-between;
     align-items:center;
     gap:50px;
-    padding:50px 8%;
+    padding:50px 4%;
     background:#f7fff6;
 }
 
@@ -79,12 +79,22 @@
 }
 
 .hero-content h1{
-    font-size:34px;
+    font-size:24px;
 }
 
 .hero-buttons{
     justify-content:center;
-    flex-wrap:wrap;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-size: 10px;
+}
+.hero-content p{
+  font-size: 12px;
+}
+.btn-primary,
+.btn-secondary,
+.btn-thirty{
+  padding:10px 20px;
 }
 
 }
