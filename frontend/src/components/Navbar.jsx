@@ -14,7 +14,11 @@ function Navbar() {
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("theme") === "dark"
   );
-  const [liveNotifications, setLiveNotifications] = useState([]);
+
+  const token = localStorage.getItem("token");
+
+  const user = JSON.parse(localStorage.getItem("user"));
+  
 
   useEffect(() => {
     function handleClick(e) {
@@ -45,10 +49,24 @@ function Navbar() {
 }, [darkMode]);
 
   useEffect(() => {
-  socket.on("newNotification", (notification) => {
-    setLiveNotifications((prev) => [notification, ...prev]);
+  if (user?._id) {
+    socket.emit("register", user._id);
+  }
+}, [user]);
 
-    // notification navigateur
+  useEffect(() => {
+  socket.on("newNotification", (notification) => {
+    // ajouter directement à la liste affichée
+    setNotifications((prev) => [
+      {
+        ...notification,
+        _id: Date.now().toString(),
+        lu: false,
+        lien: "/notifications",
+      },
+      ...prev,
+    ]);
+
     if (Notification.permission === "granted") {
       new window.Notification(notification.titre, {
         body: notification.message,
@@ -67,10 +85,6 @@ function Navbar() {
   }
 }, []);
   
-
-  const token = localStorage.getItem("token");
-
-  const user = JSON.parse(localStorage.getItem("user"));
   
   const logout = () => {
   localStorage.removeItem("token");
@@ -112,9 +126,7 @@ function Navbar() {
     }
   };
 
-  document.addEventListener("mousedown", handleClickOutside);
-
-  const user = JSON.parse(localStorage.getItem("user"));
+  document.addEventListener("mousedown", handleClickOutside); 
 
   return () => {
     document.removeEventListener(
@@ -173,12 +185,7 @@ function Navbar() {
   className="notification-menu"
   onClick={() => setShowNotifications(!showNotifications)}
 >
-              <div className="notification-badge">
-  🔔
-  {liveNotifications.length > 0 && (
-    <span>{liveNotifications.length}</span>
-  )}
-</div>
+              
               Notifs
               {unreadCount > 0 && (
                 <span className="notification-badge">

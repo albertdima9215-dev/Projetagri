@@ -234,20 +234,16 @@
     padding-bottom: 10px;
   }
 
-  .nav-links ul{
-    min-height: 300px;
-  }
-
   .notification-dropdown{
     position: absolute;
     top: -110px;
     right: 20px;
-    min-height: 300px;
+    
     width: 250px
   }
 
   .notification-dropdown a{
-    height: 50px;
+    line-height:  9px;
     font-size: 15px;
   }
   
