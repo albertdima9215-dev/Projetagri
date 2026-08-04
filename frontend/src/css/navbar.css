@@ -252,5 +252,8 @@
     line-height:  9px;
     font-size: 15px;
   }
+  .dropdown-item p{
+    color: #333;
+  }
   
 }
