@@ -42,21 +42,25 @@ const markAsRead = async (req, res) => {
 };
 
 const markAllAsRead = async (req, res) => {
+  try {
+    await Notification.updateMany(
+      {
+        utilisateur: req.user.id,
+        lu: false,
+      },
+      {
+        $set: { lu: true },
+      }
+    );
 
-  await Notification.updateMany(
-    {
-      utilisateur: req.user.id,
-      lu: false,
-    },
-    {
-      lu: true,
-    }
-  );
-
-  res.json({
-    message: "Toutes les notifications sont lues",
-  });
-
+    res.status(200).json({
+      message: "Toutes les notifications sont lues",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
 
 module.exports = {

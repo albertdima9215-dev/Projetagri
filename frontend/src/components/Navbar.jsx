@@ -140,6 +140,35 @@ function Navbar() {
   (n) => !n.lu
 ).length;
 
+  const handleNotificationClick = async (notification) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    await api.put(
+      `/notifications/${notification._id}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    // Mettre à jour l'état local
+    setNotifications((prev) =>
+      prev.map((n) =>
+        n._id === notification._id
+          ? { ...n, lu: true }
+          : n
+      )
+    );
+
+    setShowNotifications(false);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
   return (
     <nav className="navbar" ref={navRef} >
       <div className="logo">
@@ -203,8 +232,10 @@ function Navbar() {
                     <Link
   key={notification._id}
   to={notification.lien || "/notifications"}
-  className="dropdown-item"
-  onClick={() => setShowNotifications(false)}
+  className={`dropdown-item ${
+    !notification.lu ? "unread" : ""
+  }`}
+  onClick={() => handleNotificationClick(notification)}
 >
                       <strong>{notification.titre}</strong>
 

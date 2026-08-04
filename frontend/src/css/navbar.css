@@ -163,6 +163,12 @@
     background: #f5f5f5;
 }
 
+.dropdown-item.unread {
+  background: #eef6ff;
+  border-left: 3px solid #2e7d32;
+  font-weight: 600;
+}
+
 .dropdown-item strong{
     color: #2e7d32;
 }

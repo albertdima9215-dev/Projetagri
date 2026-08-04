@@ -111,6 +111,10 @@ function Notifications() {
       }
     );
 
+    setNotifications((prev) =>
+  prev.map((n) => ({ ...n, lu: true }))
+    );
+
     fetchNotifications();
 
   } catch (error) {
