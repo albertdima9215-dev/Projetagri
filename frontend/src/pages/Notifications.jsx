@@ -46,7 +46,11 @@ function Notifications() {
       }
     );
 
-    fetchNotifications();
+    setNotifications((prev) =>
+  prev.map((n) =>
+    n._id === id ? { ...n, lu: true } : n
+  )
+);
 
   } catch (error) {
     console.log(error);
@@ -115,8 +119,6 @@ function Notifications() {
   prev.map((n) => ({ ...n, lu: true }))
     );
 
-    fetchNotifications();
-
   } catch (error) {
     console.log(error);
   }
@@ -143,7 +145,7 @@ function Notifications() {
             className={`notification-card ${
             notification.lu ? "read" : "unread"
             }`}
-            onClick={() => markAsRead(notification._id)}
+            onClick={() => !notification.lu && markAsRead(notification._id)}
 >
             <h1>
               {getIcon(notification.type)}                  {notification.titre}
