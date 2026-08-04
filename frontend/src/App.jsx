@@ -30,6 +30,8 @@ import AdminOrders from "./pages/AdminOrders";
 import AdminPayments from "./pages/AdminPayments";
 import SellersMap from "./pages/SellersMap";
 import ProductsMap from "./pages/ProductsMap";
+import AdminRoute from "./components/AdminRoute";
+import SellerRoute from "./components/SellerRoute";
 
 
 function App() {
@@ -62,9 +64,9 @@ function App() {
         <Route
   path="/dashboard"
   element={
-    <PrivateRoute>
+    <SellerRoute>
       <Dashboard />
-    </PrivateRoute>
+    </SellerRoute>
   }
 />
         <Route
@@ -110,9 +112,9 @@ function App() {
         <Route
   path="/seller-orders"
   element={
-    <PrivateRoute>
+    <SellerRoute>
       <SellerOrders />
-    </PrivateRoute>
+    </SellerRoute>
   }
 />
         <Route
@@ -142,10 +144,10 @@ function App() {
         <Route
   path="/admin"
   element={
-          <PrivateRoute>
-            <AdminLayout />
-          </PrivateRoute>
-        }
+    <AdminRoute>
+      <AdminLayout />
+    </AdminRoute>
+  }
 >
           <Route index element={<AdminDashboard />} />
 

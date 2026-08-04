@@ -244,8 +244,8 @@
     position: absolute;
     top: -110px;
     right: 20px;
-    
-    width: 250px
+    width: 250px;
+    z-index: 9999;
   }
 
   .notification-dropdown a{
