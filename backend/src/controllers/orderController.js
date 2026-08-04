@@ -8,13 +8,6 @@ const createOrder = async (req, res) => {
   try {
     const { produitId, quantite } = req.body;
     const produit = await Product.findById(produitId);
-
-    if (vendeurSocket) {
-io.to(vendeurSocket).emit("newNotification", {
-    titre: "Nouvelle commande",
-    message: `Commande reçue pour ${produit.nom}`,
-      });
-    }
     
     /*const { produitId, quantite } = req.body;*/
 
@@ -28,6 +21,13 @@ io.to(vendeurSocket).emit("newNotification", {
     const users = req.app.get("users");
 
     const vendeurSocket =         users[produit.vendeur.toString()];
+
+    if (vendeurSocket) {
+io.to(vendeurSocket).emit("newNotification", {
+    titre: "Nouvelle commande",
+    message: `Commande reçue pour ${produit.nom}`,
+      });
+    }
 
     if (quantite <= 0) {
       return res.status(400).json({
