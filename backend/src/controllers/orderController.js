@@ -6,11 +6,8 @@ const Review = require("../models/Review");
 // Créer une commande
 const createOrder = async (req, res) => {
   try {
-
-    const io = req.app.get("io");
-    const users = req.app.get("users");
-
-    const vendeurSocket =         users[produit.vendeur.toString()];
+    const { produitId, quantite } = req.body;
+    const produit = await Product.findById(produitId);
 
     if (vendeurSocket) {
 io.to(vendeurSocket).emit("newNotification", {
@@ -19,15 +16,18 @@ io.to(vendeurSocket).emit("newNotification", {
       });
     }
     
-    const { produitId, quantite } = req.body;
-
-    const produit = await Product.findById(produitId);
+    /*const { produitId, quantite } = req.body;*/
 
     if (!produit) {
       return res.status(404).json({
         message: "Produit introuvable",
       });
     }
+
+    const io = req.app.get("io");
+    const users = req.app.get("users");
+
+    const vendeurSocket =         users[produit.vendeur.toString()];
 
     if (quantite <= 0) {
       return res.status(400).json({
@@ -52,13 +52,15 @@ io.to(vendeurSocket).emit("newNotification", {
     produit.quantite -= quantite;
     await produit.save();
 
-    const commande = await Order.create({
+    let commande = await Order.create({
       produit: produit._id,
       acheteur: req.user.id,
       vendeur: produit.vendeur,
       quantite,
       montant,
     });
+
+    commande = await                               commande.populate("produit");
 
     await Notification.create({
       utilisateur: produit.vendeur,
