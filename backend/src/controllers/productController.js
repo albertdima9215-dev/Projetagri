@@ -6,6 +6,14 @@ const User = require("../models/User");
 /*création de produit*/
 const createProduct = async (req, res) => {
   try {
+
+    const user = await User.findById(req.user.id);
+
+    if (user.role === "acheteur") {
+      user.role = "vendeur";
+      await user.save();
+    }  
+    
     const {
       nom,
       description,
