@@ -69,7 +69,7 @@
 @media (max-width: 768px) {
   .products {
     grid-template-columns: repeat(2,1fr);
-    gap: 5px;
+    gap: 10px;
   }
   .card img{
     height: 100px;

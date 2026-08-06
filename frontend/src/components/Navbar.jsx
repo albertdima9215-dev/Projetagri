@@ -185,7 +185,7 @@ function Navbar() {
       <ul className={menuOpen ? "nav-links active" : "nav-links"}>
         <li>
           <Link to="/" onClick={() => setMenuOpen(false)}>
-            Acceuil
+            Accueil
           </Link>
         </li>
 
