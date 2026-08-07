@@ -122,6 +122,8 @@ const updateOrderStatus = async (req, res) => {
   try {
 
     const commande = await Order.findById(req.params.id);
+    const ancienStatut = commande.statut;
+    const nouveauStatut = req.body.statut;
 
     if (!commande) {
       return res.status(404).json({
@@ -168,9 +170,6 @@ if (commande.statut === "Livrée" && req.body.statut !== "Livrée") {
 }
 
 commande.statut = nouveauStatut;
-
-    const ancienStatut = commande.statut;
-    const nouveauStatut = req.body.statut;
 
     if (req.body.numeroSuivi) {
       commande.numeroSuivi = req.body.numeroSuivi;
