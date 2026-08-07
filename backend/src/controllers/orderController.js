@@ -380,6 +380,44 @@ const latestReviews = reviews.slice(0, 5);
   }
 };
 
+// Paiements reçus par le vendeur
+const getSellerPayments = async (req, res) => {
+  try {
+    const paiements = await Order.find({
+      vendeur: req.user._id,
+      statutPaiement: "Payé",
+    })
+      .populate("produit")
+      .populate("acheteur", "nom telephone")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(paiements);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// Paiements de l'acheteur
+const getMyPayments = async (req, res) => {
+  try {
+    const paiements = await Order.find({
+      acheteur: req.user._id,
+      statutPaiement: "Payé",
+    })
+      .populate("produit")
+      .populate("vendeur", "nom telephone")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(paiements);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createOrder,
   getMyOrders,
@@ -387,4 +425,6 @@ module.exports = {
   updateOrderStatus,
   downloadInvoice,
   getSellerStats,
+  getSellerPayments,
+  getMyPayments,
 };

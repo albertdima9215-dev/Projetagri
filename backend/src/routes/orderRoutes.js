@@ -8,6 +8,8 @@ const {
   updateOrderStatus,
   downloadInvoice,
   getSellerStats,
+  getSellerPayments,
+  getMyPayments,
 } = require("../controllers/orderController");
 
 const router = express.Router();
@@ -20,6 +22,14 @@ router.get("/my-orders", protect, getMyOrders);
 
 // Commandes reçues (vendeur)
 router.get("/seller-orders", protect, getSellerOrders);
+
+router.get("/seller-payments",protect,
+  getSellerPayments
+);
+
+router.get("/my-payments",protect,
+  getMyPayments
+);
 
 //Télécharger un fichier pdf
 router.get("/:id/invoice", protect, downloadInvoice);

@@ -265,6 +265,12 @@ function Navbar() {
           </li>
 
           <li>
+            <Link to="/my-payments">
+              Paiements
+            </Link>
+          </li>
+
+          <li>
             <button className="logoutbtn" onClick={logout}>Déconnexion</button>
           </li>
           <li>

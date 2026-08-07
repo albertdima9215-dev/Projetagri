@@ -175,6 +175,10 @@ const fetchStats = async () => {
       <Link to="/seller-orders">
          Commandes reçues
       </Link>
+
+      <Link to="/seller-payments" className="dashboard-btn">
+        Paiements reçus
+      </Link>
       
       {products.length === 0 ? (
         <p>Vous n'avez publié aucun produit.</p>

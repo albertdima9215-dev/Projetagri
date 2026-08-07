@@ -32,6 +32,8 @@ import SellersMap from "./pages/SellersMap";
 import ProductsMap from "./pages/ProductsMap";
 import AdminRoute from "./components/AdminRoute";
 import SellerRoute from "./components/SellerRoute";
+import SellerPayments from "./pages/SellerPayments";
+import MyPayments from "./pages/MyPayments";
 
 
 function App() {
@@ -141,6 +143,23 @@ function App() {
           </PrivateRoute>
   }
 />
+        <Route
+  path="/seller-payments"
+  element={
+    <PrivateRoute>
+      <SellerPayments />
+    </PrivateRoute>
+  }
+/>
+        <Route
+  path="/my-payments"
+  element={
+    <PrivateRoute>
+      <MyPayments />
+    </PrivateRoute>
+  }
+/>
+        
         <Route
   path="/admin"
   element={
