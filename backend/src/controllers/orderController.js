@@ -147,10 +147,17 @@ if (commande.statut === "Livrée" && req.body.statut !== "Livrée") {
   });
 }
 
+    if (commande.statut === "Annulée") {
+  return res.status(400).json({
+    message: "Une commande annulée ne peut plus être modifiée.",
+  });
+}
+
     // Remettre le stock si la commande est annulée
-if (
-  req.body.statut === "Annulée" &&
-  commande.statut !== "Annulée"
+    if (
+  nouveauStatut === "Annulée" &&
+  ancienStatut !== "Annulée" &&
+  ancienStatut !== "Livrée"
 ) {
   const produit = await Product.findById(commande.produit);
 
@@ -160,7 +167,10 @@ if (
   }
 }
 
-    commande.statut = req.body.statut;
+commande.statut = nouveauStatut;
+
+    const ancienStatut = commande.statut;
+    const nouveauStatut = req.body.statut;
 
     if (req.body.numeroSuivi) {
       commande.numeroSuivi = req.body.numeroSuivi;

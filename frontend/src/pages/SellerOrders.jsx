@@ -6,6 +6,8 @@ import "../css/orders.css";
 function SellerOrders() {
   const [orders, setOrders] = useState([]);
   const [trackingNumbers, setTrackingNumbers] = useState({});
+  const [statusFilter, setStatusFilter] = useState("Tous");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetchOrders();
@@ -50,14 +52,50 @@ function SellerOrders() {
     }
   };
 
+  const filteredOrders = orders.filter((order) => {
+  const matchStatus =
+    statusFilter === "Tous" || order.statut === statusFilter;
+
+  const matchSearch =
+    order.produit.nom
+      .toLowerCase()
+      .includes(search.toLowerCase()) ||
+    order.acheteur.nom
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+  return matchStatus && matchSearch;
+});
+
   return (
     <div className="orders-container">
       <h1>Commandes reçues</h1>
 
-      {orders.length === 0 ? (
+      <div className="orders-filters">
+  <input
+    type="text"
+    placeholder="Rechercher un produit ou un acheteur..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+  />
+
+  <select
+    value={statusFilter}
+    onChange={(e) => setStatusFilter(e.target.value)}
+  >
+    <option>Tous</option>
+    <option>En attente</option>
+    <option>Confirmée</option>
+    <option>Expédiée</option>
+    <option>Livrée</option>
+    <option>Annulée</option>
+  </select>
+</div>
+
+      {filteredOrders.length === 0 ? (
         <p>Aucune commande reçue.</p>
       ) : (
-        orders.map((order) => (
+        filteredOrders.map((order) => (
           <div className="order-card" key={order._id}>
             <img
               src={order.produit.image}
@@ -93,7 +131,8 @@ function SellerOrders() {
     }
   />
 ) : null}
-
+          {order.statut !== "Livrée" && (
+            <>
               <select
   value={order.statut}
   onChange={(e) =>
@@ -136,6 +175,12 @@ function SellerOrders() {
     ✖ Annuler
   </button>
 </div>
+            </>
+            )}
+
+              {order.statut === "Livrée" && (
+  <p className="final-status">✅ Commande finalisée</p>
+)}
               
             </div>
           </div>
