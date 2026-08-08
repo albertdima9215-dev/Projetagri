@@ -23,22 +23,24 @@ const createProduct = async (req, res) => {
       localisation,
     } = req.body;
 
-    let imageUrl = "";
+    let imageUrls = [];
 
-    if (req.file) {
-      const result = await new Promise((resolve, reject) => {
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        const result = await new                    Promise((resolve, reject) => {
         const stream = cloudinary.uploader.upload_stream(
-          { folder: "agriconnect" },
-          (error, result) => {
-            if (error) reject(error);
-            else resolve(result);
-          }
-        );
+        { folder: "agriconnect/products" },
+        (error, result) => {
+          if (error) reject(error);
+          else resolve(result);
+        }
+      );
 
-        streamifier.createReadStream(req.file.buffer).pipe(stream);
+streamifier.createReadStream(file.buffer).pipe(stream);
       });
 
-      imageUrl = result.secure_url;
+        imageUrls.push(result.secure_url);
+      }
     }
 
     const produit = await Product.create({
@@ -48,7 +50,7 @@ const createProduct = async (req, res) => {
       prix,
       quantite,
       localisation,
-      image: imageUrl,
+      images: imageUrls,
       vendeur: req.user.id,
     });
 

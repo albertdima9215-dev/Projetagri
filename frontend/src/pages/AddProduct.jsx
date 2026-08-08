@@ -12,10 +12,11 @@ function AddProduct() {
     localisation: "",
   });
 
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState([]);
+  
   const handleImageChange = (e) => {
-  setImage(e.target.files[0]);
-};
+    setImage([...e.target.files]);
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -34,7 +35,9 @@ Object.keys(formData).forEach((key) => {
       });
 
       if (image) {
-  data.append("image", image);
+        images.forEach((img) => {
+          data.append("images", img);
+        });
       };
       
       const token = localStorage.getItem("token");
@@ -124,6 +127,7 @@ Object.keys(formData).forEach((key) => {
         <input
           type="file"
           accept="image/*"
+          multiple
           onChange={handleImageChange}
         />
 

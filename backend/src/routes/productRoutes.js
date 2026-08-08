@@ -7,7 +7,7 @@ const upload = require("../middleware/uploadMiddleware");
 
 const router = express.Router();
 
-router.post("/", protect,upload.single("image"), createProduct);
+router.post("/", upload.array("images", 5), createProduct);
 
 router.get("/", getProducts);
 
@@ -17,7 +17,7 @@ router.get("/map", getProductsForMap);
 
 router.get("/:id", getProductById);
 
-router.put("/:id", protect,upload.single("image"), updateProduct);
+router.put("/:id", upload.array("images", 5), updateProduct);
 
 router.delete("/:id", protect, deleteProduct);
 

@@ -11,6 +11,7 @@ function ProductDetails() {
   const [showOrder, setShowOrder] = useState(false);
   const [quantite, setQuantite] = useState(1);
   const [reviews, setReviews] = useState([]);
+  const [selectedImage, setSelectedImage] = useState(0);
 
   useEffect(() => {
     fetchProduct();
@@ -99,7 +100,23 @@ function ProductDetails() {
     <div className="product-details">
 
       <div className="product-image">
-        <img src={product.image} alt={product.nom} />
+        <img
+  src={product.images?.[selectedImage] || product.image}
+  alt={product.nom}
+  className="main-image"
+        />
+      </div>
+
+      <div className="thumbnails">
+        {(product.images || [product.image]).map((img, index) => (
+        <img
+          key={index}
+          src={img}
+          alt="miniature"
+          className={selectedImage ===                index ? "active" : ""}
+          onClick={() =>                              setSelectedImage(index)}
+        />
+        ))}
       </div>
 
       <div className="product-info">
