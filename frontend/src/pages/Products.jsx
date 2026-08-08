@@ -207,6 +207,12 @@ if (loading) {
 
             <p>{product.prix} FCFA</p>
 
+            {product.quantite === 0 && (
+              <span className="stock-badge out">
+                Rupture
+              </span>
+            )}
+
             <Link to={`/products/${product._id}`}>
               <button className="details-btn" >
                 Voir les détails

@@ -150,12 +150,18 @@ function ProductDetails() {
           Contacter sur WhatsApp
         </a>
 
-        <button
-  className="order-btn"
-  onClick={() => setShowOrder(true)}
->
-          Commander
-        </button>
+        {product.quantite > 0 ? (
+          <button
+    className="order-btn"
+    onClick={() => setShowOrder(true)}
+  >
+            Commander
+          </button>
+          ) : (
+          <div className="out-of-stock">
+            ❌ Rupture de stock
+          </div>
+        )}
 
       </div>
 

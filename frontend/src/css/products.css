@@ -125,3 +125,17 @@
 .reset-filters:hover{
     background:#256428;
 }
+
+.stock-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+.stock-badge.out {
+  background: #dc2626;
+  color: white;
+}

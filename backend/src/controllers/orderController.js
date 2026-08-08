@@ -35,7 +35,19 @@ io.to(vendeurSocket).emit("newNotification", {
       });
     }
 
+    if (produit.quantite <= 0) {
+      return res.status(400).json({
+        message: "Produit en rupture de stock",
+      });
+    }
+
     if (quantite > produit.quantite) {
+      return res.status(400).json({
+        message: "Stock insuffisant",
+      });
+    }
+
+    if (produit.quantite - quantite < 0) {
       return res.status(400).json({
         message: "Stock insuffisant",
       });
