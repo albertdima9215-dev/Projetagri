@@ -210,7 +210,7 @@ const downloadInvoice = async (orderId) => {
 </div>
 
             </div>
-
+            <div className="order-btns">
             <Link to={`/products/${order.produit._id}`}>
               Voir le produit
             </Link> 
@@ -223,15 +223,6 @@ const downloadInvoice = async (orderId) => {
               Contacter le vendeur
             </a>
 
-            {order.statut === "En attente" && (
-              <button
-    className="cancel-order-btn"
-    onClick={() => cancelOrder(order._id)}
-  >
-                Annuler la commande
-              </button>
-            )}
-
             <button className="downloadBtn" onClick={() => downloadInvoice(order._id)}>
               <FaArrowDown /> Facture
             </button>
@@ -242,6 +233,16 @@ const downloadInvoice = async (orderId) => {
     onClick={() => openReviewModal(order)}
   >
                 ⭐ Laisser un avis
+              </button>
+            )}
+            </div>
+
+            {order.statut === "En attente" && (
+              <button
+    className="cancel-order-btn"
+    onClick={() => cancelOrder(order._id)}
+  >
+                Annuler la commande
               </button>
             )}
 
