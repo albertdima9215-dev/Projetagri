@@ -111,6 +111,27 @@ const downloadInvoice = async (orderId) => {
   }
 };
 
+ const cancelOrder = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    await api.put(
+      `/orders/${id}/cancel`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    fetchOrders();
+
+  } catch (error) {
+    alert(error.response?.data?.message || "Erreur");
+  }
+}; 
+
   return (
     <div className="orders-container">
       <h1>Mes commandes</h1>
@@ -201,6 +222,15 @@ const downloadInvoice = async (orderId) => {
 >
               Contacter le vendeur
             </a>
+
+            {order.statut === "En attente" && (
+              <button
+    className="cancel-order-btn"
+    onClick={() => cancelOrder(order._id)}
+  >
+                Annuler la commande
+              </button>
+            )}
 
             <button className="downloadBtn" onClick={() => downloadInvoice(order._id)}>
               <FaArrowDown /> Facture

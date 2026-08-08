@@ -10,6 +10,7 @@ const {
   getSellerStats,
   getSellerPayments,
   getMyPayments,
+  cancelOrderByBuyer,
 } = require("../controllers/orderController");
 
 const router = express.Router();
@@ -29,6 +30,10 @@ router.get("/seller-payments",protect,
 
 router.get("/my-payments",protect,
   getMyPayments
+);
+
+router.put("/:id/cancel",protect,
+  cancelOrderByBuyer
 );
 
 //Télécharger un fichier pdf

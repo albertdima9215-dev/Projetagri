@@ -418,6 +418,61 @@ const getMyPayments = async (req, res) => {
   }
 };
 
+// Annulation par l'acheteur
+const cancelOrderByBuyer = async (req, res) => {
+  try {
+    const commande = await Order.findById(req.params.id);
+
+    if (!commande) {
+      return res.status(404).json({
+        message: "Commande introuvable",
+      });
+    }
+
+    // Vérifier que c'est bien l'acheteur
+    if (commande.acheteur.toString() !== req.user.id) {
+      return res.status(403).json({
+        message: "Action non autorisée",
+      });
+    }
+
+    // Seulement si en attente
+    if (commande.statut !== "En attente") {
+      return res.status(400).json({
+        message: "Vous ne pouvez annuler qu'une commande en attente.",
+      });
+    }
+
+    // Restaurer le stock
+    const produit = await Product.findById(commande.produit);
+
+    if (produit) {
+      produit.quantite += commande.quantite;
+      await produit.save();
+    }
+
+    commande.statut = "Annulée";
+    await commande.save();
+
+    // Notification vendeur
+    await Notification.create({
+      utilisateur: commande.vendeur,
+      titre: "Commande annulée",
+      message: "L'acheteur a annulé sa commande.",
+      lien: "/seller-orders",
+    });
+
+    res.status(200).json({
+      message: "Commande annulée avec succès",
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createOrder,
   getMyOrders,
@@ -427,4 +482,5 @@ module.exports = {
   getSellerStats,
   getSellerPayments,
   getMyPayments,
+  cancelOrderByBuyer,
 };

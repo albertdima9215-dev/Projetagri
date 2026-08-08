@@ -251,6 +251,21 @@ select{
   background: white;
 }
 
+.cancel-order-btn {
+  margin-top: 12px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cancel-order-btn:hover {
+  background: #b91c1c;
+}
+
 @media (max-width: 768px) {
   .order-card{
     flex-direction: column;
