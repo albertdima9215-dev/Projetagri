@@ -15,7 +15,7 @@ function AddProduct() {
   const [images, setImages] = useState([]);
   
   const handleImageChange = (e) => {
-    setImage([...e.target.files]);
+    setImages([...e.target.files]);
   };
 
   const handleChange = (e) => {
@@ -34,7 +34,7 @@ Object.keys(formData).forEach((key) => {
   data.append(key, formData[key]);
       });
 
-      if (image) {
+      if (images.length) {
         images.forEach((img) => {
           data.append("images", img);
         });
@@ -59,6 +59,8 @@ Object.keys(formData).forEach((key) => {
         quantite: "",
         localisation: "",
       });
+
+      setImages([]);
 
     } catch (error) {
       alert(error.response?.data?.message || "Une erreur est survenue");
