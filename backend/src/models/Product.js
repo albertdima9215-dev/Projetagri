@@ -33,8 +33,8 @@ const productSchema = new mongoose.Schema(
     },
 
     images: {
-      type: String,
-      default: "",
+      type: [String],
+      default: [],
     },
 
     vendeur: {

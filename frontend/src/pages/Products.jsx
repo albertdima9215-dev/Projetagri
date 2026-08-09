@@ -201,7 +201,7 @@ if (loading) {
   )}
               </button>
             
-            <img src={product.image} alt={product.nom} />
+            <img src={product.images?.[0]} alt={product.nom} />
 
             <h3>{product.nom}</h3>
 
