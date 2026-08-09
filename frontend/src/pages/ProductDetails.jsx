@@ -108,7 +108,7 @@ function ProductDetails() {
       </div>
 
       <div className="thumbnails">
-        {(product.images || [product.image]).map((img, index) => (
+        {(product.images || []).map((img, index) => (
         <img
           key={index}
           src={img}

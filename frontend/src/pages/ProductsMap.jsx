@@ -66,7 +66,7 @@ function ProductsMap() {
               <Popup maxWidth={260}>
                 <div className="product-popup">
                   <img
-            src={product.image}
+            src={product.images?.[0]}
             alt={product.nom}
             className="popup-image"
           />
