@@ -145,7 +145,7 @@ const updateProduct = async (req, res) => {
       });
     }
 
-    let imageUrl = produit.image;
+    let imageUrl = produit.images;
 
     if (req.file) {
       const result = await new Promise((resolve, reject) => {
@@ -169,7 +169,7 @@ const updateProduct = async (req, res) => {
     produit.prix = req.body.prix;
     produit.quantite = req.body.quantite;
     produit.localisation = req.body.localisation;
-    produit.image = imageUrl;
+    produit.images = imageUrl;
 
     await produit.save();
 
@@ -244,7 +244,7 @@ const getProductsForMap = async (req, res) => {
         _id: p._id,
         nom: p.nom,
         prix: p.prix,
-        image: p.image,
+        image: p.images?.[0] || null,
         latitude: p.vendeur.latitude,
         longitude: p.vendeur.longitude,
       }));
