@@ -7,6 +7,11 @@ const User = require("../models/User");
 const createProduct = async (req, res) => {
   try {
 
+    console.log("=== CREATE PRODUCT ===");
+    console.log("REQ.USER =", req.user);
+    console.log("REQ.BODY =", req.body);
+    console.log("REQ.FILES =", req.files);
+    
     const user = await User.findById(req.user.id);
 
     if (user.role === "acheteur") {
@@ -43,6 +48,8 @@ streamifier.createReadStream(file.buffer).pipe(stream);
       }
     }
     
+    console.log("IMAGE URLS =", imageUrls);
+    
     const produit = await Product.create({
       nom,
       description,
@@ -59,6 +66,7 @@ streamifier.createReadStream(file.buffer).pipe(stream);
       produit,
     });
   } catch (error) {
+    console.log("ERREUR CREATE PRODUCT =", error);
     res.status(500).json({
       message: error.message,
     });
