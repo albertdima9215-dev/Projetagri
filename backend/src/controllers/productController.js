@@ -43,6 +43,9 @@ streamifier.createReadStream(file.buffer).pipe(stream);
       }
     }
 
+    console.log("REQ USER =", req.user);
+console.log("IMAGES =", imageUrls);
+    
     const produit = await Product.create({
       nom,
       description,
