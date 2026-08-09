@@ -7,7 +7,7 @@ const User = require("../models/User");
 const createProduct = async (req, res) => {
   try {
 
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user.id);
 
     if (user.role === "acheteur") {
       user.role = "vendeur";
@@ -51,7 +51,7 @@ streamifier.createReadStream(file.buffer).pipe(stream);
       quantite,
       localisation,
       images: imageUrls,
-      vendeur: req.user._id,
+      vendeur: req.user.id,
     });
 
     res.status(201).json({
@@ -109,7 +109,7 @@ const getProducts = async (req, res) => {
 /*obtenir le produit par son id*/
 const getProductById = async (req, res) => {
   try {
-    const produit = await Product.findById(req.params._id).populate(
+    const produit = await Product.findById(req.params.id).populate(
       "vendeur",
       "nom email telephone"
     );
@@ -131,7 +131,7 @@ const getProductById = async (req, res) => {
 /* suppression et modification de ses propres produits*/
 const updateProduct = async (req, res) => {
   try {
-    const produit = await Product.findById(req.params._id);
+    const produit = await Product.findById(req.params.id);
 
     if (!produit) {
       return res.status(404).json({
@@ -139,7 +139,7 @@ const updateProduct = async (req, res) => {
       });
     }
 
-    if (produit.vendeur.toString() !== req.user._id) {
+    if (produit.vendeur.toString() !== req.user.id) {
       return res.status(403).json({
         message: "Vous n'êtes pas autorisé à modifier ce produit.",
       });
@@ -188,7 +188,7 @@ const updateProduct = async (req, res) => {
 /*suppression*/
 const deleteProduct = async (req, res) => {
   try {
-    const produit = await Product.findById(req.params._id);
+    const produit = await Product.findById(req.params.id);
 
     if (!produit) {
       return res.status(404).json({
@@ -196,13 +196,13 @@ const deleteProduct = async (req, res) => {
       });
     }
 
-    if (produit.vendeur.toString() !== req.user._id) {
+    if (produit.vendeur.toString() !== req.user.id) {
       return res.status(403).json({
         message: "Vous n'êtes pas autorisé à supprimer ce produit.",
       });
     }
 
-    await Product.findByIdAndDelete(req.params._id);
+    await Product.findByIdAndDelete(req.params.id);
 
     res.status(200).json({
       message: "Produit supprimé avec succès",
@@ -218,7 +218,7 @@ const deleteProduct = async (req, res) => {
 const getMyProducts = async (req, res) => {
   try {
     const produits = await Product.find({
-      vendeur: req.user._id,
+      vendeur: req.user.id,
     }).sort({ createdAt: -1 });
 
     res.status(200).json(produits);

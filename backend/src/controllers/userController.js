@@ -6,7 +6,7 @@ const streamifier = require("streamifier");
 // Voir le profil public d'un vendeur
 const getSellerProfile = async (req, res) => {
   try {
-    const vendeur = await User.findById(req.params._id).select("-motDePasse");
+    const vendeur = await User.findById(req.params.id).select("-motDePasse");
 
     if (!vendeur) {
       return res.status(404).json({
@@ -33,7 +33,7 @@ const getSellerProfile = async (req, res) => {
 // Modifier son profil
 const updateProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user.id);
 
     if (!user) {
       return res.status(404).json({
@@ -84,7 +84,7 @@ const updateProfile = async (req, res) => {
 /*Modifier profil*/
 const getMyProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user._id).select("-motDePasse");
+    const user = await User.findById(req.user.id).select("-motDePasse");
 
     if (!user) {
       return res.status(404).json({
@@ -107,7 +107,7 @@ const updateLocation = async (req, res) => {
 
     const { latitude, longitude } = req.body;
 
-    const user = await User.findById(req.user._id);
+    const user = await User.findById(req.user.id);
 
     if (!user) {
       return res.status(404).json({
