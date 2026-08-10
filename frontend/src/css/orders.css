@@ -271,6 +271,44 @@ select{
   background: #b91c1c;
 }
 
+.archive-btn {
+  background: #455a64;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.archive-link {
+  display: inline-block;
+  margin: 10px 0 20px;
+  padding: 10px 14px;
+  background: #455a64;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+.archive-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.archive-tabs button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #e0e0e0;
+}
+
+.archive-tabs button.active {
+  background: #2e7d32;
+  color: white;
+}
+
 @media (max-width: 768px) {
   .order-card{
     flex-direction: column;

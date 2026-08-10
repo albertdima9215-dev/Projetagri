@@ -125,6 +125,44 @@ function Notifications() {
 
 };
 
+const deleteNotification = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    await api.delete(`/notifications/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    setNotifications((prev) =>
+      prev.filter((n) => n._id !== id)
+    );
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const clearAllNotifications = async () => {
+  if (!window.confirm("Supprimer toutes les notifications ?")) return;
+
+  try {
+    const token = localStorage.getItem("token");
+
+    await api.delete("/notifications/clear/all", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    setNotifications([]);
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
   return (
     <div className="notifications-container">
       <h1>Notifications</h1>
@@ -134,6 +172,13 @@ function Notifications() {
   onClick={markAllAsRead}
 >
         ✔ Tout marquer comme lu
+      </button>
+
+      <button
+  className="clear-all-btn"
+  onClick={clearAllNotifications}
+>
+        🗑 Vider toutes les notifications
       </button>
 
       {notifications.length === 0 ? (
@@ -156,6 +201,16 @@ function Notifications() {
           <small>
           {formatTime(notification.createdAt)}
           </small>
+
+          <button
+  className="delete-notif-btn"
+  onClick={(e) => {
+    e.stopPropagation();
+    deleteNotification(notification._id);
+  }}
+>
+            ✖
+          </button>
         </div>
         ))
       )}

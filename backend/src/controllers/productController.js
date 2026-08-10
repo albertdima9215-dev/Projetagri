@@ -6,13 +6,8 @@ const User = require("../models/User");
 /*création de produit*/
 const createProduct = async (req, res) => {
   try {
-
-    console.log("=== CREATE PRODUCT ===");
-    console.log("REQ.USER =", req.user);
-    console.log("REQ.BODY =", req.body);
-    console.log("REQ.FILES =", req.files);
     
-    const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user._id);
 
     if (user.role === "acheteur") {
       user.role = "vendeur";
@@ -48,8 +43,6 @@ streamifier.createReadStream(file.buffer).pipe(stream);
       }
     }
     
-    console.log("IMAGE URLS =", imageUrls);
-    
     const produit = await Product.create({
       nom,
       description,
@@ -66,7 +59,6 @@ streamifier.createReadStream(file.buffer).pipe(stream);
       produit,
     });
   } catch (error) {
-    console.log("ERREUR CREATE PRODUCT =", error);
     res.status(500).json({
       message: error.message,
     });
@@ -153,22 +145,27 @@ const updateProduct = async (req, res) => {
       });
     }
 
-    let imageUrl = produit.images;
+    let imageUrls = produit.images || [];
 
-    if (req.file) {
-      const result = await new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream(
-          { folder: "agriconnect" },
-          (error, result) => {
-            if (error) reject(error);
-            else resolve(result);
-          }
-        );
+    // Si de nouvelles images sont envoyées
+    if (req.files && req.files.length > 0) {
+      imageUrls = [];
 
-        streamifier.createReadStream(req.file.buffer).pipe(stream);
-      });
+      for (const file of req.files) {
+        const result = await new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: "agriconnect/products" },
+            (error, result) => {
+              if (error) reject(error);
+              else resolve(result);
+            }
+          );
 
-      imageUrl = result.secure_url;
+          streamifier.createReadStream(file.buffer).pipe(stream);
+        });
+
+        imageUrls.push(result.secure_url);
+      }
     }
 
     produit.nom = req.body.nom;
@@ -177,7 +174,7 @@ const updateProduct = async (req, res) => {
     produit.prix = req.body.prix;
     produit.quantite = req.body.quantite;
     produit.localisation = req.body.localisation;
-    produit.images = imageUrl;
+    produit.images = imageUrls;
 
     await produit.save();
 

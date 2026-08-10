@@ -83,7 +83,7 @@ function Home() {
 
           <div className="card" key={product._id}>
 
-            <img src={product.image} alt={product.nom} />
+            <img src={product.images?.[0] || product.image} alt={product.nom} />
 
             <h3>{product.nom}</h3>
 

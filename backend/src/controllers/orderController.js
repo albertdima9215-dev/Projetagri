@@ -95,9 +95,12 @@ io.to(vendeurSocket).emit("newNotification", {
 
 const getMyOrders = async (req, res) => {
   try {
-
     const commandes = await Order.find({
       acheteur: req.user._id,
+      $or: [
+        { archivee: false },
+        { archivee: { $exists: false } },
+      ],
     })
       .populate("produit")
       .populate("vendeur", "nom telephone")
@@ -116,12 +119,17 @@ const getSellerOrders = async (req, res) => {
   try {
     const commandes = await Order.find({
       vendeur: req.user._id,
+      $or: [
+        { archivee: false },
+        { archivee: { $exists: false } },
+      ],
     })
       .populate("produit")
       .populate("acheteur", "nom telephone")
       .sort({ createdAt: -1 });
 
     res.status(200).json(commandes);
+
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -485,6 +493,87 @@ const cancelOrderByBuyer = async (req, res) => {
   }
 };
 
+const archiveOrder = async (req, res) => {
+  try {
+    const commande = await Order.findById(req.params.id);
+
+    if (!commande) {
+      return res.status(404).json({
+        message: "Commande introuvable",
+      });
+    }
+
+    // Acheteur ou vendeur autorisé
+    const autorise =
+      commande.acheteur.toString() === req.user.id ||
+      commande.vendeur.toString() === req.user.id;
+
+    if (!autorise) {
+      return res.status(403).json({
+        message: "Action non autorisée",
+      });
+    }
+
+    // Seulement si terminée
+    if (!["Livrée", "Annulée"].includes(commande.statut)) {
+      return res.status(400).json({
+        message: "Seules les commandes terminées peuvent être archivées.",
+      });
+    }
+
+    commande.archivee = true;
+    await commande.save();
+
+    res.status(200).json({
+      message: "Commande archivée",
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+const getArchivedOrders = async (req, res) => {
+  try {
+    const commandes = await Order.find({
+      acheteur: req.user._id,
+      archivee: true,
+    })
+      .populate("produit")
+      .populate("vendeur", "nom telephone")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(commandes);
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// Archives du vendeur
+const getSellerArchivedOrders = async (req, res) => {
+  try {
+    const commandes = await Order.find({
+      vendeur: req.user._id,
+      archivee: true,
+    })
+      .populate("produit")
+      .populate("acheteur", "nom telephone")
+      .sort({ createdAt: -1 });
+
+    res.status(200).json(commandes);
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createOrder,
   getMyOrders,
@@ -495,4 +584,7 @@ module.exports = {
   getSellerPayments,
   getMyPayments,
   cancelOrderByBuyer,
+  archiveOrder,
+  getArchivedOrders,
+  getSellerArchivedOrders,
 };

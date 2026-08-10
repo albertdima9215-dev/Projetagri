@@ -82,6 +82,11 @@ const orderSchema = new mongoose.Schema(
     dateLivraison: {
       type: Date,
     },
+
+    archivee: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

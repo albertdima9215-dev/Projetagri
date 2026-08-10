@@ -101,7 +101,7 @@ function ProductDetails() {
 
       <div className="product-image">
         <img
-  src={product.images?.[selectedImage] || product.images?.[0]}
+  src={product.images?.[selectedImage] || product.image}
   alt={product.nom}
   className="main-image"
         />

@@ -21,7 +21,7 @@ import { GoGraph } from "react-icons/go";
 function Dashboard() {
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState([]);
   const [stats, setStats] = useState({
     totalRevenue: 0,
     totalOrders: 0,
@@ -77,7 +77,7 @@ function Dashboard() {
     ...product,
     });
 
-    setImage(null);
+    setImage([]);
   };
 
   const handleEditChange = (e) => {
@@ -102,8 +102,10 @@ function Dashboard() {
     data.append("quantite", editingProduct.quantite);
     data.append("localisation", editingProduct.localisation);
 
-      if (image) {
-        data.append("image", image);
+      if (images.length > 0) {
+        images.forEach((img) => {
+        data.append("images", img);
+        });
       }
 
       await     api.put(`/products/${editingProduct._id}`, data, {
@@ -274,7 +276,7 @@ const fetchStats = async () => {
         <div className="dashboard-products">
           {products.map((product) => (
           <div className="dashboard-card" key={product._id}>
-            <img src={product.image} alt={product.nom} />
+            <img src={product.images?.[0] || product.image} alt={product.nom} />
 
             <h3>{product.nom}</h3>
 
@@ -356,7 +358,8 @@ const fetchStats = async () => {
     <input
       type="file"
       accept="image/*"
-      onChange={(e) => setImage(e.target.files[0])}
+      multiple
+      onChange={(e) => setImages([...e.target.files])}
     />
 
     <div className="edit-actions">

@@ -71,7 +71,7 @@ function AdminProducts() {
 
               <td>
                 <img
-                  src={product.image}
+                  src={product.images?.[0] || product.image}
                   alt={product.nom}
                   className="admin-product-image"
                 />

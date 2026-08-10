@@ -63,8 +63,58 @@ const markAllAsRead = async (req, res) => {
   }
 };
 
+// Supprimer une notification
+const deleteNotification = async (req, res) => {
+  try {
+    const notification = await Notification.findById(req.params.id);
+
+    if (!notification) {
+      return res.status(404).json({
+        message: "Notification introuvable",
+      });
+    }
+
+    if (notification.utilisateur.toString() !== req.user.id) {
+      return res.status(403).json({
+        message: "Action non autorisée",
+      });
+    }
+
+    await notification.deleteOne();
+
+    res.status(200).json({
+      message: "Notification supprimée",
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+// Supprimer toutes les notifications
+const clearAllNotifications = async (req, res) => {
+  try {
+    await Notification.deleteMany({
+      utilisateur: req.user.id,
+    });
+
+    res.status(200).json({
+      message: "Toutes les notifications ont été supprimées",
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getNotifications,
   markAsRead,
   markAllAsRead,
+  deleteNotification,
+  clearAllNotifications,
 };

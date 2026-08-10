@@ -16,11 +16,17 @@ function Products() {
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
   const [sort, setSort] = useState("recent");
+  const [visibleCount, setVisibleCount] = useState(12);
 
   useEffect(() => {
     getProducts();
     fetchFavorites();
   }, []);
+
+  useEffect(() => {
+    setVisibleCount(12);
+  }, [search, category, location, minPrice, maxPrice, sort]);
+  
 
   async function getProducts() {
     try {
@@ -74,8 +80,6 @@ function Products() {
   }
 };
 
-  fetchFavorites();
-
 const filteredProducts = products
   .filter((product) =>
     product.nom.toLowerCase().includes(search.toLowerCase())
@@ -101,6 +105,8 @@ const filteredProducts = products
     if (sort === "priceDesc") return b.prix - a.prix;
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
+
+  const visibleProducts = filteredProducts.slice(0, visibleCount);
 
 if (loading) {
   return <h2>Chargement des produits... </h2>;
@@ -183,11 +189,22 @@ if (loading) {
         </button>
 
       <div className="products-grid">
+
+        {visibleCount < filteredProducts.length && (
+          <div className="load-more-container">
+            <button
+      className="load-more-btn"
+      onClick={() => setVisibleCount((prev) => prev + 12)}
+    >
+              ⬇ Charger plus
+            </button>
+          </div>
+        )}
         
         {filteredProducts.length === 0 ? (
           <p>Aucun produit disponible.</p>
         ) : (
-        filteredProducts.map((product) => (
+        visibleProducts.map((product) => (
           <div className="product-card" key={product._id}>
 
             <button
@@ -201,7 +218,7 @@ if (loading) {
   )}
               </button>
             
-            <img src={product.images?.[0]} alt={product.nom} />
+            <img src={product.images?.[0] || product.image} alt={product.nom} />
 
             <h3>{product.nom}</h3>
 

@@ -11,38 +11,30 @@ const {
   getSellerPayments,
   getMyPayments,
   cancelOrderByBuyer,
+  archiveOrder,
+  getArchivedOrders,
+  getSellerArchivedOrders,
 } = require("../controllers/orderController");
 
 const router = express.Router();
 
-// Créer une commande
 router.post("/", protect, createOrder);
 
-// Mes commandes (acheteur)
 router.get("/my-orders", protect, getMyOrders);
-
-// Commandes reçues (vendeur)
 router.get("/seller-orders", protect, getSellerOrders);
 
-router.get("/seller-payments",protect,
-  getSellerPayments
-);
+router.get("/archives", protect, getArchivedOrders);
+router.get("/seller-archives", protect, getSellerArchivedOrders);
 
-router.get("/my-payments",protect,
-  getMyPayments
-);
-
-router.put("/:id/cancel",protect,
-  cancelOrderByBuyer
-);
-
-//Télécharger un fichier pdf
-router.get("/:id/invoice", protect, downloadInvoice);
-
-//Statistique vendeur
 router.get("/seller-stats", protect, getSellerStats);
 
-// Modifier le statut
+router.get("/seller-payments", protect, getSellerPayments);
+router.get("/my-payments", protect, getMyPayments);
+
+router.put("/:id/archive", protect, archiveOrder);
+router.put("/:id/cancel", protect, cancelOrderByBuyer);
 router.put("/:id", protect, updateOrderStatus);
+
+router.get("/:id/invoice", protect, downloadInvoice);
 
 module.exports = router;

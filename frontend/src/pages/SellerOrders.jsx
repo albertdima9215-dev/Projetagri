@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import "../css/orders.css";
+import { Link } from "react-router-dom";
 
 function SellerOrders() {
   const [orders, setOrders] = useState([]);
@@ -53,6 +54,9 @@ function SellerOrders() {
   };
 
   const filteredOrders = orders.filter((order) => {
+  // ignorer les commandes avec données manquantes
+  if (!order.produit || !order.acheteur) return false;
+
   const matchStatus =
     statusFilter === "Tous" || order.statut === statusFilter;
 
@@ -70,6 +74,10 @@ function SellerOrders() {
   return (
     <div className="orders-container">
       <h1>Commandes reçues</h1>
+
+      <Link to="/archives" className="archive-link">
+        📦 Voir les archives
+      </Link>
 
       <div className="orders-filters">
   <input
@@ -98,16 +106,16 @@ function SellerOrders() {
         filteredOrders.map((order) => (
           <div className="order-card" key={order._id}>
             <img
-              src={order.produit.image}
+              src={order.produit.images?.[0] || order.produit.image}
               alt={order.produit.nom}
             />
 
             <div className="order-info">
-              <h3>{order.produit.nom}</h3>
+              <h3>{order.produit?.nom}</h3>
 
-              <p><strong>Acheteur :</strong> {order.acheteur.nom}</p>
+              <p><strong>Acheteur :</strong> {order.acheteur?.nom || "Acheteur indisponible"}</p>
 
-              <p><strong>Téléphone :</strong> {order.acheteur.telephone}</p>
+              <p><strong>Téléphone :</strong> {order.acheteur?.telephone || ""}</p>
 
               <p><strong>Quantité :</strong> {order.quantite}</p>
 

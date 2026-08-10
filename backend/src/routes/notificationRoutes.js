@@ -4,17 +4,20 @@ const protect = require("../middleware/authMiddleware");
 const {
   getNotifications,
   markAsRead, markAllAsRead,
+  deleteNotification,
+  clearAllNotifications,
 } = require("../controllers/notificationController");
 
 const router = express.Router();
 
 router.get("/", protect, getNotifications);
 
-router.put("/:id", protect, markAsRead);
-router.put(
-  "/read-all",
-  protect,
-  markAllAsRead
+router.delete("/clear/all", protect, clearAllNotifications);
+
+router.delete("/:id", protect, deleteNotification);
+
+router.put("/read-all",protect,markAllAsRead
 );
+router.put("/:id", protect, markAsRead);
 
 module.exports = router;

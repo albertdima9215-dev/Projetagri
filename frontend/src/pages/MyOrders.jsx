@@ -30,6 +30,8 @@ function MyOrders() {
         },
       });
 
+      console.log("COMMANDES =", res.data);
+
       setOrders(res.data);
 
     } catch (error) {
@@ -130,26 +132,56 @@ const downloadInvoice = async (orderId) => {
   } catch (error) {
     alert(error.response?.data?.message || "Erreur");
   }
-}; 
+};
+
+const archiveOrder = async (id) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    await api.put(
+      `/orders/${id}/archive`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    // retirer immédiatement la commande de la liste
+    setOrders((prev) => prev.filter((o) => o._id !== id));
+
+    alert("Commande archivée");
+
+  } catch (error) {
+    alert(error.response?.data?.message || "Erreur");
+  }
+};
 
   return (
     <div className="orders-container">
       <h1>Mes commandes</h1>
 
+      <Link to="/archives" className="archive-link">
+        📦 Voir les archives
+      </Link>
+
       {orders.length === 0 ? (
         <p>Aucune commande.</p>
       ) : (
-        orders.map((order) => (
+        orders
+  .filter((order) => order.produit && order.vendeur)
+  .map((order) => (
           <div className="order-card" key={order._id}>
 
             <img
-              src={order.produit.image}
+              src={order.produit.images?.[0] || order.produit.image}
               alt={order.produit.nom}
             />
 
             <div>
 
-              <h3>{order.produit.nom}</h3>
+              <h3>{order.produit?.nom}</h3>
 
               <p>Quantité : {order.quantite}</p>
 
@@ -164,7 +196,7 @@ const downloadInvoice = async (orderId) => {
                 {order.statut}
               </p>
 
-              <p>Vendeur : {order.vendeur.nom}</p>
+              <p>Vendeur : {order.vendeur?.nom || "Vendeur indisponible"}</p>
               {order.numeroSuivi && (
               <p>
                 <FaCar /> Suivi : <strong>{order.numeroSuivi}</strong>
@@ -216,7 +248,7 @@ const downloadInvoice = async (orderId) => {
             </Link> 
 
             <a
-  href={`https://wa.me/226${order.vendeur.telephone}`}
+  href={`https://wa.me/226${order.vendeur?.telephone || ""}`}
   target="_blank"
   rel="noreferrer"
 >
@@ -245,6 +277,15 @@ const downloadInvoice = async (orderId) => {
                 Annuler la commande
               </button>
             )}
+
+            {["Livrée", "Annulée"].includes(order.statut) && (
+  <button
+    className="archive-btn"
+    onClick={() => archiveOrder(order._id)}
+  >
+    📦 Archiver
+  </button>
+)}
 
           </div>
         ))

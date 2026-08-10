@@ -76,3 +76,21 @@
     background:#256628;
 }
 
+.clear-all-btn {
+  background: #d32f2f;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.delete-notif-btn {
+  background: transparent;
+  border: none;
+  color: #d32f2f;
+  font-size: 18px;
+  cursor: pointer;
+  margin: 10px 0 0 40px;
+}

@@ -34,6 +34,7 @@ import AdminRoute from "./components/AdminRoute";
 import SellerRoute from "./components/SellerRoute";
 import SellerPayments from "./pages/SellerPayments";
 import MyPayments from "./pages/MyPayments";
+import ArchivedOrders from "./pages/ArchivedOrders";
 
 
 function App() {
@@ -156,6 +157,14 @@ function App() {
   element={
     <PrivateRoute>
       <MyPayments />
+    </PrivateRoute>
+  }
+/>
+        <Route
+  path="/archives"
+  element={
+    <PrivateRoute>
+      <ArchivedOrders />
     </PrivateRoute>
   }
 />
