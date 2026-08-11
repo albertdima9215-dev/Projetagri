@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import "../css/products.css";
 import {Link} from "react-router-dom";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaHeart, FaRegHeart,FaWhatsapp } from "react-icons/fa";
 
 import { useFavorite } from "../context/FavoriteContext";
 
@@ -108,8 +108,39 @@ const filteredProducts = products
 
   const visibleProducts = filteredProducts.slice(0, visibleCount);
 
+const shareOnWhatsApp = (product) => {
+  const url = `${window.location.origin}/products/${product._id}`;
+
+  const text = `🌾 *${product.nom}*
+
+💰 Prix : ${product.prix} FCFA
+📍 Localisation : ${product.localisation}
+
+Voir le produit : ${url}`;
+
+  window.open(
+    `https://wa.me/?text=${encodeURIComponent(text)}`,
+    "_blank"
+  );
+};
+
 if (loading) {
-  return <h2>Chargement des produits... </h2>;
+  return (
+    <div className="products-container">
+      <h1>Nos Produits</h1>
+
+      <div className="products-grid">
+        {[...Array(8)].map((_, index) => (
+          <div className="product-card skeleton-card" key={index}>
+            <div className="skeleton skeleton-image"></div>
+            <div className="skeleton skeleton-title"></div>
+            <div className="skeleton skeleton-price"></div>
+            <div className="skeleton skeleton-button"></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
   
 
@@ -216,13 +247,18 @@ if (loading) {
   ) : (
     <FaRegHeart />
   )}
-              </button>
+            </button>
             
             <img src={product.images?.[0] || product.image} alt={product.nom} />
 
             <h3>{product.nom}</h3>
 
             <p>{product.prix} FCFA</p>
+
+            <div className="product-rating">
+              ⭐ {product.averageRating || 0}
+                  <span>({product.totalReviews || 0} avis)</span>
+            </div>
 
             {product.quantite === 0 && (
               <span className="stock-badge out">
@@ -235,6 +271,14 @@ if (loading) {
                 Voir les détails
               </button>
             </Link>
+
+            <button
+  className="whatsapp-share-btn"
+  onClick={() => shareOnWhatsApp(product)}
+>
+              <FaWhatsapp /> Partager
+            </button>
+            
           </div>
         )))}
       </div>

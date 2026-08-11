@@ -172,7 +172,7 @@ function Navbar() {
   return (
     <nav className="navbar" ref={navRef} >
       <div className="logo">
-        <Link to="/"><img className="logoImg" src="/logo2.jpg" alt="logo" /> AgriConnect Faso</Link>
+        <Link to="/">{/*<img className="logoImg" src="/logo3.jpg" alt="logo" />*/} AgriConnect </Link>
       </div>
 
       <div

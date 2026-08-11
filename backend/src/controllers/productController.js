@@ -2,6 +2,7 @@ const Product = require("../models/Product.js");
 const cloudinary = require("../config/cloudinary.js");
 const streamifier = require("streamifier");
 const User = require("../models/User");
+const Review = require("../models/Review");
 
 /*création de produit*/
 const createProduct = async (req, res) => {
@@ -86,17 +87,41 @@ const getProducts = async (req, res) => {
 
     const total = await Product.countDocuments(filtre);
 
-    const produits = await Product.find(filtre)
+    const produits = await                        Product.find(filtre)
       .populate("vendeur", "nom email telephone")
       .skip((page - 1) * limit)
       .limit(Number(limit))
       .sort({ createdAt: -1 });
 
+    const produitsAvecAvis = await                Promise.all(
+      produits.map(async (produit) => {
+        const reviews = await Review.find({
+          produit: produit._id,
+        });
+
+        const totalReviews = reviews.length;
+
+        const averageRating =
+          totalReviews > 0
+        ? (
+            reviews.reduce((sum, r) => sum + r.note, 0) /
+            totalReviews
+          ).toFixed(1)
+        : 0;
+
+        return {
+          ...produit.toObject(),
+          averageRating,
+          totalReviews,
+        };
+      })
+    );
+
     res.status(200).json({
       total,
       page: Number(page),
       totalPages: Math.ceil(total / limit),
-      produits,
+      produits: produitsAvecAvis,
     });
 
   } catch (error) {

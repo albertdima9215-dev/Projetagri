@@ -20,6 +20,7 @@ function Home() {
   }, [search, categorie, localisation]);
 
   const fetchProducts = async () => {
+    setLoading(true);
   try {
     const res = await api.get("/products", {
       params: {
@@ -29,7 +30,8 @@ function Home() {
       },
     });
 
-    setProducts(res.data.produits);
+    setProducts(res.data.produits.slice(0, 8));
+    
   } catch (error) {
     console.log(error);
   } finally {
@@ -37,15 +39,70 @@ function Home() {
   }
 };
 
-  if (loading) {
-    return <h2 className="loading">Chargement...</h2>;
-  }
+if (loading) {
+  return (
+    <div className="home">
+      <div className="hero-skeleton skeleton"></div>
+
+      <div className="categories-skeleton">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="category-skeleton skeleton"></div>
+        ))}
+      </div>
+
+      <div className="products-skeleton">
+        {[...Array(8)].map((_, i) => (
+          <div key={i} className="card skeleton-card">
+            <div className="skeleton skeleton-image"></div>
+            <div className="skeleton skeleton-title"></div>
+            <div className="skeleton skeleton-price"></div>
+            <div className="skeleton skeleton-button"></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
   return (
     <div className="home">
       <Hero />
       <Categories />
-      <h1>Produits agricoles</h1>
+
+      <div className="how-it-works">
+  <h2>Comment ça marche ?</h2>
+
+  <div className="steps">
+    <div className="step">
+      <div className="step-number">1</div>
+      <h3>Rechercher</h3>
+      <p>Trouvez un produit près de chez vous.</p>
+    </div>
+
+    <div className="step">
+      <div className="step-number">2</div>
+      <h3>Contacter</h3>
+      <p>Discutez avec le vendeur via WhatsApp.</p>
+    </div>
+
+    <div className="step">
+      <div className="step-number">3</div>
+      <h3>Acheter</h3>
+      <p>Payez et suivez votre commande.</p>
+    </div>
+  </div>
+</div>
+      
+      <div className="section-header">
+        <div>
+          <h1>Produits vedettes</h1>
+          <p>Découvrez les produits les plus recherchés du moment</p>
+        </div>
+
+        <Link to="/products" className="see-all-btn">
+          Voir tout →
+        </Link>
+      </div>
 
       <div className="filters">
 
@@ -90,6 +147,17 @@ function Home() {
             <p>{product.localisation}</p>
 
             <h2>{product.prix} FCFA</h2>
+
+            {product.quantite === 0 ? (
+              <span className="stock-badge out">Rupture</span>
+            ) : (
+              <span className="stock-badge in">En stock</span>
+            )}
+
+            <div className="product-rating">
+              ⭐ {product.averageRating || 0}
+              <span>({product.totalReviews || 0})</span>
+            </div>
 
             <Link to={`/products/${product._id}`}>
               Voir les détails
