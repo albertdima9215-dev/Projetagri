@@ -7,6 +7,7 @@ import Features from "../components/Features";
 import Categories from "../components/Categories";
 import Stats from "../components/Stats";
 import Testimonials from "../components/Testimonials";
+import { optimizeImage } from "../utils/cloudinary";
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -140,7 +141,7 @@ if (loading) {
 
           <div className="card" key={product._id}>
 
-            <img src={product.images?.[0] || product.image} alt={product.nom} />
+            <img src={optimizeImage(product.images?.[0] || product.image, 500)} alt={product.nom} loading="lazy" decoding="async" />
 
             <h3>{product.nom}</h3>
 

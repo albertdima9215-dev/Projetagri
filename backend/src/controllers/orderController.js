@@ -2,6 +2,8 @@ const Order = require("../models/Order");
 const Product = require("../models/Product");
 const Notification = require("../models/Notification");
 const Review = require("../models/Review");
+const PushSubscription = require("../models/PushSubscription");
+const webpush = require("../config/webpush");
 
 // Créer une commande
 const createOrder = async (req, res) => {
@@ -141,7 +143,7 @@ const getSellerOrders = async (req, res) => {
 const updateOrderStatus = async (req, res) => {
   try {
 
-    const commande = await Order.findById(req.params.id);
+    const commande = await                        Order.findById(req.params.id);
     const ancienStatut = commande.statut;
     const nouveauStatut = req.body.statut;
 
@@ -213,21 +215,33 @@ commande.statut = nouveauStatut;
     });
 
     const io = req.app.get("io");
-const users = req.app.get("users");
+    const users = req.app.get("users");
 
-const acheteurSocket = users[commande.acheteur.toString()];
+    const acheteurSocket = users[commande.acheteur.toString()];
 
-if (acheteurSocket) {
-  io.to(acheteurSocket).emit("newNotification", {
-    titre: "Commande mise à jour",
-    message: `Votre commande est maintenant : ${commande.statut}`,
-  });
-}
-
+    if (acheteurSocket) {                   io.to(acheteurSocket).emit("newNotification",     {
+        titre: "Commande mise à jour",
+        message: `Votre commande est maintenant : ${commande.statut}`,
+      });
+    }
     res.status(200).json({
       message: "Statut mis à jour",
       commande,
     });
+
+    const pushSub = await                         PushSubscription.findOne({
+  utilisateur: commande.acheteur,
+    });
+
+    if (pushSub) {
+      await webpush.sendNotification(
+      pushSub.subscription,
+        JSON.stringify({
+          title: "Commande mise à jour",
+          body: `Votre commande est maintenant : ${commande.statut}`,
+        })
+      );
+    }
 
   } catch (error) {
     res.status(500).json({

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../services/api";
 import "../css/addProduct.css";
+import imageCompression from "browser-image-compression";
 
 function AddProduct() {
   const [formData, setFormData] = useState({
@@ -11,11 +12,37 @@ function AddProduct() {
     quantite: "",
     localisation: "",
   });
-
   const [images, setImages] = useState([]);
   
-  const handleImageChange = (e) => {
-    setImages([...e.target.files]);
+  const handleImageChange = async (e) => {
+    const files = Array.from(e.target.files);
+
+    const options = {
+      maxSizeMB: 0.4,          // 400 Ko max
+      maxWidthOrHeight: 1280,  // redimensionne si trop grande
+      useWebWorker: true,
+    };
+
+    try {
+      const compressedFiles = await Promise.all(
+        files.map(async (file) => {
+          const compressed = await imageCompression(file, options);
+
+          console.log(
+            file.name,
+            (file.size / 1024).toFixed(0) + "KB →",
+            (compressed.size / 1024).toFixed(0) + "KB"
+          );
+
+          return compressed;
+        })
+      );
+
+      setImages(compressedFiles);
+
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (e) => {
@@ -132,6 +159,23 @@ Object.keys(formData).forEach((key) => {
           multiple
           onChange={handleImageChange}
         />
+
+        {images.length > 0 && (
+          <div className="image-preview-grid">
+            {images.map((img, index) => (
+              <div key={index} className="preview-item">
+                <img
+          src={URL.createObjectURL(img)}
+          alt="preview"
+        />
+
+                <span>
+                {(img.size / 1024).toFixed(0)} KB
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
 
         <button type="submit">Publier</button>
 

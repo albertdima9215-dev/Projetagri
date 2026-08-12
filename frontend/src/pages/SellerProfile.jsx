@@ -70,7 +70,7 @@ function SellerProfile() {
           >
 
             <img
-              src={product.image}
+              src={product.images?.[0] || product.image}
               alt={product.nom}
             />
 

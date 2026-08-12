@@ -3,8 +3,8 @@ import api from "../services/api";
 import "../css/products.css";
 import {Link} from "react-router-dom";
 import { FaHeart, FaRegHeart,FaWhatsapp } from "react-icons/fa";
-
 import { useFavorite } from "../context/FavoriteContext";
+import { optimizeImage } from "../utils/cloudinary";
 
 function Products() {
   const [loading, setLoading] = useState(true);
@@ -249,7 +249,7 @@ if (loading) {
   )}
             </button>
             
-            <img src={product.images?.[0] || product.image} alt={product.nom} />
+            <img src={optimizeImage(product.images?.[0] || product.image, 500)} alt={product.nom} loading="lazy" decoding="async" />
 
             <h3>{product.nom}</h3>
 

@@ -43,7 +43,7 @@ function Hero() {
 
       {/*<div className="hero-image">
         <img
-          src="/agri2.jpg"
+          src="/agri2.jpg" loading="eager" fetchPriority="high"
           alt="Agriculture"
         />
       </div>*/}

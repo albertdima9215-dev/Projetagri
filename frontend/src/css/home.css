@@ -38,8 +38,9 @@
 
 .card img {
   width: 100%;
-  height: 220px;
+  height: 170px;
   object-fit: cover;
+  border-radius: 12px;
 }
 
 .card h3,
@@ -224,6 +225,55 @@
   justify-content: center;
   font-weight: bold;
   margin: 0 auto 12px;
+}
+
+.card img,
+.product-card img,
+.dashboard-card img {
+  background: #f3f4f6;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.card img[src],
+.product-card img[src],
+.dashboard-card img[src] {
+  opacity: 1;
+}
+
+.card:hover img,
+.product-card:hover img {
+  transform: scale(1.03);
+}
+
+.card img,
+.product-card img,
+.dashboard-card img {
+  position: relative;
+}
+
+.card img::before,
+.product-card img::before,
+.dashboard-card img::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    #f3f4f6 25%,
+    #e5e7eb 50%,
+    #f3f4f6 75%
+  );
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 @media (max-width: 768px) {

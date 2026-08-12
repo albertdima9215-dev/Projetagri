@@ -16,6 +16,7 @@ import { FaDollarSign,FaMapMarkedAlt, FaCar, } from "react-icons/fa";
 import { GiCardboardBox } from "react-icons/gi";
 import { IoMdCube } from "react-icons/io";
 import { GoGraph } from "react-icons/go";
+import { optimizeImage } from "../utils/cloudinary";
 
 
 function Dashboard() {
@@ -77,7 +78,7 @@ function Dashboard() {
     ...product,
     });
 
-    setImage([]);
+    setImages([]);
   };
 
   const handleEditChange = (e) => {
@@ -117,6 +118,8 @@ function Dashboard() {
       alert("Produit modifié avec succès");
 
       setEditingProduct(null);
+
+      setImages([]);
 
       fetchMyProducts();
 
@@ -160,6 +163,24 @@ const fetchStats = async () => {
     console.log(error);
   }
 };
+
+const filesModification = async () =>{
+  try{
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const compressed = await                      imageCompression(file, {
+      maxSizeMB: 0.4,
+      maxWidthOrHeight: 1280,
+      useWebWorker: true,
+    });
+
+    setImages(compressed);
+  } catch (error) {
+    console.log(error)
+  }
+}
   
 
   return (
@@ -276,7 +297,7 @@ const fetchStats = async () => {
         <div className="dashboard-products">
           {products.map((product) => (
           <div className="dashboard-card" key={product._id}>
-            <img src={product.images?.[0] || product.image} alt={product.nom} />
+            <img src={optimizeImage(product.images?.[0] || product.image, 400)} alt={product.nom} loading="lazy" decoding="async" />
 
             <h3>{product.nom}</h3>
 
@@ -359,7 +380,7 @@ const fetchStats = async () => {
       type="file"
       accept="image/*"
       multiple
-      onChange={(e) => setImages([...e.target.files])}
+      onChange={(e) => filesModification(e)}
     />
 
     <div className="edit-actions">

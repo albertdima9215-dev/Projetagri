@@ -23,3 +23,25 @@
     grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
     gap:25px;
 }
+
+.seller-products a{
+    width:100%;
+    border:none;
+    background:#2e7d32;
+    color:white;
+    padding:12px;
+    cursor:pointer;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+  .seller-products{
+    grid-template-columns: repeat(2,1fr);
+    gap: 10px;
+  }
+  .seller-products .product-card img {
+    height: 100px;
+  }
+}

@@ -35,9 +35,14 @@ import SellerRoute from "./components/SellerRoute";
 import SellerPayments from "./pages/SellerPayments";
 import MyPayments from "./pages/MyPayments";
 import ArchivedOrders from "./pages/ArchivedOrders";
+import { subscribeToPush } from "./services/push";
+import OfflineBanner from "./components/OfflineBanner";
+import BottomNav from "./components/BottomNav";
+import FloatingWhatsApp from "./components/FloatingWhatsApp";
 
 
 function App() {
+  
   useEffect(() => {
   const user = JSON.parse(localStorage.getItem("user"));
 
@@ -46,10 +51,32 @@ function App() {
   }
 }, []);
 
+useEffect(() => {
+  if ("Notification" in window) {
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        subscribeToPush();
+      }
+    });
+  }
+}, []);
+
+useEffect(() => {
+  if ("Notification" in window) {
+    Notification.requestPermission().then((permission) => {
+      if (permission === "granted") {
+        subscribeToPush();
+      }
+    });
+  }
+}, []);
+
   
   return (
     <BrowserRouter>
-    <Navbar />
+      <FloatingWhatsApp />
+      <OfflineBanner />
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
@@ -199,6 +226,7 @@ function App() {
         </Route>
       </Routes>
       <Footer />
+      <BottomNav />
     </BrowserRouter>
   );
 }
