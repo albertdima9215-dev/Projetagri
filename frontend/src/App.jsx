@@ -39,6 +39,7 @@ import { subscribeToPush } from "./services/push";
 import OfflineBanner from "./components/OfflineBanner";
 import BottomNav from "./components/BottomNav";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
+import ThemeToggle from "./components/ThemeToggle";
 
 
 function App() {
@@ -226,6 +227,7 @@ useEffect(() => {
         </Route>
       </Routes>
       <Footer />
+      <ThemeToggle />
       <BottomNav />
     </BrowserRouter>
   );

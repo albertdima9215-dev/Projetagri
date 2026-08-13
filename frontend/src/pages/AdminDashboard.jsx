@@ -8,6 +8,7 @@ import OrdersChart from "../components/admin/OrdersChart";
 import { FaUsers, FaProductHunt, FaCheckSquare, FaCreditCard } from "react-icons/fa";
 import { GiReceiveMoney, GiCardboardBox, GiCancel,} from "react-icons/gi";
 import { CiNoWaitingSign } from "react-icons/ci";
+import { BsBuildingsFill } from "react-icons/bs";
 
 
 function AdminDashboard() {
@@ -43,11 +44,40 @@ function AdminDashboard() {
 
       <h1>Tableau de bord Administrateur</h1>
 
+      <div className="activity-card">
+        <h2>🕒 Activité récente</h2>
+
+        <div className="activity-item">
+          <span>👤 Nouvel utilisateur inscrit</span>
+          <small>Il y a 5 min</small>
+        </div>
+
+        <div className="activity-item">
+          <span>📦 Nouvelle commande passée</span>
+          <small>Il y a 12 min</small>
+        </div>
+
+        <div className="activity-item">
+          <span>💰 Paiement confirmé</span>
+          <small>Aujourd'hui</small>
+        </div>
+
+        <div className="activity-item">
+          <span>🚫 Produit supprimé par l'admin</span>
+          <small>Aujourd'hui</small>
+        </div>
+      </div>
+      
       <div className="stats-grid">
 
         <div className="stat-card">
           <h2><FaUsers /> Utilisateurs</h2>
           <p>{stats.totalUsers}</p>
+        </div>
+
+        <div className="stat-card">
+          <h2><BsBuildingsFill /> Vendeurs</h2>
+          <p>{stats.totalSellers}</p>
         </div>
 
         <div className="stat-card">
@@ -62,7 +92,7 @@ function AdminDashboard() {
 
         <div className="stat-card">
           <h2><GiReceiveMoney /> Revenus</h2>
-          <p>{stats.totalRevenue} FCFA</p>
+          <p>{stats.totalRevenue?.toLocaleString('fr-FR')} FCFA</p>
         </div>
 
         <div className="stat-card">

@@ -1,0 +1,28 @@
+.floating-theme-btn {
+  position: fixed;
+  top: 80px; /* au-dessus du bottom nav */
+  right: 18px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: #2e7d32;
+  color: white;
+  font-size: 1.2rem;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+
+.floating-theme-btn:hover {
+  transform: scale(1.08);
+}
+
+body.dark .floating-theme-btn {
+  background: #f9a825;
+  color: #121212;
+}

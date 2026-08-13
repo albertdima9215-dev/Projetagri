@@ -9,6 +9,8 @@ const getDashboard = async (req, res) => {
 
     const totalProducts = await Product.countDocuments();
 
+    const totalSellers = await User.countDocuments({ role: 'vendeur' });
+
     const totalOrders = await Order.countDocuments();
 
     const deliveredOrders = await Order.countDocuments({
@@ -42,6 +44,7 @@ const getDashboard = async (req, res) => {
     res.json({
       totalUsers,
       totalProducts,
+      totalSellers,
       totalOrders,
       deliveredOrders,
       pendingOrders,
