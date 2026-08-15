@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup,Tooltip } from "react-leaflet";
 import { Link } from "react-router-dom";
 import L from "leaflet";
 import api from "../services/api";
@@ -55,38 +55,53 @@ function ProductsMap() {
   const lng = parseFloat(product.longitude);
 
           return (
-            <Marker
-      key={product._id}
-      position={[
-        lat + index * 0.0001,
-        lng + index * 0.0001,
-      ]}
-      icon={customIcon}
+  <Marker
+    key={product._id}
+    position={[
+      lat + index * 0.0001,
+      lng + index * 0.0001,
+    ]}
+    icon={customIcon}
+  >
+
+    {/* Nom du produit toujours visible */}
+    <Tooltip
+      permanent
+      direction="top"
+      offset={[0, -35]}
+      className="product-label"
     >
-              <Popup maxWidth={260}>
-                <div className="product-popup">
-                  <img
-            src={product.images?.[0] || product.image}
-            alt={product.nom}
-            className="popup-image"
-          />
+      {product.nom}
+    </Tooltip>
 
-                  <h3>{product.nom}</h3>
+    {/* Fenêtre qui s'ouvre au clic */}
+    <Popup maxWidth={260}>
+      <div className="product-popup">
 
-                  <p className="popup-price">
-            {product.prix.toLocaleString()} FCFA
-                  </p>
+        <img
+          src={product.images?.[0] || product.image}
+          alt={product.nom}
+          className="popup-image"
+        />
 
-                  <Link
-            to={`/products/${product._id}`}
-            className="popup-btn"
-          >
-                    👁 Voir le produit
-                  </Link>
-                </div>
-              </Popup>
-            </Marker>
-          );
+        <h3>{product.nom}</h3>
+
+        <p className="popup-price">
+          {product.prix.toLocaleString()} FCFA
+        </p>
+
+        <Link
+          to={`/products/${product._id}`}
+          className="popup-btn"
+        >
+          👁 Voir le produit
+        </Link>
+
+      </div>
+    </Popup>
+
+  </Marker>
+);
         })}
       </MapContainer>
     </div>

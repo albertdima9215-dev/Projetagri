@@ -52,3 +52,20 @@
   border-radius: 8px;
   font-size: 14px;
 }
+
+/* Nom du produit affiché au-dessus du marqueur */
+.leaflet-tooltip.product-label {
+  background: #2e7d32;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: bold;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* Petite flèche sous le nom */
+.leaflet-tooltip.product-label::before {
+  border-top-color: #2e7d32;
+}

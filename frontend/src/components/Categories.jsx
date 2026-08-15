@@ -27,7 +27,7 @@ function Categories() {
           <Link
             key={cat.nom}
             className="category-card"
-            to={`/products?categorie=${cat.nom}`}
+            to={`/products?categorie=${encodeURIComponent(cat.nom)}`}
           >
 
             <div className="category-icon">

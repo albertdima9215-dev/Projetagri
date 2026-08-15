@@ -9,28 +9,37 @@ body.dark .dashboard-card,
 body.dark .stat-card,
 body.dark .chart-card,
 body.dark .reviews-card,
-body.dark .filters {
+body.dark .filters,
+body.dark .favorite-card,
+body.dark .review-card,
+body.dark .order-card,
+body.dark .payment-card,
+body.dark tr,
+body.dark .activity-card,
+body.dark .hero-buttons a,
+body.dark .categories-grid a{
   background: #1e1e1e;
   color: #f5f5f5;
   border-color: #333;
 }
 
-body.dark .activity-card span,
 body.dark .step h3,
-body.dark .step p{
+body.dark .step p,
+body.dark .register-form,
+body.dark .login-form{
   color: #444;
 }
 
 body.dark input,
 body.dark select,
-body.dark textarea {
+body.dark textarea{
   background: #2a2a2a;
   color: #fff;
   border: 1px solid #444;
 }
 
-body.dark a {
-  color: #81c784;
+body.dark a{
+  color: #fff;
 }
 
 body.dark .bottom-nav,

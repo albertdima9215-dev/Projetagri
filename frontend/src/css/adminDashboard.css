@@ -58,7 +58,6 @@
 .chart-card {
   grid-column: span 2;
   background: transparent;
-  padding: 0;
 }
 
 @media (max-width: 768px) {

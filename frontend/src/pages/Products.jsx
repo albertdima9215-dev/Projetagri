@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import "../css/products.css";
-import {Link} from "react-router-dom";
+import {Link,useSearchParams} from "react-router-dom";
 import { FaHeart, FaRegHeart,FaWhatsapp } from "react-icons/fa";
 import { useFavorite } from "../context/FavoriteContext";
 import { optimizeImage } from "../utils/cloudinary";
 
 function Products() {
+  const [searchParams] = useSearchParams();
+
+  const categorieURL = searchParams.get("categorie");
+  
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -22,6 +26,10 @@ function Products() {
     getProducts();
     fetchFavorites();
   }, []);
+
+  useEffect(() => {
+    setCategory(categorieURL || "");
+  }, [categorieURL]);
 
   useEffect(() => {
     setVisibleCount(12);
@@ -85,7 +93,7 @@ const filteredProducts = products
     product.nom.toLowerCase().includes(search.toLowerCase())
   )
   .filter((product) =>
-    category ? product.categorie === category : true
+    category ? product.categorie ===            category : true
   )
   .filter((product) =>
     location
