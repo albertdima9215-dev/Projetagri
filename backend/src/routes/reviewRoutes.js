@@ -5,11 +5,14 @@ const {
   createReview,
   getSellerReviews,
   getProductReviews,
+  getLatestReviews,
 } = require("../controllers/reviewController");
 
 const router = express.Router();
 
 router.post("/", protect, createReview);
+
+router.get("/latest", getLatestReviews);
 
 router.get("/:id", getSellerReviews);
 

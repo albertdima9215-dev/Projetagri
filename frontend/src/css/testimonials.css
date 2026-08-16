@@ -55,8 +55,8 @@
     margin-bottom: 20px;
   }
   .testimonial-container{
-    grid-template-columns: repeat(2,1fr);
-    gap: 10px;
+    grid-template-columns: repeat(3,1fr);
+    gap: 5px;
   }
   .testimonial-card{
     padding: 10px;
@@ -66,13 +66,13 @@
     margin-bottom: 10px;
   }
   .text{
-    font-size: 10px;
+    font-size: 8px;
     margin-bottom: 10px;
   }
   .testimonial-card h3{
-    font-size: 14px;
+    font-size: 12px;
   }
   .testimonial-card span{
-    font-size: 12px;
+    font-size: 10px;
   }
 }

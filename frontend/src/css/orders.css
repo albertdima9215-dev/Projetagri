@@ -9,6 +9,21 @@
   margin-bottom: 20px;
 }
 
+.orders-container a{
+    display:inline-block;
+    margin:10px 0;
+    background:#27ae60;
+    color:white;
+    padding:10px;
+    border-radius:8px;
+    text-decoration:none;
+    font-weight:bold;
+    transition:.3s;
+    height: 50px;
+    width: 150px;
+    text-align: center;
+}
+
 .order-card{
     position: relative;
     display:flex;
@@ -28,18 +43,19 @@
 }
 
 .order-card .order-btns{
-  margin: 10px;
-  display: flex;
-  flex-wrap: wrap;
+  height: 100px;
+  margin: 10px auto 0;
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
   gap: 10px;
 }
 
 .order-card .downloadBtn{
   width: 100px;
-  height: 50px;
-  background: #222;
+  height: 30px;
+  background: #455a64;
   color: #fff;
-  font-size: 17px;
+  font-size: 12px;
   border: none;
   border-radius: 8px;
 }
@@ -68,20 +84,6 @@ input{
 
 select{
   margin-left: 10px;
-}
-
-.orders-container a{
-    display:inline-block;
-    margin:10px 0 0;
-    background:#27ae60;
-    color:white;
-    padding:10px 15px;
-    border-radius:8px;
-    text-decoration:none;
-    font-weight:bold;
-    transition:.3s;
-    height: 50px;
-    text-align: center;
 }
 
 .review-modal{
@@ -147,7 +149,7 @@ select{
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin:20px 0;
+    margin:20px 0 10px;
     position:relative;
 }
 
@@ -162,7 +164,7 @@ select{
     z-index:0;
 }
 
-.step{
+.order-progress .step{
     position:relative;
     z-index:1;
     background:#fff;
@@ -173,7 +175,7 @@ select{
     font-size:12px;
 }
 
-.step span{
+.order-progress .step span{
     width:36px;
     height:36px;
     border-radius:50%;
@@ -271,7 +273,9 @@ select{
   background: #b91c1c;
 }
 
-.archive-btn {
+.orders-container .archive-btn {
+  height: 30px;
+  width: 100px;
   background: #455a64;
   color: white;
   border: none;
@@ -280,7 +284,8 @@ select{
   cursor: pointer;
 }
 
-.archive-link {
+.orders-container .archive-link {
+  width: 150px;
   display: inline-block;
   margin: 10px 0 20px;
   padding: 10px 14px;
@@ -319,7 +324,7 @@ select{
   }
   .orders-container a{
     font-size: 10px;
-    width: 150px;
+    width: 130px;
     height: 30px;
   }
 
@@ -333,9 +338,14 @@ select{
     width: 150px;
   }
 
-  .order-card .order-btns{
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
+  .order-card-infos{
+    font-size: 12px;
+  }
+
+  .order-progress .step{
+    font-size: 8px;
+    width: 50px;
+    height: 60px;
   }
    
   .quick-actions{

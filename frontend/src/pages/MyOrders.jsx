@@ -163,7 +163,7 @@ const archiveOrder = async (id) => {
       <h1>Mes commandes</h1>
 
       <Link to="/archives" className="archive-link">
-        📦 Voir les archives
+        Voir les archives
       </Link>
 
       {orders.length === 0 ? (
@@ -179,7 +179,7 @@ const archiveOrder = async (id) => {
               alt={order.produit.nom}
             />
 
-            <div>
+            <div className="order-card-infos">
 
               <h3>{order.produit?.nom}</h3>
 
@@ -267,6 +267,15 @@ const archiveOrder = async (id) => {
                 ⭐ Laisser un avis
               </button>
             )}
+
+              {["Livrée", "Annulée"].includes(order.statut) && (
+  <button
+    className="archive-btn"
+    onClick={() => archiveOrder(order._id)}
+  >
+    Archiver
+  </button>
+)}
             </div>
 
             {order.statut === "En attente" && (
@@ -277,15 +286,6 @@ const archiveOrder = async (id) => {
                 Annuler la commande
               </button>
             )}
-
-            {["Livrée", "Annulée"].includes(order.statut) && (
-  <button
-    className="archive-btn"
-    onClick={() => archiveOrder(order._id)}
-  >
-    📦 Archiver
-  </button>
-)}
 
           </div>
         ))

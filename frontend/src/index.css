@@ -17,14 +17,17 @@ body.dark .payment-card,
 body.dark tr,
 body.dark .activity-card,
 body.dark .hero-buttons a,
-body.dark .categories-grid a{
+body.dark .categories-grid a,
+body.dark .admin-sidebar,
+body.dark .footer,
+body.dark .step,
+body.dark .nav-links.active,
+body.dark .testimonial-card{
   background: #1e1e1e;
   color: #f5f5f5;
   border-color: #333;
 }
 
-body.dark .step h3,
-body.dark .step p,
 body.dark .register-form,
 body.dark .login-form{
   color: #444;

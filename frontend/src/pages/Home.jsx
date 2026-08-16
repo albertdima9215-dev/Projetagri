@@ -71,28 +71,28 @@ if (loading) {
       <Categories />
 
       <div className="how-it-works">
-  <h2>Comment ça marche ?</h2>
+        <h2>Comment ça marche ?</h2>
 
-  <div className="steps">
-    <div className="step">
-      <div className="step-number">1</div>
-      <h3>Rechercher</h3>
-      <p>Trouvez un produit près de chez vous.</p>
-    </div>
+        <div className="steps">
+          <div className="step">
+          <div className="step-number">1</div>
+          <h3>Rechercher</h3>
+          <p>Trouvez un produit près de chez vous.</p>
+        </div>
 
-    <div className="step">
-      <div className="step-number">2</div>
-      <h3>Contacter</h3>
-      <p>Discutez avec le vendeur via WhatsApp.</p>
-    </div>
+        <div className="step">
+          <div className="step-number">2</div>
+          <h3>Contacter</h3>
+          <p>Discutez avec le vendeur via WhatsApp.</p>
+        </div>
 
-    <div className="step">
-      <div className="step-number">3</div>
-      <h3>Acheter</h3>
-      <p>Payez et suivez votre commande.</p>
+        <div className="step">
+          <div className="step-number">3</div>
+          <h3>Acheter</h3>
+          <p>Payez et suivez votre commande.</p>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
       
       <div className="section-header">
         <div>

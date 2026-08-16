@@ -1,6 +1,6 @@
 .floating-theme-btn {
   position: fixed;
-  top: 80px; /* au-dessus du bottom nav */
+  top: 120px; /* au-dessus du bottom nav */
   right: 18px;
   width: 56px;
   height: 56px;
@@ -25,4 +25,10 @@
 body.dark .floating-theme-btn {
   background: #f9a825;
   color: #121212;
+}
+
+@media (max-width: 768px) {
+  .floating-theme-btn{
+    top: 80px;
+  }
 }

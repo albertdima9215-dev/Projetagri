@@ -106,8 +106,27 @@ const getProductReviews = async (req, res) => {
   }
 };
 
+// Derniers avis publics pour la page d'accueil
+const getLatestReviews = async (req, res) => {
+  try {
+    const reviews = await Review.find()
+      .populate("acheteur", "nom localisation")
+      .populate("produit", "nom")
+      .sort({ note: -1, createdAt: -1 })
+      .limit(3);
+
+    res.status(200).json(reviews);
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createReview,
   getSellerReviews,
   getProductReviews,
+  getLatestReviews,
 };

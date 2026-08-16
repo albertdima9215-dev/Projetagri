@@ -158,10 +158,13 @@ function Navbar() {
 
   return (
     <nav className="navbar" ref={navRef} >
-      <div className="logo">
+      <div className="logo-container">
+        <div className="logo">
         <Link to="/">{/*<img className="logoImg" src="/logo3.jpg" alt="logo" />*/} AgriConnect </Link>
       </div>
-
+      </div>
+      
+      <div className="nav-sidebar">
       <div
   className="menu-icon"
   onClick={() => setMenuOpen(!menuOpen)}
@@ -284,6 +287,7 @@ function Navbar() {
         )}
         
       </ul>
+      </div>
     </nav>
   )
 }

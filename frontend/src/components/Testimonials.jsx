@@ -1,61 +1,89 @@
+import { useEffect, useState } from "react";
+import api from "../services/api";
 import "../css/testimonials.css";
 
 function Testimonials() {
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const testimonials = [
-    {
-      nom: "Issa Ouédraogo",
-      ville: "Bobo-Dioulasso",
-      texte:
-        "Grâce à AgriConnect Faso, j'ai vendu toute ma récolte de maïs en moins d'une semaine.",
-      note: "⭐⭐⭐⭐⭐",
-    },
+  useEffect(() => {
+    fetchReviews();
+  }, []);
 
-    {
-      nom: "Aminata Traoré",
-      ville: "Ouagadougou",
-      texte:
-        "J'ai trouvé rapidement des légumes frais directement auprès d'un producteur.",
-      note: "⭐⭐⭐⭐⭐",
-    },
+  const fetchReviews = async () => {
+    try {
+      const res = await api.get("/reviews/latest");
 
-    {
-      nom: "Moussa Sawadogo",
-      ville: "Koudougou",
-      texte:
-        "La plateforme est simple à utiliser et les échanges avec les vendeurs sont rapides.",
-      note: "⭐⭐⭐⭐⭐",
-    },
-  ];
+      setReviews(res.data);
+    } catch (error) {
+      console.log("Erreur récupération avis :", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const renderStars = (note) => {
+    return "⭐".repeat(Number(note));
+  };
+
+  if (loading) {
+    return (
+      <section className="testimonials">
+        <h2>Ce que disent nos utilisateurs</h2>
+
+        <div className="testimonial-container">
+          {[1, 2, 3].map((item) => (
+            <div className="testimonial-card skeleton-testimonial" key={item}>
+              <div className="skeleton skeleton-stars"></div>
+              <div className="skeleton skeleton-text"></div>
+              <div className="skeleton skeleton-text short"></div>
+              <div className="skeleton skeleton-name"></div>
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="testimonials">
 
       <h2>Ce que disent nos utilisateurs</h2>
 
-      <div className="testimonial-container">
+      {reviews.length === 0 ? (
+        <p className="no-testimonials">
+          Aucun avis pour le moment.
+        </p>
+      ) : (
 
-        {testimonials.map((item, index) => (
+        <div className="testimonial-container">
 
-          <div className="testimonial-card" key={index}>
+          {reviews.map((review) => (
 
-            <div className="stars">
-              {item.note}
+            <div className="testimonial-card" key={review._id}>
+
+              <div className="stars">
+                {renderStars(review.note)}
+              </div>
+
+              <p className="text">
+                "{review.commentaire || "Aucun commentaire"}"
+              </p>
+
+              <h3>
+                {review.acheteur?.nom || "Utilisateur"}
+              </h3>
+
+              <span>
+  {review.acheteur?.localisation || "Localisation inconnue"}
+              </span>
+
             </div>
 
-            <p className="text">
-              "{item.texte}"
-            </p>
+          ))}
 
-            <h3>{item.nom}</h3>
-
-            <span>{item.ville}</span>
-
-          </div>
-
-        ))}
-
-      </div>
+        </div>
+      )}
 
     </section>
   );

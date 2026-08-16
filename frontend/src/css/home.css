@@ -201,7 +201,7 @@
   text-align: center;
 }
 
-.steps {
+.how-it-works .steps {
   display: grid;
   grid-template-columns: repeat(3,1fr);
   gap: 18px;
@@ -225,7 +225,7 @@
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  margin: 0 auto 12px;
+  margin: 0 auto 10px;
 }
 
 .card img,
@@ -333,8 +333,18 @@
     height: fit-content;
     align-self: center;
   }
-  .steps{
+  .how-it-works .steps{
     display: grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(3,1fr);
+    gap: 5px;
+  }
+  .how-it-works .steps .step{
+    padding: 5px;
+  }
+  .how-it-works .steps .step h3{
+    font-size: 14px;
+  }
+  .how-it-works .steps .step p{
+    font-size: 10px;
   }
 }

@@ -27,7 +27,7 @@ function OrdersChart({ stats }) {
     <div className="orders-chart-container">
       <h3>📊 Répartition des commandes</h3>
 
-      <ResponsiveContainer width="100%" height={260}>
+      <ResponsiveContainer width="100%" height={300}>
         <PieChart>
           <Pie
             data={data}
