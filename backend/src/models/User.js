@@ -5,17 +5,44 @@ const userSchema = new mongoose.Schema(
     nom: {
       type: String,
       required: true,
+      trim: true,
     },
 
     email: {
       type: String,
       required: true,
       unique: true,
+      trim: true,
+      lowercase: true,
     },
 
+    // Numéro local saisi par l'utilisateur
     telephone: {
       type: String,
       required: true,
+      trim: true,
+    },
+
+    // Pays de l'utilisateur
+    pays: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    // Exemple : +221, +226, +225...
+    indicatif: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    // Exemple : +221771234567
+    telephoneComplet: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
     },
 
     motDePasse: {
@@ -27,11 +54,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ["vendeur", "acheteur", "admin"],
       default: "acheteur",
-    },
-    
-    telephone: {
-      type: String,
-      default: "",
     },
 
     photo: {

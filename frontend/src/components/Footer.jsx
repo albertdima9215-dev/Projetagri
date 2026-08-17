@@ -8,12 +8,12 @@ function Footer() {
       <div className="footer-container">
 
         <div className="footer-section">
-          <h2>AgriConnect Faso</h2>
+          <h2>AgriConnect</h2>
 
           <p>
             La plateforme qui met en relation les producteurs,
             commerçants et acheteurs de produits agricoles
-            partout au Burkina Faso.
+            partout dans la sous-région.
           </p>
         </div>
 
@@ -31,7 +31,7 @@ function Footer() {
 
           <p>Ouagadougou, Burkina Faso</p>
           <p>+226 XX XX XX XX</p>
-          <p>contact@agriconnectfaso.com</p>
+          <p>contact@agriconnect.com</p>
         </div>
 
         <div className="footer-section">
@@ -48,7 +48,7 @@ function Footer() {
       <hr />
 
       <div className="footer-bottom">
-        © {new Date().getFullYear()} AgriConnect Faso - Tous droits réservés.
+        © {new Date().getFullYear()} AgriConnect - Tous droits réservés.
       </div>
 
     </footer>

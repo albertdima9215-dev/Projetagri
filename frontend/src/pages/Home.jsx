@@ -31,7 +31,7 @@ function Home() {
       },
     });
 
-    setProducts(res.data.produits.slice(0, 8));
+    setProducts(res.data.produits.slice(0, 50));
     
   } catch (error) {
     console.log(error);

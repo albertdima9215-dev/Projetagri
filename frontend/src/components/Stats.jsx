@@ -6,7 +6,7 @@ function Stats() {
   return (
     <section className="stats-section">
 
-      <h2>AgriConnect Faso en chiffres</h2>
+      <h2>AgriConnect en chiffres</h2>
 
       <div className="stats-container">
 

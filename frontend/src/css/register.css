@@ -101,3 +101,31 @@
     margin-top:5px;
 }
 
+.register-form select{
+  margin-bottom: 10px;
+}
+
+.phone-group {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  gap: 8px;
+}
+
+.phone-prefix {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 65px;
+  padding: 0 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #f5f5f5;
+  font-weight: 600;
+}
+
+.phone-group input {
+  flex: 1;
+}
+

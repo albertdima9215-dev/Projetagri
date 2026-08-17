@@ -7,7 +7,7 @@ function Login() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    email: "",
+    identifiant: "",
     motDePasse: "",
   });
 
@@ -41,13 +41,13 @@ function Login() {
         <h2>Connexion</h2>
 
         <input
-          type="email"
-          name="email"
-          placeholder="Adresse email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
+  type="text"
+  name="identifiant"
+  placeholder="Email ou numéro de téléphone"
+  value={formData.identifiant}
+  onChange={handleChange}
+  required
+/>
 
         <input
           type="password"

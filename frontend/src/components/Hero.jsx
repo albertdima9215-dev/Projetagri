@@ -15,9 +15,9 @@ function Hero() {
         </h1>
 
         <p>
-          AgriConnect Faso met en relation producteurs, commerçants et
+          AgriConnect met en relation producteurs, commerçants et
           acheteurs pour faciliter la vente des produits agricoles partout
-          au Burkina Faso.
+          dans la sous-région.
         </p>
 
         <div className="hero-buttons">

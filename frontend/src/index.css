@@ -7,7 +7,7 @@ body.dark .card,
 body.dark .product-card,
 body.dark .dashboard-card,
 body.dark .stat-card,
-body.dark .chart-card,
+body.dark .orders-chart-container,
 body.dark .reviews-card,
 body.dark .filters,
 body.dark .favorite-card,
@@ -22,7 +22,10 @@ body.dark .admin-sidebar,
 body.dark .footer,
 body.dark .step,
 body.dark .nav-links.active,
-body.dark .testimonial-card{
+body.dark .testimonial-card,
+body.dark .stat-box,
+body.dark .feature-card,
+body.dark .admin-menu a{
   background: #1e1e1e;
   color: #f5f5f5;
   border-color: #333;
@@ -41,7 +44,12 @@ body.dark textarea{
   border: 1px solid #444;
 }
 
-body.dark a{
+body.dark a,
+body.dark .feature-card h3,
+body.dark .feature-card p,
+body.dark .testimonial-card h3,
+body.dark .testimonial-card p,
+body.dark .testimonial-card span{
   color: #fff;
 }
 

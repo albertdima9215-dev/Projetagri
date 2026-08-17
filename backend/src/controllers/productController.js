@@ -136,7 +136,7 @@ const getProductById = async (req, res) => {
   try {
     const produit = await Product.findById(req.params.id).populate(
       "vendeur",
-      "nom email telephone"
+      "nom email telephone telephoneComplet pays indicatif"
     );
 
     if (!produit) {

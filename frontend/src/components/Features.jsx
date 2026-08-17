@@ -6,7 +6,7 @@ function Features() {
   return (
     <section className="features">
 
-      <h2>Pourquoi choisir AgriConnect Faso ?</h2>
+      <h2>Pourquoi choisir AgriConnect ?</h2>
 
       <div className="features-container">
 

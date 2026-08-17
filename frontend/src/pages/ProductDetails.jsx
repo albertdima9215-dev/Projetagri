@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import api from "../services/api";
 import "../css/productDetails.css";
 import { useNavigate } from "react-router-dom";
+import { FaWhatsapp } from "react-icons/fa";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -92,6 +93,25 @@ function ProductDetails() {
   setReviews(res.data);
 }; 
 
+const contactWhatsApp = () => {
+  const numero = product.vendeur?.telephoneComplet;
+
+  if (!numero) {
+    alert("Le vendeur n'a pas renseigné de numéro WhatsApp.");
+    return;
+  }
+
+  const message = `Bonjour ${product.vendeur.nom},
+
+Je suis intéressé(e) par votre produit "${product.nom}" proposé à ${product.prix.toLocaleString()} FCFA.
+
+Je viens de voir votre annonce sur AgriConnect.`;
+
+  const url = `https://wa.me/${numero.replace(/\D/g, "")}?text=${encodeURIComponent(message)}`;
+
+  window.open(url, "_blank");
+};
+
   if (!product) {
     return <h2>Chargement...</h2>;
   }
@@ -158,14 +178,13 @@ function ProductDetails() {
 >
           Envoyer un message
         </button>
-        <a
-  href={`https://wa.me/226${product.vendeur.telephone}?text=Bonjour, je suis intéressé par votre produit : ${product.nom}`}
-  target="_blank"
-  rel="noreferrer"
-  className="whatsapp-btn"
+        <button
+  className="whatsapp-contact-btn"
+  onClick={contactWhatsApp}
 >
-          Contacter sur WhatsApp
-        </a>
+          <FaWhatsapp />
+  Contacter sur WhatsApp
+        </button>
 
         {product.quantite > 0 ? (
           <button
