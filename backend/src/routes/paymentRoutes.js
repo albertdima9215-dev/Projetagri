@@ -1,9 +1,25 @@
 const express = require("express");
 const protect = require("../middleware/authMiddleware");
-const { payOrder } = require("../controllers/paymentController");
+
+const {
+  createPayment,
+  paymentSuccess,
+  paymentCancel,
+  paymentCallback,
+} = require("../controllers/paymentController");
 
 const router = express.Router();
 
-router.post("/pay", protect, payOrder);
+// Créer une facture PayDunya
+router.post("/create", protect, createPayment);
+
+// Retour après paiement
+router.get("/success", paymentSuccess);
+
+// Annulation du paiement
+router.get("/cancel", paymentCancel);
+
+// Notification PayDunya
+router.post("/callback", paymentCallback);
 
 module.exports = router;

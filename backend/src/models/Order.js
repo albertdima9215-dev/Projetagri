@@ -42,16 +42,13 @@ const orderSchema = new mongoose.Schema(
       default: "En attente",
     },
 
-    paiement: {
-      type: String,
-      enum: ["En attente", "Payé"],
-      default: "En attente",
-    },
-
     methodePaiement: {
       type: String,
-      enum: ["Orange Money", "Wave", "Moov Money", "À la livraison"],
-      default: "Orange Money",
+      enum: [
+        "PayDunya",
+        "À la livraison"
+      ],
+      default: "PayDunya",
     },
 
     statutPaiement: {
@@ -61,6 +58,11 @@ const orderSchema = new mongoose.Schema(
     },
 
     referencePaiement: {
+      type: String,
+      default: "",
+    },
+
+    tokenPaiement: {
       type: String,
       default: "",
     },

@@ -1,57 +1,269 @@
+const { paydunya, setup, store } = require("../config/paydunya");
 const Order = require("../models/Order");
-const Notification = require("../models/Notification");
+const crypto = require("crypto");
 
-const payOrder = async (req, res) => {
+// ======================================================
+// CRÉER UN PAIEMENT
+// ======================================================
+
+const createPayment = async (req, res) => {
   try {
-    const { orderId, methodePaiement } = req.body;
+    const {
+      montant,
+      nomProduit,
+      description,
+      commandeId,
+    } = req.body;
 
-    const order = await Order.findById(orderId);
+    if (!commandeId) {
+      return res.status(400).json({
+        message: "L'identifiant de la commande est obligatoire.",
+      });
+    }
 
-    if (!order) {
+    // Récupérer la commande
+    const commande = await Order.findById(commandeId)
+      .populate("produit")
+      .populate("acheteur", "nom email telephone");
+
+    if (!commande) {
       return res.status(404).json({
-        message: "Commande introuvable",
+        message: "Commande introuvable.",
       });
     }
 
-    if (order.acheteur.toString() !== req.user.id) {
+    // Vérifier que l'utilisateur est bien l'acheteur
+    if (
+      commande.acheteur._id.toString() !==
+      req.user._id.toString()
+    ) {
       return res.status(403).json({
-        message: "Accès refusé",
+        message: "Vous n'êtes pas autorisé à payer cette commande.",
       });
     }
 
-    if (order.paiement === "Payé") {
+    // Vérifier que la commande n'est pas déjà payée
+    if (commande.statutPaiement === "Payé") {
       return res.status(400).json({
         message: "Cette commande est déjà payée.",
       });
     }
 
-    // Simulation du paiement
-    order.paiement = "Payé";
-    order.methodePaiement = methodePaiement;
-    order.referencePaiement = `PAY-${Date.now()}`;
+    // Minimum PayDunya
+    if (commande.montant < 200) {
+      return res.status(400).json({
+        message:
+          "Le montant minimum du paiement est de 200 FCFA.",
+      });
+    }
 
-    await order.save();
+    // Référence unique
+    const reference =
+      `AGRI-${Date.now()}-${crypto
+        .randomBytes(4)
+        .toString("hex")
+        .toUpperCase()}`;
 
-    await Notification.create({
-      utilisateur: order.vendeur,
-      type: "commande",
-      titre: "Paiement reçu",
-      message: "Une commande a été payée avec succès.",
-      lien: "/seller-orders",
-    });
+    console.log("Référence paiement :", reference);
 
-    res.status(200).json({
-      message: "Paiement effectué avec succès.",
-      order,
+    // Création de la facture PayDunya
+    const invoice = new paydunya.CheckoutInvoice(
+      setup,
+      store
+    );
+
+    invoice.totalAmount = commande.montant;
+
+    invoice.description =
+      `Commande AgriConnect - ${commande.produit.nom}`;
+
+    invoice.addItem(
+      commande.produit.nom,
+      commande.quantite,
+      commande.produit.prix,
+      commande.montant,
+      `Commande ${commande._id}`
+    );
+
+    // Données personnalisées
+    invoice.addCustomData(
+      "reference",
+      reference
+    );
+
+    invoice.addCustomData(
+      "produit", 
+      nomProduit
+    );
+
+    invoice.addCustomData(
+      "commandeId",
+      commande._id.toString()
+    );
+
+    invoice.addCustomData(
+      "acheteurId",
+      commande.acheteur._id.toString()
+    );
+
+    await invoice.create();
+
+    console.log("PayDunya token :", invoice.token);
+    console.log("PayDunya URL :", invoice.url);
+    console.log("PayDunya status :", invoice.status);
+
+    // Enregistrer les informations du paiement
+    commande.referencePaiement = reference;
+    commande.tokenPaiement = invoice.token;
+    commande.statutPaiement = "En attente";
+    commande.methodePaiement = "PayDunya";
+
+    await commande.save();
+
+    return res.status(200).json({
+      message: "Facture PayDunya créée avec succès.",
+      commandeId: commande._id,
+      reference,
+      token: invoice.token,
+      url: invoice.url,
+      status: invoice.status,
     });
 
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
+    console.error(
+      "Erreur création paiement PayDunya :",
+      error
+    );
+
+    console.error(
+      "Réponse PayDunya :",
+      error.data
+    );
+
+    return res.status(500).json({
+      message:
+        "Erreur lors de la création du paiement.",
+      error: error.message,
+      paydunya: error.data || null,
     });
   }
 };
 
+
+// ======================================================
+// RETOUR APRÈS PAIEMENT
+// ======================================================
+
+const paymentSuccess = async (req, res) => {
+  try {
+    const token = req.query.token;
+
+    console.log(
+      "Retour PayDunya - token :",
+      token
+    );
+
+    if (!token) {
+      return res.status(400).json({
+        message: "Token PayDunya manquant.",
+      });
+    }
+
+    // Redirection vers le frontend
+    return res.redirect(
+      `${process.env.FRONTEND_URL}/payment-success?token=${encodeURIComponent(
+        token
+      )}`
+    );
+
+  } catch (error) {
+    console.error(
+      "Erreur retour paiement :",
+      error
+    );
+
+    return res.status(500).json({
+      message: "Erreur lors du retour de paiement.",
+    });
+  }
+};
+
+
+// ======================================================
+// ANNULATION
+// ======================================================
+
+const paymentCancel = async (req, res) => {
+  try {
+    const token = req.query.token;
+
+    console.log(
+      "Paiement annulé - token :",
+      token
+    );
+
+    return res.redirect(
+      `${process.env.FRONTEND_URL}/payment-cancel`
+    );
+
+  } catch (error) {
+    console.error(
+      "Erreur annulation paiement :",
+      error
+    );
+
+    return res.status(500).json({
+      message: "Paiement annulé.",
+    });
+  }
+};
+
+
+// ======================================================
+// CALLBACK PAYDUNYA
+// ======================================================
+
+const paymentCallback = async (req, res) => {
+  try {
+
+    console.log(
+      "========== CALLBACK PAYDUNYA =========="
+    );
+
+    console.log(
+      "Body reçu :",
+      JSON.stringify(req.body, null, 2)
+    );
+
+    /*
+     * Pour l'instant nous affichons les données
+     * envoyées par PayDunya.
+     *
+     * Nous allons utiliser ces données pour
+     * confirmer la commande.
+     */
+
+    return res.status(200).json({
+      message: "Callback PayDunya reçu.",
+    });
+
+  } catch (error) {
+
+    console.error(
+      "Erreur callback PayDunya :",
+      error
+    );
+
+    return res.status(500).json({
+      message: "Erreur callback PayDunya.",
+    });
+  }
+};
+
+
 module.exports = {
-  payOrder,
+  createPayment,
+  paymentSuccess,
+  paymentCancel,
+  paymentCallback,
 };
