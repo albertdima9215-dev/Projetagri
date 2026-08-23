@@ -8,12 +8,7 @@ const crypto = require("crypto");
 
 const createPayment = async (req, res) => {
   try {
-    const {
-      montant,
-      nomProduit,
-      description,
-      commandeId,
-    } = req.body;
+    const {commandeId} = req.body;
 
     if (!commandeId) {
       return res.status(400).json({
@@ -92,8 +87,8 @@ const createPayment = async (req, res) => {
     );
 
     invoice.addCustomData(
-      "produit", 
-      nomProduit
+      "produit",
+      commande.produit.nom
     );
 
     invoice.addCustomData(
