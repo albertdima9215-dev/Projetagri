@@ -225,30 +225,151 @@ const paymentCancel = async (req, res) => {
 
 const paymentCallback = async (req, res) => {
   try {
-
-    console.log(
-      "========== CALLBACK PAYDUNYA =========="
-    );
-
+    console.log("========== CALLBACK PAYDUNYA ==========");
     console.log(
       "Body reçu :",
       JSON.stringify(req.body, null, 2)
     );
 
+    const data = req.body;
+
+    // PayDunya envoie normalement les données
+    // de la transaction dans la requête callback.
+    const customData = data.custom_data || {};
+
+    const commandeId = customData.commandeId;
+    const reference = customData.reference;
+
+    if (!commandeId) {
+      console.error("commandeId absent du callback PayDunya");
+
+      return res.status(400).json({
+        message: "commandeId manquant.",
+      });
+    }
+
+    // Rechercher la commande
+    const commande = await Order.findById(commandeId);
+
+    if (!commande) {
+      console.error(
+        "Commande introuvable :",
+        commandeId
+      );
+
+      return res.status(404).json({
+        message: "Commande introuvable.",
+      });
+    }
+
+    // Éviter de traiter deux fois le même paiement
+    if (commande.statutPaiement === "Payé") {
+      console.log(
+        "Commande déjà payée :",
+        commande._id
+      );
+
+      return res.status(200).json({
+        message: "Commande déjà payée.",
+      });
+    }
+
     /*
-     * Pour l'instant nous affichons les données
-     * envoyées par PayDunya.
-     *
-     * Nous allons utiliser ces données pour
-     * confirmer la commande.
+     * Pour le moment, on récupère le statut envoyé
+     * par PayDunya.
      */
+    const statut =
+      data.status ||
+      data.invoice?.status ||
+      data.response_code;
+
+    console.log("Statut PayDunya :", statut);
+
+    // Paiement confirmé
+    if (
+      statut === "completed" ||
+      statut === "00"
+    ) {
+      commande.statutPaiement = "Payé";
+      commande.paiement = "Payé";
+
+      if (reference) {
+        commande.referencePaiement = reference;
+      }
+
+      await commande.save();
+
+      console.log(
+        "✅ Paiement confirmé pour la commande :",
+        commande._id
+      );
+
+      // Notification du vendeur
+      await Notification.create({
+        utilisateur: commande.vendeur,
+        titre: "Paiement reçu",
+        message: `Le paiement de la commande ${commande._id} a été confirmé.`,
+        lien: "/seller-orders",
+      });
+
+      // Notification temps réel
+      const io = req.app.get("io");
+      const users = req.app.get("users");
+
+      if (io && users) {
+        const vendeurSocket =
+          users[commande.vendeur.toString()];
+
+        if (vendeurSocket) {
+          io.to(vendeurSocket).emit(
+            "newNotification",
+            {
+              titre: "Paiement reçu",
+              message:
+                "Le paiement d'une commande vient d'être confirmé.",
+            }
+          );
+        }
+      }
+
+      return res.status(200).json({
+        message: "Paiement confirmé.",
+        commandeId: commande._id,
+        statutPaiement: commande.statutPaiement,
+      });
+    }
+
+    // Paiement échoué
+    if (
+      statut === "failed" ||
+      statut === "cancelled" ||
+      statut === "canceled"
+    ) {
+      commande.statutPaiement = "Échoué";
+
+      await commande.save();
+
+      console.log(
+        "❌ Paiement échoué :",
+        commande._id
+      );
+
+      return res.status(200).json({
+        message: "Paiement échoué.",
+      });
+    }
+
+    // Statut inconnu ou encore en attente
+    console.log(
+      "Paiement encore en attente ou statut inconnu."
+    );
 
     return res.status(200).json({
-      message: "Callback PayDunya reçu.",
+      message: "Callback reçu.",
+      statut,
     });
 
   } catch (error) {
-
     console.error(
       "Erreur callback PayDunya :",
       error
@@ -256,6 +377,7 @@ const paymentCallback = async (req, res) => {
 
     return res.status(500).json({
       message: "Erreur callback PayDunya.",
+      error: error.message,
     });
   }
 };
