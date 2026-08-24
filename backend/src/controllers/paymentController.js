@@ -222,181 +222,48 @@ const paymentCallback = async (req, res) => {
   try {
     console.log("========== CALLBACK PAYDUNYA ==========");
 
-    console.log(
-      "Body reçu :",
-      JSON.stringify(req.body, null, 2)
-    );
-
-    /*
-     * PayDunya envoie normalement les informations
-     * de la transaction dans le callback.
-     */
-
-    const data = req.body;
-
-    // Récupérer le token PayDunya
     const token =
-      data?.token ||
-      data?.invoice?.token ||
-      data?.data?.token;
-
-    if (!token) {
-      console.log("Token PayDunya absent.");
-
-      return res.status(400).json({
-        message: "Token PayDunya manquant.",
-      });
-    }
+      req.body?.token ||
+      req.body?.invoice?.token ||
+      req.body?.data?.token;
 
     console.log("Token reçu :", token);
 
-    /*
-     * Vérification directe auprès de PayDunya
-     *
-     * On utilise CheckoutInvoice.confirm(token)
-     * pour récupérer le véritable statut de la facture.
-     */
+    if (!token) {
+      return res.status(400).json({
+        message: "Token PayDunya absent.",
+      });
+    }
 
     const invoice = new paydunya.CheckoutInvoice(
       setup,
       store
     );
 
-    invoice.token = token;
-
     await invoice.confirm(token);
 
-    console.log(
-      "Statut PayDunya :",
-      invoice.status
-    );
-
-    console.log(
-      "Réponse PayDunya :",
-      invoice.responseText
-    );
-
-    /*
-     * Récupérer les données personnalisées
-     */
-
-    const customData = invoice.customData || {};
-
-    console.log(
-      "Custom data :",
-      JSON.stringify(customData, null, 2)
-    );
-
-    const commandeId = customData.commandeId;
-    const reference = customData.reference;
-
-    if (!commandeId) {
-      console.log(
-        "commandeId absent des données PayDunya."
-      );
-
-      return res.status(400).json({
-        message: "Identifiant de commande manquant.",
-      });
-    }
-
-    /*
-     * Rechercher la commande
-     */
-
-    const commande = await Order.findById(
-      commandeId
-    );
-
-    if (!commande) {
-      console.log(
-        "Commande introuvable :",
-        commandeId
-      );
-
-      return res.status(404).json({
-        message: "Commande introuvable.",
-      });
-    }
-
-    /*
-     * Vérifier le paiement
-     */
-
-    if (invoice.status === "completed") {
-
-      commande.statutPaiement = "Payé";
-      commande.paiement = "Payé";
-
-      if (reference) {
-        commande.referencePaiement = reference;
-      }
-
-      commande.tokenPaiement = token;
-
-      await commande.save();
-
-      console.log(
-        "✅ Paiement confirmé pour la commande :",
-        commande._id.toString()
-      );
-
-      return res.status(200).json({
-        message: "Paiement confirmé avec succès.",
-        commandeId: commande._id,
-        statutPaiement: commande.statutPaiement,
-      });
-    }
-
-    /*
-     * Paiement non terminé
-     */
-
-    if (
-      invoice.status === "cancelled" ||
-      invoice.status === "canceled" ||
-      invoice.status === "failed"
-    ) {
-      commande.statutPaiement = "Échoué";
-
-      await commande.save();
-
-      console.log(
-        "❌ Paiement échoué ou annulé."
-      );
-
-      return res.status(200).json({
-        message: "Paiement échoué ou annulé.",
-        commandeId: commande._id,
-        statutPaiement: commande.statutPaiement,
-      });
-    }
-
-    /*
-     * Paiement encore en attente
-     */
-
-    console.log(
-      "⏳ Paiement encore en attente."
-    );
+    console.log("========== RÉSULTAT CONFIRM ==========");
+    console.log("Token :", invoice.token);
+    console.log("Status :", invoice.status);
+    console.log("Response :", invoice.responseText);
+    console.log("CustomData :", invoice.customData);
+    console.log("Customer :", invoice.customer);
+    console.log("Provider reference :", invoice.provider_reference);
+    console.log("Receipt :", invoice.receiptURL);
 
     return res.status(200).json({
-      message: "Paiement encore en attente.",
-      commandeId: commande._id,
-      statutPaiement: commande.statutPaiement,
+      message: "Diagnostic PayDunya",
+      token: invoice.token,
+      status: invoice.status,
+      responseText: invoice.responseText,
+      customData: invoice.customData || null,
+      customer: invoice.customer || null,
+      providerReference: invoice.provider_reference || null,
     });
 
   } catch (error) {
-
-    console.error(
-      "Erreur callback PayDunya :",
-      error
-    );
-
-    console.error(
-      "Données PayDunya :",
-      error.data
-    );
+    console.error("Erreur callback :", error);
+    console.error("PayDunya data :", error.data);
 
     return res.status(500).json({
       message: "Erreur callback PayDunya.",
