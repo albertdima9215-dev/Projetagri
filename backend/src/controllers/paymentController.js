@@ -221,33 +221,95 @@ const paymentCancel = async (req, res) => {
 const paymentCallback = async (req, res) => {
   try {
     console.log("========== CALLBACK PAYDUNYA ==========");
+
     console.log(
       "Body reçu :",
       JSON.stringify(req.body, null, 2)
     );
 
+    /*
+     * PayDunya envoie normalement les informations
+     * de la transaction dans le callback.
+     */
+
     const data = req.body;
 
-    // PayDunya envoie normalement les données
-    // de la transaction dans la requête callback.
-    const customData = data.custom_data || {};
+    // Récupérer le token PayDunya
+    const token =
+      data?.token ||
+      data?.invoice?.token ||
+      data?.data?.token;
+
+    if (!token) {
+      console.log("Token PayDunya absent.");
+
+      return res.status(400).json({
+        message: "Token PayDunya manquant.",
+      });
+    }
+
+    console.log("Token reçu :", token);
+
+    /*
+     * Vérification directe auprès de PayDunya
+     *
+     * On utilise CheckoutInvoice.confirm(token)
+     * pour récupérer le véritable statut de la facture.
+     */
+
+    const invoice = new paydunya.CheckoutInvoice(
+      setup,
+      store
+    );
+
+    invoice.token = token;
+
+    await invoice.confirm(token);
+
+    console.log(
+      "Statut PayDunya :",
+      invoice.status
+    );
+
+    console.log(
+      "Réponse PayDunya :",
+      invoice.responseText
+    );
+
+    /*
+     * Récupérer les données personnalisées
+     */
+
+    const customData = invoice.customData || {};
+
+    console.log(
+      "Custom data :",
+      JSON.stringify(customData, null, 2)
+    );
 
     const commandeId = customData.commandeId;
     const reference = customData.reference;
 
     if (!commandeId) {
-      console.error("commandeId absent du callback PayDunya");
+      console.log(
+        "commandeId absent des données PayDunya."
+      );
 
       return res.status(400).json({
-        message: "commandeId manquant.",
+        message: "Identifiant de commande manquant.",
       });
     }
 
-    // Rechercher la commande
-    const commande = await Order.findById(commandeId);
+    /*
+     * Rechercher la commande
+     */
+
+    const commande = await Order.findById(
+      commandeId
+    );
 
     if (!commande) {
-      console.error(
+      console.log(
         "Commande introuvable :",
         commandeId
       );
@@ -257,34 +319,12 @@ const paymentCallback = async (req, res) => {
       });
     }
 
-    // Éviter de traiter deux fois le même paiement
-    if (commande.statutPaiement === "Payé") {
-      console.log(
-        "Commande déjà payée :",
-        commande._id
-      );
-
-      return res.status(200).json({
-        message: "Commande déjà payée.",
-      });
-    }
-
     /*
-     * Pour le moment, on récupère le statut envoyé
-     * par PayDunya.
+     * Vérifier le paiement
      */
-    const statut =
-      data.status ||
-      data.invoice?.status ||
-      data.response_code;
 
-    console.log("Statut PayDunya :", statut);
+    if (invoice.status === "completed") {
 
-    // Paiement confirmé
-    if (
-      statut === "completed" ||
-      statut === "00"
-    ) {
       commande.statutPaiement = "Payé";
       commande.paiement = "Payé";
 
@@ -292,87 +332,76 @@ const paymentCallback = async (req, res) => {
         commande.referencePaiement = reference;
       }
 
+      commande.tokenPaiement = token;
+
       await commande.save();
 
       console.log(
         "✅ Paiement confirmé pour la commande :",
-        commande._id
+        commande._id.toString()
       );
 
-      // Notification du vendeur
-      await Notification.create({
-        utilisateur: commande.vendeur,
-        titre: "Paiement reçu",
-        message: `Le paiement de la commande ${commande._id} a été confirmé.`,
-        lien: "/seller-orders",
-      });
-
-      // Notification temps réel
-      const io = req.app.get("io");
-      const users = req.app.get("users");
-
-      if (io && users) {
-        const vendeurSocket =
-          users[commande.vendeur.toString()];
-
-        if (vendeurSocket) {
-          io.to(vendeurSocket).emit(
-            "newNotification",
-            {
-              titre: "Paiement reçu",
-              message:
-                "Le paiement d'une commande vient d'être confirmé.",
-            }
-          );
-        }
-      }
-
       return res.status(200).json({
-        message: "Paiement confirmé.",
+        message: "Paiement confirmé avec succès.",
         commandeId: commande._id,
         statutPaiement: commande.statutPaiement,
       });
     }
 
-    // Paiement échoué
+    /*
+     * Paiement non terminé
+     */
+
     if (
-      statut === "failed" ||
-      statut === "cancelled" ||
-      statut === "canceled"
+      invoice.status === "cancelled" ||
+      invoice.status === "canceled" ||
+      invoice.status === "failed"
     ) {
       commande.statutPaiement = "Échoué";
 
       await commande.save();
 
       console.log(
-        "❌ Paiement échoué :",
-        commande._id
+        "❌ Paiement échoué ou annulé."
       );
 
       return res.status(200).json({
-        message: "Paiement échoué.",
+        message: "Paiement échoué ou annulé.",
+        commandeId: commande._id,
+        statutPaiement: commande.statutPaiement,
       });
     }
 
-    // Statut inconnu ou encore en attente
+    /*
+     * Paiement encore en attente
+     */
+
     console.log(
-      "Paiement encore en attente ou statut inconnu."
+      "⏳ Paiement encore en attente."
     );
 
     return res.status(200).json({
-      message: "Callback reçu.",
-      statut,
+      message: "Paiement encore en attente.",
+      commandeId: commande._id,
+      statutPaiement: commande.statutPaiement,
     });
 
   } catch (error) {
+
     console.error(
       "Erreur callback PayDunya :",
       error
     );
 
+    console.error(
+      "Données PayDunya :",
+      error.data
+    );
+
     return res.status(500).json({
       message: "Erreur callback PayDunya.",
       error: error.message,
+      paydunya: error.data || null,
     });
   }
 };
