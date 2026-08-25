@@ -9,6 +9,7 @@ function PaymentSuccess() {
   const token = searchParams.get("token");
 
   const [order, setOrder] = useState(null);
+  const [paymentStatus, setPaymentStatus] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -34,11 +35,12 @@ function PaymentSuccess() {
         );
 
         console.log(
-          "Réponse vérification paiement :",
+          "Vérification paiement :",
           res.data
         );
 
         setOrder(res.data.order);
+        setPaymentStatus(res.data.paymentStatus);
 
       } catch (error) {
         console.error(
@@ -59,6 +61,7 @@ function PaymentSuccess() {
     verifyPayment();
   }, [token]);
 
+  // Chargement
   if (loading) {
     return (
       <div className="payment-success">
@@ -79,7 +82,8 @@ function PaymentSuccess() {
     );
   }
 
-  if (error || !order) {
+  // Erreur
+  if (error) {
     return (
       <div className="payment-success">
         <div className="success-card">
@@ -88,11 +92,10 @@ function PaymentSuccess() {
             ❌
           </div>
 
-          <h1>Paiement non vérifié</h1>
+          <h1>Erreur de paiement</h1>
 
           <p>
-            {error ||
-              "Aucune information de paiement disponible."}
+            {error}
           </p>
 
           <div className="success-buttons">
@@ -112,61 +115,153 @@ function PaymentSuccess() {
     );
   }
 
+  // Paiement en attente
+  if (paymentStatus === "pending") {
+    return (
+      <div className="payment-success">
+        <div className="success-card">
+
+          <div className="success-icon">
+            ⏳
+          </div>
+
+          <h1>Paiement en attente</h1>
+
+          <p>
+            Votre paiement n'est pas encore confirmé
+            par PayDunya.
+          </p>
+
+          {order && (
+            <>
+              <hr />
+
+              <p>
+                <strong>Produit :</strong>{" "}
+                {order.produit?.nom}
+              </p>
+
+              <p>
+                <strong>Montant :</strong>{" "}
+                {order.montant} FCFA
+              </p>
+
+              <p>
+                <strong>Référence :</strong>{" "}
+                {order.referencePaiement || "-"}
+              </p>
+            </>
+          )}
+
+          <div className="success-buttons">
+
+            <Link to="/my-orders">
+              Mes commandes
+            </Link>
+
+            <Link to="/">
+              Retour à l'accueil
+            </Link>
+
+          </div>
+
+        </div>
+      </div>
+    );
+  }
+
+  // Paiement confirmé
+  if (paymentStatus === "completed") {
+    return (
+      <div className="payment-success">
+
+        <div className="success-card">
+
+          <div className="success-icon">
+            ✅
+          </div>
+
+          <h1>Paiement réussi</h1>
+
+          <p>
+            Merci pour votre achat !
+          </p>
+
+          <hr />
+
+          <p>
+            <strong>Produit :</strong>{" "}
+            {order?.produit?.nom}
+          </p>
+
+          <p>
+            <strong>Quantité :</strong>{" "}
+            {order?.quantite}
+          </p>
+
+          <p>
+            <strong>Montant :</strong>{" "}
+            {order?.montant} FCFA
+          </p>
+
+          <p>
+            <strong>Méthode :</strong>{" "}
+            {order?.methodePaiement}
+          </p>
+
+          <p>
+            <strong>Référence :</strong>{" "}
+            {order?.referencePaiement || "-"}
+          </p>
+
+          <p>
+            <strong>Statut :</strong>{" "}
+            {order?.statutPaiement}
+          </p>
+
+          <div className="success-buttons">
+
+            <Link to="/">
+              Retour à l'accueil
+            </Link>
+
+            <Link to="/my-orders">
+              Mes commandes
+            </Link>
+
+          </div>
+
+        </div>
+
+      </div>
+    );
+  }
+
+  // Autre statut
   return (
     <div className="payment-success">
 
       <div className="success-card">
 
         <div className="success-icon">
-          ✅
+          ⚠️
         </div>
 
-        <h1>Paiement réussi</h1>
+        <h1>Statut du paiement</h1>
 
         <p>
-          Merci pour votre achat !
-        </p>
-
-        <hr />
-
-        <p>
-          <strong>Produit :</strong>{" "}
-          {order.produit?.nom}
-        </p>
-
-        <p>
-          <strong>Quantité :</strong>{" "}
-          {order.quantite}
-        </p>
-
-        <p>
-          <strong>Montant :</strong>{" "}
-          {order.montant} FCFA
-        </p>
-
-        <p>
-          <strong>Méthode :</strong>{" "}
-          {order.methodePaiement}
-        </p>
-
-        <p>
-          <strong>Référence :</strong>{" "}
-          {order.referencePaiement || "Non disponible"}
-        </p>
-
-        <p>
-          <strong>Statut :</strong>{" "}
-          {order.statutPaiement}
+          Statut PayDunya :{" "}
+          <strong>{paymentStatus || "inconnu"}</strong>
         </p>
 
         <div className="success-buttons">
 
-          <Link to="/">
-            Retour à l'accueil
-          </Link>
-
           <Link to="/my-orders">
             Mes commandes
+          </Link>
+
+          <Link to="/">
+            Retour à l'accueil
           </Link>
 
         </div>
