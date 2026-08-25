@@ -6,6 +6,7 @@ const {
   paymentSuccess,
   paymentCancel,
   paymentCallback,
+  verifyPaymentStatus,
 } = require("../controllers/paymentController");
 
 const router = express.Router();
@@ -21,5 +22,7 @@ router.get("/cancel", paymentCancel);
 
 // Notification PayDunya
 router.post("/callback", paymentCallback);
+
+router.get("/status/:token", verifyPaymentStatus);
 
 module.exports = router;

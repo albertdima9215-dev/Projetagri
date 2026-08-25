@@ -273,10 +273,83 @@ const paymentCallback = async (req, res) => {
   }
 };
 
+// Vérifier le statut d'un paiement PayDunya
+const verifyPaymentStatus = async (req, res) => {
+  try {
+    const { token } = req.params;
+
+    if (!token) {
+      return res.status(400).json({
+        message: "Token de paiement manquant.",
+      });
+    }
+
+    console.log("========== VERIFICATION PAIEMENT ==========");
+    console.log("Token reçu :", token);
+
+    // Créer une facture PayDunya pour pouvoir vérifier son statut
+    const invoice = new paydunya.CheckoutInvoice(setup, store);
+
+    // Vérifier directement le paiement auprès de PayDunya
+    await invoice.confirm(token);
+
+    console.log("Statut PayDunya :", invoice.status);
+    console.log("Réponse PayDunya :", invoice.responseText);
+
+    // Retrouver la commande grâce au token enregistré
+    const commande = await Order.findOne({
+      tokenPaiement: token,
+    }).populate("produit");
+
+    if (!commande) {
+      console.log("Aucune commande trouvée pour ce token.");
+
+      return res.status(404).json({
+        message: "Commande associée à ce paiement introuvable.",
+      });
+    }
+
+    console.log("Commande trouvée :", commande._id);
+
+    // Si PayDunya confirme que le paiement est terminé
+    if (invoice.status === "completed") {
+
+      commande.statutPaiement = "Payé";
+
+      // La commande peut également passer à un statut suivant
+      // si ton modèle utilise bien cette valeur.
+      commande.statut = "En attente";
+
+      await commande.save();
+
+      console.log("Paiement confirmé pour la commande :", commande._id);
+    }
+
+    return res.status(200).json({
+      success: true,
+      paymentStatus: invoice.status,
+      message: invoice.responseText,
+      order: commande,
+    });
+
+  } catch (error) {
+    console.error(
+      "Erreur vérification paiement PayDunya :",
+      error
+    );
+
+    return res.status(500).json({
+      message: "Erreur lors de la vérification du paiement.",
+      error: error.message,
+    });
+  }
+};
+
 
 module.exports = {
   createPayment,
   paymentSuccess,
   paymentCancel,
   paymentCallback,
+  verifyPaymentStatus,
 };

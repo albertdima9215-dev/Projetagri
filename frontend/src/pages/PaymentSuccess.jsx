@@ -1,19 +1,113 @@
-import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
+import api from "../services/api";
 import "../css/paymentSuccess.css";
 
 function PaymentSuccess() {
-  const location = useLocation();
+  const [searchParams] = useSearchParams();
 
-  const { order } = location.state || {};
+  const token = searchParams.get("token");
 
-  if (!order) {
+  const [order, setOrder] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const verifyPayment = async () => {
+      try {
+        if (!token) {
+          setError("Token de paiement manquant.");
+          return;
+        }
+
+        console.log("Token PayDunya :", token);
+
+        const authToken = localStorage.getItem("token");
+
+        const res = await api.get(
+          `/payments/status/${encodeURIComponent(token)}`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
+
+        console.log(
+          "Réponse vérification paiement :",
+          res.data
+        );
+
+        setOrder(res.data.order);
+
+      } catch (error) {
+        console.error(
+          "Erreur vérification paiement :",
+          error.response?.data || error
+        );
+
+        setError(
+          error.response?.data?.message ||
+          "Impossible de vérifier le paiement."
+        );
+
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    verifyPayment();
+  }, [token]);
+
+  if (loading) {
     return (
       <div className="payment-success">
-        <h2>Aucune information de paiement disponible.</h2>
+        <div className="success-card">
 
-        <Link to="/">
-          Retour à l'accueil
-        </Link>
+          <div className="success-icon">
+            ⏳
+          </div>
+
+          <h1>Vérification du paiement</h1>
+
+          <p>
+            Nous vérifions votre paiement auprès de PayDunya...
+          </p>
+
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !order) {
+    return (
+      <div className="payment-success">
+        <div className="success-card">
+
+          <div className="success-icon">
+            ❌
+          </div>
+
+          <h1>Paiement non vérifié</h1>
+
+          <p>
+            {error ||
+              "Aucune information de paiement disponible."}
+          </p>
+
+          <div className="success-buttons">
+
+            <Link to="/my-orders">
+              Mes commandes
+            </Link>
+
+            <Link to="/">
+              Retour à l'accueil
+            </Link>
+
+          </div>
+
+        </div>
       </div>
     );
   }
@@ -36,23 +130,33 @@ function PaymentSuccess() {
         <hr />
 
         <p>
-          <strong>Produit :</strong> {order.produit.nom}
+          <strong>Produit :</strong>{" "}
+          {order.produit?.nom}
         </p>
 
         <p>
-          <strong>Montant :</strong> {order.montant} FCFA
+          <strong>Quantité :</strong>{" "}
+          {order.quantite}
         </p>
 
         <p>
-          <strong>Méthode :</strong> {order.methodePaiement}
+          <strong>Montant :</strong>{" "}
+          {order.montant} FCFA
         </p>
 
         <p>
-          <strong>Référence :</strong> {order.referencePaiement}
+          <strong>Méthode :</strong>{" "}
+          {order.methodePaiement}
         </p>
 
         <p>
-          <strong>Statut :</strong> {order.paiement}
+          <strong>Référence :</strong>{" "}
+          {order.referencePaiement || "Non disponible"}
+        </p>
+
+        <p>
+          <strong>Statut :</strong>{" "}
+          {order.statutPaiement}
         </p>
 
         <div className="success-buttons">
