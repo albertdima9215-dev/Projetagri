@@ -8,6 +8,14 @@ const setup = new paydunya.Setup({
   mode: process.env.PAYDUNYA_MODE || "test",
 });
 
+console.log("========== PAYDUNYA CONFIG ==========");
+console.log("MODE :", process.env.PAYDUNYA_MODE);
+console.log("MASTER :", !!process.env.PAYDUNYA_MASTER_KEY);
+console.log("PRIVATE :", !!process.env.PAYDUNYA_PRIVATE_KEY);
+console.log("PUBLIC :", !!process.env.PAYDUNYA_PUBLIC_KEY);
+console.log("TOKEN :", !!process.env.PAYDUNYA_TOKEN);
+console.log("======================================");
+
 const store = new paydunya.Store({
   name: "AgriConnect",
   tagline: "La marketplace agricole de la sous-région",
