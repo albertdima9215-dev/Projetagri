@@ -17,8 +17,61 @@ function MyOrders() {
   
 
   useEffect(() => {
+  fetchOrders();
+
+  // Vérifier si un paiement vient d'être effectué
+  const paymentUpdated = localStorage.getItem("paymentUpdated");
+
+  if (paymentUpdated) {
+    try {
+      const data = JSON.parse(paymentUpdated);
+
+      const isRecent =
+        Date.now() - data.timestamp < 5 * 60 * 1000;
+
+      if (isRecent) {
+        console.log(
+          "Paiement récemment confirmé pour :",
+          data.orderId
+        );
+
+        fetchOrders();
+
+        localStorage.removeItem("paymentUpdated");
+      } else {
+        localStorage.removeItem("paymentUpdated");
+      }
+    } catch (error) {
+      console.log(
+        "Erreur lecture paymentUpdated :",
+        error
+      );
+
+      localStorage.removeItem("paymentUpdated");
+    }
+  }
+
+  // Actualisation automatique toutes les 10 secondes
+  const interval = setInterval(() => {
     fetchOrders();
-  }, []);
+  }, 10000);
+
+  // Actualiser lorsque l'utilisateur revient sur la page
+  const handleFocus = () => {
+    console.log(
+      "Retour sur la page : actualisation des commandes"
+    );
+
+    fetchOrders();
+  };
+
+  window.addEventListener("focus", handleFocus);
+
+  return () => {
+    clearInterval(interval);
+    window.removeEventListener("focus", handleFocus);
+  };
+}, []);
 
   const fetchOrders = async () => {
     try {
@@ -196,6 +249,21 @@ const archiveOrder = async (id) => {
                 {order.statut}
               </p>
 
+              <p
+  className={`payment-status ${
+    order.statutPaiement === "Payé"
+      ? "payment-paid"
+      : "payment-pending"
+  }`}
+>
+  💳 Paiement :{" "}
+  <strong>
+    {order.statutPaiement === "Payé"
+      ? "Payé"
+      : "En attente"}
+  </strong>
+</p>
+
               <p>Vendeur : {order.vendeur?.nom || "Vendeur indisponible"}</p>
               {order.numeroSuivi && (
               <p>
@@ -246,6 +314,18 @@ const archiveOrder = async (id) => {
             <Link to={`/products/${order.produit._id}`}>
               Voir le produit
             </Link> 
+
+            {order.methodePaiement === "PayDunya" &&
+ order.statutPaiement !== "Payé" &&
+ order.statut !== "Annulée" && (
+  <Link
+    to="/payment"
+    state={{ order }}
+    className="pay-order-btn"
+  >
+    💳 Payer maintenant
+  </Link>
+)}
 
             <a
   href={`https://wa.me/226${order.vendeur?.telephone || ""}`}

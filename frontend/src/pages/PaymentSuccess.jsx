@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import "../css/paymentSuccess.css";
 
 function PaymentSuccess() {
   const [searchParams] = useSearchParams();
+
+  const navigate = useNavigate();
 
   const token = searchParams.get("token");
 
@@ -51,6 +53,16 @@ function PaymentSuccess() {
         setOrder(
           res.data.order || null
         );
+
+        if (res.data.paymentStatus === "completed") {
+  localStorage.setItem(
+    "paymentUpdated",
+    JSON.stringify({
+      orderId: res.data.order._id,
+      timestamp: Date.now(),
+    })
+  );
+}
 
       } catch (err) {
 

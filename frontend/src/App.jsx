@@ -22,6 +22,7 @@ import SellerOrders from "./pages/SellerOrders";
 import Notifications from "./pages/Notifications";
 import Payment from "./pages/Payment";
 import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentCancel from "./pages/PaymentCancel";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminUsers from "./pages/AdminUsers";
 import AdminLayout from "./layouts/AdminLayout";
@@ -172,6 +173,13 @@ useEffect(() => {
           </PrivateRoute>
   }
 />
+        <Route path="/payment-cancel" element={
+        <PrivateRoute>
+          <PaymentCancel />
+        </PrivateRoute>
+  }
+/>
+        
         <Route
   path="/seller-payments"
   element={

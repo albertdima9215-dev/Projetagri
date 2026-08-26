@@ -1,0 +1,91 @@
+.payment-cancel {
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 15px;
+  background: #f5f7f6;
+}
+
+.cancel-card {
+  width: 100%;
+  max-width: 500px;
+  background: white;
+  padding: 40px 30px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+.cancel-icon {
+  width: 75px;
+  height: 75px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: #fee2e2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 38px;
+}
+
+.cancel-card h1 {
+  margin-bottom: 15px;
+  color: #dc2626;
+}
+
+.cancel-card p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.cancel-info {
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.cancel-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.cancel-buttons a {
+  text-decoration: none;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.orders-btn {
+  background: #2e7d32;
+  color: white;
+}
+
+.home-btn {
+  background: #455a64;
+  color: white;
+}
+
+.cancel-buttons a:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+@media (max-width: 600px) {
+  .cancel-card {
+    padding: 30px 20px;
+  }
+
+  .cancel-buttons {
+    flex-direction: column;
+  }
+
+  .cancel-buttons a {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
