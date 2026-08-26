@@ -55,7 +55,11 @@ function MyPayments() {
                 <strong>Méthode :</strong> {payment.methodePaiement}
               </p>
 
-              <p className="paid">✅ Payé</p>
+              <p className={payment.statutPaiement === "Payé" ? "paid" : "pending"}>
+  {payment.statutPaiement === "Payé"
+    ? "✅ Payé"
+    : `⏳ ${payment.statutPaiement}`}
+</p>
 
               <p>
                 <strong>Date :</strong> {new Date(payment.createdAt).toLocaleDateString("fr-FR")}
