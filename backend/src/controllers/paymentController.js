@@ -235,6 +235,15 @@ const paymentCallback = async (req, res) => {
       });
     }
 
+    console.log("=== CONFIG PAYDUNYA ===");
+console.log("MODE :", process.env.PAYDUNYA_MODE);
+console.log("MASTER :", !!process.env.PAYDUNYA_MASTER_KEY);
+console.log("PRIVATE :", !!process.env.PAYDUNYA_PRIVATE_KEY);
+console.log("PUBLIC :", !!process.env.PAYDUNYA_PUBLIC_KEY);
+console.log("TOKEN :", !!process.env.PAYDUNYA_TOKEN);
+console.log("BACKEND :", process.env.BACKEND_URL);
+console.log("FRONTEND :", process.env.FRONTEND_URL);
+
     const invoice = new paydunya.CheckoutInvoice(
       setup,
       store
