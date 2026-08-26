@@ -11,7 +11,6 @@ function Payment() {
 
   const [loading, setLoading] = useState(false);
 
-  // Sécurité : aucune commande reçue
   if (!order) {
     return (
       <div className="payment-container">
@@ -34,6 +33,8 @@ function Payment() {
   }
 
   const payWithPayDunya = async () => {
+    if (loading) return;
+
     try {
       setLoading(true);
 
@@ -45,7 +46,10 @@ function Payment() {
         return;
       }
 
-      console.log("Création paiement pour :", order._id);
+      console.log(
+        "Création du paiement pour la commande :",
+        order._id
+      );
 
       const res = await api.post(
         "/payments/create",
@@ -59,18 +63,19 @@ function Payment() {
         }
       );
 
-      console.log("Réponse PayDunya :", res.data);
+      console.log("Réponse création paiement :", res.data);
 
-      if (!res.data?.url) {
+      const paymentUrl = res.data?.url;
+
+      if (!paymentUrl) {
         throw new Error(
           "PayDunya n'a pas retourné d'URL de paiement."
         );
       }
 
-      /*
-       * Redirection vers la page de paiement PayDunya
-       */
-      window.location.href = res.data.url;
+      console.log("Redirection vers PayDunya :", paymentUrl);
+
+      window.location.assign(paymentUrl);
 
     } catch (error) {
       console.error(
@@ -84,7 +89,6 @@ function Payment() {
         "Erreur lors de la création du paiement."
       );
 
-    } finally {
       setLoading(false);
     }
   };
@@ -131,6 +135,7 @@ function Payment() {
           <div className="payment-option active">
             🟧
             <h3>PayDunya</h3>
+
             <p>
               Orange Money, Wave, cartes et autres moyens
             </p>
@@ -145,7 +150,9 @@ function Payment() {
             }}
           >
             🚚
+
             <h3>Paiement à la livraison</h3>
+
             <p>
               Payer lorsque la commande est livrée
             </p>
