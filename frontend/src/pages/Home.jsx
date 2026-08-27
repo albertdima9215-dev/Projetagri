@@ -8,6 +8,7 @@ import Categories from "../components/Categories";
 import Stats from "../components/Stats";
 import Testimonials from "../components/Testimonials";
 import { optimizeImage } from "../utils/cloudinary";
+import PromoBanner from "../components/PromoBanner";
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -68,6 +69,9 @@ if (loading) {
   return (
     <div className="home">
       <Hero />
+
+      <PromoBanner />
+      
       <Categories />
 
       <div className="how-it-works">
