@@ -43,7 +43,7 @@
 }
 
 .order-card .order-btns{
-  height: 100px;
+  height: 150px;
   margin: 10px auto 0;
   display: grid;
   grid-template-columns: repeat(2,1fr);
@@ -51,11 +51,12 @@
 }
 
 .order-card .downloadBtn{
-  width: 100px;
-  height: 30px;
+  width: 150px;
+  height: 55px;
   background: #455a64;
   color: #fff;
-  font-size: 12px;
+  font-size: 16px;
+  font-weight: 600;
   border: none;
   border-radius: 8px;
 }

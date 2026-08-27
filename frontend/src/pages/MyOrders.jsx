@@ -311,9 +311,9 @@ const archiveOrder = async (id) => {
 
             </div>
             <div className="order-btns">
-            <Link to={`/products/${order.produit._id}`}>
-              Voir le produit
-            </Link> 
+              <Link to={`/products/${order.produit._id}`}>
+                Voir le produit
+              </Link> 
 
             {order.methodePaiement === "PayDunya" &&
  order.statutPaiement !== "Payé" &&
@@ -323,7 +323,7 @@ const archiveOrder = async (id) => {
     state={{ order }}
     className="pay-order-btn"
   >
-    💳 Payer maintenant
+   Payer maintenant
   </Link>
 )}
 
@@ -356,9 +356,8 @@ const archiveOrder = async (id) => {
     Archiver
   </button>
 )}
-            </div>
-
-            {order.statut === "En attente" && (
+              
+              {order.statut === "En attente" && (
               <button
     className="cancel-order-btn"
     onClick={() => cancelOrder(order._id)}
@@ -366,6 +365,8 @@ const archiveOrder = async (id) => {
                 Annuler la commande
               </button>
             )}
+              
+            </div>
 
           </div>
         ))

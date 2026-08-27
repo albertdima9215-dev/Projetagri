@@ -12,6 +12,7 @@ const notificationRoutes = require("./routes/notificationRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const pushRoutes = require("./routes/pushRoutes");
+const promotionRoutes = require("./routes/promotionRoutes");
 
 
 const app = express();
@@ -29,6 +30,7 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/push", pushRoutes);
+app.use("/api/promotions", promotionRoutes);
 
 app.get("/", (req, res) => {
     res.json({ message: "Bienvenue sur AgriConnect Faso API" });

@@ -12,6 +12,7 @@
 }
 
 .payment-card {
+  position: relative;
   display: flex;
   gap: 18px;
   background: #fff;
@@ -134,8 +135,10 @@ body.dark-mode .paid {
 }
 
 .view-product-btn {
+  position: absolute;
   display: inline-block;
-  margin-top: 12px;
+  bottom: 12px;
+  right: 20px;
   padding: 10px 16px;
   background: #16a34a;
   color: white;

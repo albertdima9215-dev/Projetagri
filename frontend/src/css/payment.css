@@ -19,7 +19,7 @@
 
 .payment-card {
   width: 100%;
-  max-width: 520px;
+  /*max-width: 520px;*/
   background: #fff;
   display: flex;
   justify-content: center;
