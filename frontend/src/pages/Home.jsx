@@ -21,7 +21,7 @@ function Home() {
     fetchProducts();
   }, [search, categorie, localisation]);
 
-  const fetchProducts = async () => {
+  /*const fetchProducts = async () => {
     setLoading(true);
   try {
     const res = await api.get("/products", {
@@ -36,6 +36,38 @@ function Home() {
     
   } catch (error) {
     console.log(error);
+  } finally {
+    setLoading(false);
+  }
+};*/
+
+  const fetchProducts = async () => {
+  setLoading(true);
+
+  try {
+    const res = await api.get("/products", {
+      params: {
+        search,
+        categorie,
+        localisation,
+      },
+    });
+
+    console.log("Produits reçus par le frontend :", res.data);
+
+    const data = res.data?.produits || [];
+
+    console.log("Nombre de produits :", data.length);
+
+    setProducts(data.slice(0, 50));
+
+  } catch (error) {
+    console.error(
+      "Erreur récupération produits :",
+      error.response?.data || error.message
+    );
+
+    setProducts([]);
   } finally {
     setLoading(false);
   }
@@ -141,7 +173,12 @@ if (loading) {
 
       <div className="products">
 
-        {products.map((product) => (
+  {products.length === 0 ? (
+    <p className="no-products">
+      Aucun produit disponible pour le moment.
+    </p>
+  ) : (
+    products.map((product) => (
 
           <div className="card" key={product._id}>
 
@@ -170,8 +207,9 @@ if (loading) {
 
           </div>
 
-        ))}
-
+        ))
+      )}
+        
       </div>
 
       <Features />
