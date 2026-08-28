@@ -2,7 +2,7 @@ import { Link, Outlet } from "react-router-dom";
 import "../css/adminLayout.css";
 
 //Icons
-import { FaUsers, FaProductHunt, FaHome, FaCreditCard } from "react-icons/fa";
+import { FaUsers, FaProductHunt, FaHome, FaCreditCard, FaGift, } from "react-icons/fa";
 import { GiReceiveMoney, GiCardboardBox,} from "react-icons/gi";
 import { VscGraph } from "react-icons/vsc";
 
@@ -38,7 +38,7 @@ function AdminLayout() {
           </Link>
 
           <Link to="/admin/promotions">
-            🎁 Promotions
+            <FaGift /> Promotions
           </Link>
 
           <Link to="/">

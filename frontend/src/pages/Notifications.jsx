@@ -4,9 +4,10 @@ import "../css/notifications.css";
 
 //Icons
 import { GiCardboardBox} from "react-icons/gi";
-import { FaHeart, FaCar } from "react-icons/fa";
+import { FaHeart, FaCar, FaCheck, } from "react-icons/fa";
 import { FaMessage } from "react-icons/fa6";
 import { IoIosNotifications } from "react-icons/io";
+import { MdDeleteForever } from "react-icons/md";
 
 function Notifications() {
   const [notifications, setNotifications] = useState([]);
@@ -171,14 +172,14 @@ const clearAllNotifications = async () => {
   className="read-all-btn"
   onClick={markAllAsRead}
 >
-        ✔ Tout marquer comme lu
+        <FaCheck /> Tout marquer comme lu
       </button>
 
       <button
   className="clear-all-btn"
   onClick={clearAllNotifications}
 >
-        🗑 Vider toutes les notifications
+        <MdDeleteForever /> Vider toutes les notifications
       </button>
 
       {notifications.length === 0 ? (

@@ -5,10 +5,11 @@ import { Link } from "react-router-dom";
 import OrdersChart from "../components/admin/OrdersChart";
 
 //Icons
-import { FaUsers, FaProductHunt, FaCheckSquare, FaCreditCard } from "react-icons/fa";
-import { GiReceiveMoney, GiCardboardBox, GiCancel,} from "react-icons/gi";
+import { FaUsers, FaProductHunt, FaCheckSquare, FaCreditCard, FaGift, } from "react-icons/fa";
+import { GiReceiveMoney, GiCardboardBox, GiCancel,GiTakeMyMoney,} from "react-icons/gi";
 import { CiNoWaitingSign } from "react-icons/ci";
 import { BsBuildingsFill } from "react-icons/bs";
+import { MdWatchLater,MdDeleteForever, } from "react-icons/md";
 
 
 function AdminDashboard() {
@@ -45,25 +46,25 @@ function AdminDashboard() {
       <h1>Tableau de bord Administrateur</h1>
 
       <div className="activity-card">
-        <h2>🕒 Activité récente</h2>
+        <h2><MdWatchLater /> Activité récente</h2>
 
         <div className="activity-item">
-          <span>👤 Nouvel utilisateur inscrit</span>
+          <span><FaUsers /> Nouvel utilisateur inscrit</span>
           <small>Il y a 5 min</small>
         </div>
 
         <div className="activity-item">
-          <span>📦 Nouvelle commande passée</span>
+          <span><GiCardboardBox/> Nouvelle commande passée</span>
           <small>Il y a 12 min</small>
         </div>
 
         <div className="activity-item">
-          <span>💰 Paiement confirmé</span>
+          <span><GiTakeMyMoney /> Paiement confirmé</span>
           <small>Aujourd'hui</small>
         </div>
 
         <div className="activity-item">
-          <span>🚫 Produit supprimé par l'admin</span>
+          <span><MdDeleteForever /> Produit supprimé par l'admin</span>
           <small>Aujourd'hui</small>
         </div>
       </div>
@@ -135,7 +136,7 @@ function AdminDashboard() {
         </Link>
 
         <Link to="/admin/promotions">
-          🎁 Promotions
+          <FaGift /> Promotions
         </Link>
 
       </div>

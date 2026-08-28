@@ -3,6 +3,10 @@ import { useParams, Link } from "react-router-dom";
 import api from "../services/api";
 import "../css/sellerProfile.css";
 
+//icons
+import { FaMapPin, FaPhoneAlt, } from "react-icons/fa";
+import { MdAttachEmail } from "react-icons/md";
+
 function SellerProfile() {
   const { id } = useParams();
 
@@ -46,11 +50,11 @@ function SellerProfile() {
 
           <h1>{seller.nom}</h1>
 
-          <p>📍 {seller.localisation}</p>
+          <p><FaMapPin /> {seller.localisation}</p>
 
-          <p>📞 {seller.telephone}</p>
+          <p><FaPhoneAlt /> {seller.telephone}</p>
 
-          <p>✉️ {seller.email}</p>
+          <p><MdAttachEmail /> {seller.email}</p>
 
           <p>{seller.bio}</p>
 

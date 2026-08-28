@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import "../css/adminPromotions.css";
 
+//icons
+import { FaGripfire } from "react-icons/fa";
+
 function AdminPromotions() {
   const [promotions, setPromotions] = useState([]);
   const [products, setProducts] = useState([]);

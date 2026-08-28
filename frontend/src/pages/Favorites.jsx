@@ -77,7 +77,7 @@ function Favorites() {
               <button
                 onClick={() => removeFavorite(item.produit._id)}
               >
-                Retirer ❤️
+                Retirer <FaHeart />
               </button>
 
             </div>

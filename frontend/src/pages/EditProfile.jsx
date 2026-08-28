@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import "../css/editProfile.css";
 
+//icons
+import { FaMapPin } from "react-icons/fa";
+
 function EditProfile() {
 
   const [formData, setFormData] = useState({
@@ -172,7 +175,7 @@ function EditProfile() {
         />
 
         <button type="button" onClick={shareLocation}>
-          📍 Partager ma position
+          <FaMapPin /> Partager ma position
         </button>
 
         <button type="submit">

@@ -4,6 +4,9 @@ import api from "../services/api";
 import "../css/orders.css";
 import { Link } from "react-router-dom";
 
+//icons
+import { FaCheckSquare } from "react-icons/fa";
+
 function SellerOrders() {
   const [orders, setOrders] = useState([]);
   const [trackingNumbers, setTrackingNumbers] = useState({});
@@ -76,7 +79,7 @@ function SellerOrders() {
       <h1>Commandes reçues</h1>
 
       <Link to="/archives" className="archive-link">
-        📦 Voir les archives
+        Voir les archives
       </Link>
 
       <div className="orders-filters">
@@ -166,14 +169,14 @@ function SellerOrders() {
     className="quick-btn ship"
     onClick={() => updateStatus(order._id, "Expédiée")}
   >
-    🚚 Expédier
+    Expédier
   </button>
 
   <button
     className="quick-btn deliver"
     onClick={() => updateStatus(order._id, "Livrée")}
   >
-    📦 Livrer
+    Livrer
   </button>
 
   <button
@@ -187,7 +190,7 @@ function SellerOrders() {
             )}
 
               {order.statut === "Livrée" && (
-  <p className="final-status">✅ Commande finalisée</p>
+  <p className="final-status"><FaCheckSquare /> Commande finalisée</p>
 )}
               
             </div>
