@@ -1,0 +1,266 @@
+.admin-promotions {
+  width: 95%;
+  max-width: 1200px;
+  margin: 30px auto;
+}
+
+.admin-promotions > h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2e7d32;
+}
+
+.promotion-form-card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  margin-bottom: 35px;
+}
+
+.promotion-form-card h2,
+.promotions-list h2 {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 7px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  font-size: 14px;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: #2e7d32;
+}
+
+.form-group textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.promotion-prices,
+.promotion-dates {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.promotion-dates {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.reduction-preview {
+  padding: 12px;
+  background: #dcfce7;
+  color: #166534;
+  border-radius: 9px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.active-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 15px 0;
+  font-weight: 600;
+}
+
+.active-checkbox input {
+  width: auto;
+}
+
+.create-promotion-btn {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: #2e7d32;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.create-promotion-btn:hover {
+  background: #256628;
+}
+
+.create-promotion-btn:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+.promotion-admin-card {
+  display: flex;
+  gap: 20px;
+  background: #fff;
+  padding: 18px;
+  margin-bottom: 15px;
+  border-radius: 14px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+  align-items: center;
+}
+
+.promotion-admin-card img {
+  width: 180px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.promotion-admin-info {
+  flex: 1;
+}
+
+.promotion-admin-info h3 {
+  margin-top: 0;
+  color: #2e7d32;
+}
+
+.promotion-price {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.promotion-price strong {
+  color: #2e7d32;
+  font-size: 18px;
+}
+
+.discount {
+  background: #fee2e2;
+  color: #b91c1c;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.promotion-active,
+.promotion-inactive {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.promotion-active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.promotion-inactive {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.delete-promotion-btn {
+  border: none;
+  background: #dc2626;
+  color: white;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.delete-promotion-btn:hover {
+  background: #b91c1c;
+}
+
+.empty-promotions {
+  text-align: center;
+  padding: 30px;
+  background: #f5f5f5;
+  border-radius: 12px;
+}
+
+.promotion-image-preview {
+  margin: 20px 0;
+}
+
+.promotion-image-preview label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.promotion-image-preview img {
+  width: 100%;
+  max-width: 300px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.promotion-image-preview p {
+  font-size: 12px;
+  color: #666;
+  margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+
+  .admin-promotions {
+    width: 94%;
+  }
+
+  .admin-promotions > h1{
+    font-size: 25px;
+  }
+
+  .promotion-form-card {
+    padding: 15px;
+  }
+
+  .promotion-prices,
+  .promotion-dates {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .promotion-admin-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .promotion-admin-card img {
+    width: 100%;
+    height: 180px;
+  }
+
+  .promotion-price {
+    flex-wrap: wrap;
+  }
+
+  .delete-promotion-btn {
+    width: 100%;
+  }
+}

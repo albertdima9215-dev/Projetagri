@@ -293,6 +293,73 @@
   background: white;
 }
 
+/* =================================
+   IMAGE PROMOTION
+================================= */
+
+.promo-icon {
+  overflow: hidden;
+  position: relative;
+}
+
+.promo-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+}
+
+
+/* =================================
+   PRIX PROMOTION
+================================= */
+
+.promo-prices {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 5px 0 18px;
+}
+
+.promo-old-price {
+  font-size: 15px;
+  color: #d8ffd9;
+  text-decoration: line-through;
+  opacity: 0.85;
+}
+
+.promo-new-price {
+  font-size: 23px;
+  color: white;
+}
+
+.promo-discount {
+  background: #ff5252;
+  color: white;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+
+/* =================================
+   LOADING
+================================= */
+
+.promo-loading {
+  justify-content: center;
+}
+
+.promo-loading-content {
+  font-size: 15px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+
 
 /* =================================
    MOBILE
@@ -375,6 +442,28 @@
   .promo-next {
     right: 8px;
   }
+
+  .promo-prices {
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .promo-old-price {
+    font-size: 11px;
+  }
+
+  .promo-new-price {
+    font-size: 17px;
+  }
+
+  .promo-discount {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+
+  .promo-loading-content {
+    font-size: 12px;
+  }
 }
 
 
@@ -425,5 +514,22 @@
 
   .promo-dots {
     bottom: 9px;
+  }
+
+  .promo-prices {
+    gap: 5px;
+    margin-bottom: 10px;
+  }
+
+  .promo-old-price {
+    font-size: 9px;
+  }
+
+  .promo-new-price {
+    font-size: 14px;
+  }
+
+  .promo-discount {
+    font-size: 8px;
   }
 }

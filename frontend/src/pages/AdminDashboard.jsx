@@ -134,6 +134,10 @@ function AdminDashboard() {
           <FaCreditCard /> Paiements
         </Link>
 
+        <Link to="/admin/promotions">
+          🎁 Promotions
+        </Link>
+
       </div>
 
     </div>

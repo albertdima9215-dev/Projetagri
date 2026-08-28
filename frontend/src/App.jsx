@@ -29,6 +29,7 @@ import AdminLayout from "./layouts/AdminLayout";
 import AdminProducts from "./pages/AdminProducts";
 import AdminOrders from "./pages/AdminOrders";
 import AdminPayments from "./pages/AdminPayments";
+import AdminPromotions from "./pages/AdminPromotions";
 import SellersMap from "./pages/SellersMap";
 import ProductsMap from "./pages/ProductsMap";
 import AdminRoute from "./components/AdminRoute";
@@ -230,6 +231,10 @@ useEffect(() => {
           <Route
   path="payments"
   element={<AdminPayments />}
+/>
+          <Route
+  path="/admin/promotions"
+  element={<AdminPromotions />}
 />
 
         </Route>

@@ -37,6 +37,10 @@ function AdminLayout() {
             <FaCreditCard /> Paiements
           </Link>
 
+          <Link to="/admin/promotions">
+            🎁 Promotions
+          </Link>
+
           <Link to="/">
             <FaHome /> Retour au site
           </Link>
