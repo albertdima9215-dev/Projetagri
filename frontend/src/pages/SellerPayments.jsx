@@ -35,7 +35,7 @@ function SellerPayments() {
         payments.map((payment) => (
           <div key={payment._id} className="payment-card">
             <img
-              src={payment.produit.image}
+              src={payment.produit.images?.[0] || payment.produit.image}
               alt={payment.produit.nom}
             />
 
