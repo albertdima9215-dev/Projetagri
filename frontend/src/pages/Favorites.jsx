@@ -60,7 +60,7 @@ function Favorites() {
             <div className="favorite-card" key={item._id}>
 
               <img
-                src={item.produit.image}
+                src={item.produit.images?.[0] || item.produit.image}
                 alt={item.produit.nom}
               />
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 import api from "../services/api";
 import "../css/home.css";
 import Hero from "../components/Hero";
@@ -16,30 +17,93 @@ function Home() {
   const [search, setSearch] = useState("");
   const [categorie, setCategorie] = useState("");
   const [localisation, setLocalisation] = useState("");
+  const [favoriteIds, setFavoriteIds] = useState([]);
 
   useEffect(() => {
     fetchProducts();
   }, [search, categorie, localisation]);
 
-  /*const fetchProducts = async () => {
-    setLoading(true);
+  useEffect(() => {
+    fetchFavorites();
+  }, []);
+
+  const fetchFavorites = async () => {
   try {
-    const res = await api.get("/products", {
-      params: {
-        search,
-        categorie,
-        localisation,
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setFavoriteIds([]);
+      return;
+    }
+
+    const res = await api.get("/favorites", {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
     });
 
-    setProducts(res.data.produits.slice(0, 50));
-    
+    const ids = (res.data || [])
+      .map((item) => item.produit?._id)
+      .filter(Boolean);
+
+    setFavoriteIds(ids);
+
   } catch (error) {
-    console.log(error);
-  } finally {
-    setLoading(false);
+    console.error(
+      "Erreur récupération favoris :",
+      error.response?.data || error.message
+    );
   }
-};*/
+};
+
+const toggleFavorite = async (productId) => {
+  try {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Veuillez vous connecter pour ajouter un produit aux favoris.");
+      return;
+    }
+
+    const isFavorite = favoriteIds.includes(productId);
+
+    if (isFavorite) {
+      await api.delete(`/favorites/${productId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setFavoriteIds((prev) =>
+        prev.filter((id) => id !== productId)
+      );
+
+    } else {
+      await api.post(
+        `/favorites/${productId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setFavoriteIds((prev) => [
+        ...prev,
+        productId,
+      ]);
+    }
+
+  } catch (error) {
+    console.error("Erreur favori :", error);
+
+    alert(
+      error.response?.data?.message ||
+      "Impossible de modifier les favoris."
+    );
+  }
+};
 
   const fetchProducts = async () => {
   setLoading(true);
@@ -180,9 +244,41 @@ if (loading) {
   ) : (
     products.map((product) => (
 
-          <div className="card" key={product._id}>
+          <div className="card" key=  {product._id}>
 
-            <img src={optimizeImage(product.images?.[0] || product.image, 500)} alt={product.nom} loading="lazy" decoding="async" />
+            <div className="product-image-container">
+
+              <img
+      src={optimizeImage(
+        product.images?.[0] || product.image,
+        500
+      )}
+      alt={product.nom}
+      loading="lazy"
+      decoding="async"
+    />
+
+              <button
+      className={`favorite-btn ${
+        favoriteIds.includes(product._id)
+          ? "favorite-active"
+          : ""
+      }`}
+      onClick={() => toggleFavorite(product._id)}
+      aria-label={
+        favoriteIds.includes(product._id)
+          ? "Retirer des favoris"
+          : "Ajouter aux favoris"
+      }
+    >
+        {favoriteIds.includes(product._id) ? (
+          <FaHeart />
+        ) : (
+          <FaRegHeart />
+        )}
+      </button>
+
+    </div>
 
             <h3>{product.nom}</h3>
 
