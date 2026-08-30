@@ -15,6 +15,21 @@ const customIcon = new L.Icon({
   iconAnchor: [12, 41],
 });
 
+const getProductImage = (product) => {
+  if (
+    Array.isArray(product.images) &&
+    product.images.length > 0
+  ) {
+    return product.images[0];
+  }
+
+  if (product.image) {
+    return product.image;
+  }
+
+  return "/placeholder-product.png";
+};
+
 function ProductsMap() {
   const [products, setProducts] = useState([]);
 
@@ -79,9 +94,13 @@ function ProductsMap() {
       <div className="product-popup">
 
         <img
-          src={product.images?.[0] || product.image}
-          alt={product.nom}
-          className="popup-image"
+  src={getProductImage(product)}
+  alt={product.nom}
+  className="popup-image"
+  loading="lazy"
+  onError={(e) => {
+    e.currentTarget.src = "/placeholder-product.png";
+  }}
         />
 
         <h3>{product.nom}</h3>

@@ -269,22 +269,51 @@ const getProductsForMap = async (req, res) => {
     console.log("PRODUITS =", products);
 
     const result = products
-      .filter((p) => p.vendeur && p.vendeur.latitude != null && p.vendeur.longitude != null)
-      .map((p) => ({
-        _id: p._id,
-        nom: p.nom,
-        prix: p.prix,
-        image: p.images?.[0] || null,
-        latitude: p.vendeur.latitude,
-        longitude: p.vendeur.longitude,
-      }));
+      .filter(
+        (p) =>
+          p.vendeur &&
+          p.vendeur.latitude != null &&
+          p.vendeur.longitude != null
+      )
+      .map((p) => {
+
+        const images = Array.isArray(p.images)
+          ? p.images.filter(
+              (img) =>
+                typeof img === "string" &&
+                img.trim() !== ""
+            )
+          : [];
+
+        return {
+          _id: p._id,
+          nom: p.nom,
+          prix: p.prix,
+
+          // Toutes les images disponibles
+          images,
+
+          // Image principale
+          image:
+            images.length > 0
+              ? images[0]
+              : p.image || null,
+
+          latitude: p.vendeur.latitude,
+          longitude: p.vendeur.longitude,
+        };
+      });
 
     console.log("RESULT =", result);
 
     res.status(200).json(result);
+
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: error.message });
+    console.log("Erreur produits carte :", error);
+
+    res.status(500).json({
+      message: error.message,
+    });
   }
 };
 
