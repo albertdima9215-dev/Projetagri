@@ -4,7 +4,7 @@ import "../css/floatingWhatsApp.css";
 function FloatingWhatsApp() {
   const phone = "221711492700"; // remplace par ton numéro
   const message =
-  "Bonjour, j'aimerais obtenir des informations sur les produits AgriConnect Faso.";
+  "Bonjour, j'aimerais obtenir des informations sur les produits AgriConnect.";
 
   return (
     <a

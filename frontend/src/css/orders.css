@@ -368,7 +368,7 @@ select{
     height: 30px;
   }
 
-  .order-btns .review-btn, .order-btns .downloadBtn, .cancel-order-btn{
+  .order-btns .review-btn, .order-btns .downloadBtn, .cancel-order-btn, .orders-container .archive-btn{
     width: 100px;
     font-size: 10px;
     height: 30px;
