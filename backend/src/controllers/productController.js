@@ -69,7 +69,7 @@ streamifier.createReadStream(file.buffer).pipe(stream);
 /*obtention de produit*/
 const getProducts = async (req, res) => {
   try {
-    const { search, localisation, categorie, page = 1, limit = 10 } = req.query;
+    const { search, localisation, categorie, page = 1, limit = 50 } = req.query;
 
     let filtre = {};
 
