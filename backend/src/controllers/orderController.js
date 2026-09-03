@@ -9,72 +9,121 @@ const webpush = require("../config/webpush");
 const createOrder = async (req, res) => {
   try {
     const { produitId, quantite } = req.body;
+
+    const quantiteCommande = Number(quantite);
+
+    // =========================
+    // VALIDATION QUANTITÉ
+    // =========================
+
+    if (
+      !Number.isInteger(quantiteCommande) ||
+      quantiteCommande <= 0
+    ) {
+      return res.status(400).json({
+        message: "Quantité invalide.",
+      });
+    }
+
+    // =========================
+    // RECHERCHE PRODUIT
+    // =========================
+
     const produit = await Product.findById(produitId);
-    
-    /*const { produitId, quantite } = req.body;*/
 
     if (!produit) {
       return res.status(404).json({
-        message: "Produit introuvable",
+        message: "Produit introuvable.",
       });
     }
 
-    const io = req.app.get("io");
-    const users = req.app.get("users");
+    // =========================
+    // EMPÊCHER L'ACHAT DE SON PROPRE PRODUIT
+    // =========================
 
-    const vendeurSocket =         users[produit.vendeur.toString()];
-
-    if (vendeurSocket) {
-io.to(vendeurSocket).emit("newNotification", {
-    titre: "Nouvelle commande",
-    message: `Commande reçue pour ${produit.nom}`,
-      });
-    }
-
-    if (quantite <= 0) {
+    if (
+      produit.vendeur.toString() === req.user.id
+    ) {
       return res.status(400).json({
-        message: "Quantité invalide",
+        message:
+          "Vous ne pouvez pas commander votre propre produit.",
       });
     }
+
+    // =========================
+    // STOCK
+    // =========================
 
     if (produit.quantite <= 0) {
       return res.status(400).json({
-        message: "Produit en rupture de stock",
+        message: "Produit en rupture de stock.",
       });
     }
 
-    if (quantite > produit.quantite) {
+    if (quantiteCommande > produit.quantite) {
       return res.status(400).json({
-        message: "Stock insuffisant",
+        message: "Stock insuffisant.",
       });
     }
 
-    if (produit.quantite - quantite < 0) {
-      return res.status(400).json({
-        message: "Stock insuffisant",
-      });
-    }
+    // =========================
+    // INFORMATIONS COMMERCIALES
+    // =========================
 
-    if (produit.vendeur.toString() === req.user.id) {
-      return res.status(400).json({
-        message: "Vous ne pouvez pas commander votre propre produit.",
-      });
-    }
+    const prixUnitaire = Number(produit.prix);
 
-    const montant = produit.prix * quantite;
+    const typeVente = produit.typeVente || "poids";
 
-    produit.quantite -= quantite;
+    const unite = produit.unite || "1kg";
+
+    const quantiteParLot =
+      typeVente === "lot"
+        ? produit.quantiteParLot
+        : null;
+
+    // =========================
+    // CALCUL
+    // =========================
+
+    const montant =
+      prixUnitaire * quantiteCommande;
+
+    // =========================
+    // DÉDUCTION DU STOCK
+    // =========================
+
+    produit.quantite -= quantiteCommande;
+
     await produit.save();
+
+    // =========================
+    // CRÉATION COMMANDE
+    // =========================
 
     let commande = await Order.create({
       produit: produit._id,
       acheteur: req.user.id,
       vendeur: produit.vendeur,
-      quantite,
+
+      quantite: quantiteCommande,
+
+      typeVente,
+      unite,
+      quantiteParLot,
+
+      prixUnitaire,
       montant,
     });
 
-    commande = await                               commande.populate("produit");
+    // =========================
+    // POPULATE
+    // =========================
+
+    commande = await commande.populate("produit");
+
+    // =========================
+    // NOTIFICATION BASE DE DONNÉES
+    // =========================
 
     await Notification.create({
       utilisateur: produit.vendeur,
@@ -83,12 +132,43 @@ io.to(vendeurSocket).emit("newNotification", {
       lien: "/seller-orders",
     });
 
+    // =========================
+    // NOTIFICATION TEMPS RÉEL
+    // =========================
+
+    const io = req.app.get("io");
+    const users = req.app.get("users");
+
+    if (io && users) {
+      const vendeurSocket =
+        users[produit.vendeur.toString()];
+
+      if (vendeurSocket) {
+        io.to(vendeurSocket).emit(
+          "newNotification",
+          {
+            titre: "Nouvelle commande",
+            message: `Commande reçue pour ${produit.nom}`,
+          }
+        );
+      }
+    }
+
+    // =========================
+    // RÉPONSE
+    // =========================
+
     res.status(201).json({
-      message: "Commande créée avec succès",
+      message: "Commande créée avec succès.",
       commande,
     });
 
   } catch (error) {
+    console.error(
+      "Erreur création commande :",
+      error
+    );
+
     res.status(500).json({
       message: error.message,
     });
@@ -321,14 +401,27 @@ const downloadInvoice = async (req, res) => {
 
     doc.fontSize(12);
     doc.text(`Produit : ${order.produit.nom}`);
-    doc.text(`Quantité : ${order.quantite}`);
-    doc.text(`Prix unitaire : ${order.produit.prix} FCFA`);
+    doc.text(`Type de vente : ${order.typeVente || "-"}`);
+doc.text(`Unité : ${order.unite || "-"}`);
+
+if (order.typeVente === "lot") {
+  doc.text(
+    `Quantité par lot : ${order.quantiteParLot || "-"}`
+  );
+}
+
+doc.text(`Quantité commandée : ${order.quantite}`);
+doc.text(
+  `Prix unitaire : ${order.prixUnitaire.toLocaleString("fr-FR")} FCFA`
+);
     doc.text(`Méthode de paiement : ${order.methodePaiement}`);
     doc.text(`Statut du paiement : ${order.statutPaiement}`);
     doc.moveDown(2);
 
     // Total
-    doc.fontSize(16).text(`TOTAL : ${order.montant} FCFA`, { align: "right" });
+    doc.fontSize(16).text(
+  `TOTAL : ${order.montant.toLocaleString("fr-FR")} FCFA`,
+  { align: "right" });
     doc.moveDown(3);
 
     // Footer

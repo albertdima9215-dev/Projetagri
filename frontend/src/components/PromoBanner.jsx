@@ -4,6 +4,9 @@ import api from "../services/api";
 import "../css/promoBanner.css";
 import { optimizeImage } from "../utils/cloudinary";
 
+// icons
+import { FaFireAlt } from "react-icons/fa";
+
 function PromoBanner() {
   const [promotions, setPromotions] = useState([]);
   const [current, setCurrent] = useState(0);
@@ -110,7 +113,7 @@ function PromoBanner() {
         <div className="promo-text">
 
           <span className="promo-label">
-            🔥 OFFRE AGRICONNECT
+            <FaFireAlt /> OFFRE AGRICONNECT
           </span>
 
           <h2>

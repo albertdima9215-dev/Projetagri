@@ -103,14 +103,33 @@ function Payment() {
         <h2>{order.produit?.nom}</h2>
 
         <p>
-          Quantité :
-          <strong> {order.quantite}</strong>
-        </p>
+  Quantité :
+  <strong>
+    {" "}
+    {order.quantite}{" "}
+    {order.typeVente === "lot"
+      ? order.quantite === 1
+        ? "lot"
+        : "lots"
+      : order.uniteVente}
+  </strong>
+</p>
 
-        <p>
-          Total :
-          <strong> {order.montant} FCFA</strong>
-        </p>
+<p>
+  Prix unitaire :
+  <strong>
+    {" "}
+    {Number(order.prixUnitaire).toLocaleString()} FCFA
+  </strong>
+</p>
+
+<p>
+  Total :
+  <strong>
+    {" "}
+    {Number(order.montant).toLocaleString()} FCFA
+  </strong>
+</p>
 
         <div className="payment-summary">
 
