@@ -10,90 +10,12 @@ import Stats from "../components/Stats";
 import Testimonials from "../components/Testimonials";
 import { optimizeImage } from "../utils/cloudinary";
 import PromoBanner from "../components/PromoBanner";
+import {
+  getPrixLabel,
+  getStockLabel,
+} from "../utils/productFormatters";
 
 function Home() {
-
-function formatUnite(unite) {
-  const unites = {
-    "1kg": "1 kg",
-    "5kg": "5 kg",
-    "10kg": "10 kg",
-    "25kg": "25 kg",
-    "50kg": "50 kg",
-    "100kg": "100 kg",
-    "1tonne": "1 tonne",
-
-    piece: "pièce",
-    sac: "sac",
-    caisse: "caisse",
-    carton: "carton",
-    bidon: "bidon",
-    litre: "litre",
-    lot: "lot",
-  };
-
-  return unites[unite] || unite;
-}
-
-function getPrixLabel(product) {
-  const prix = Number(product.prix || 0).toLocaleString("fr-FR");
-  const unite = formatUnite(product.unite);
-
-  if (product.typeVente === "lot") {
-    const quantiteLot = Number(product.quantiteParLot || 0);
-
-    return `${prix} FCFA / lot de ${quantiteLot} ${unite}${
-      quantiteLot > 1 ? "s" : ""
-    }`;
-  }
-
-  return `${prix} FCFA / ${unite}`;
-}
-
-function getStockLabel(product) {
-  const quantite = Number(product.quantite || 0);
-
-  if (quantite === 0) {
-    return "Rupture de stock";
-  }
-
-  // Vente par lot
-  if (product.typeVente === "lot") {
-    return `${quantite} lot${quantite > 1 ? "s" : ""} disponible${
-      quantite > 1 ? "s" : ""
-    }`;
-  }
-
-  // Vente au poids
-  if (product.typeVente === "poids") {
-    const poids = product.unite;
-
-    const poidsValeur = {
-      "1kg": 1,
-      "5kg": 5,
-      "10kg": 10,
-      "25kg": 25,
-      "50kg": 50,
-      "100kg": 100,
-      "1tonne": 1000,
-    };
-
-    const kg = poidsValeur[poids];
-
-    if (kg) {
-      const totalKg = quantite * kg;
-
-      return `${totalKg.toLocaleString("fr-FR")} kg disponibles`;
-    }
-
-    return `${quantite} ${formatUnite(poids)} disponibles`;
-  }
-
-  // Vente à l'unité
-  const unite = formatUnite(product.unite);
-
-  return `${quantite} ${unite}${quantite > 1 ? "s" : ""} disponibles`;
-}
   
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);

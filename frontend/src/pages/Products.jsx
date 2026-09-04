@@ -1,16 +1,27 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
 import "../css/products.css";
-import {Link,useSearchParams} from "react-router-dom";
-import { FaHeart, FaRegHeart,FaWhatsapp } from "react-icons/fa";
+import { Link, useSearchParams } from "react-router-dom";
+import {
+  FaHeart,
+  FaRegHeart,
+  FaWhatsapp,
+} from "react-icons/fa";
 import { useFavorite } from "../context/FavoriteContext";
 import { optimizeImage } from "../utils/cloudinary";
+import {
+  formatUnite,
+  getPrixLabel,
+  getSaleTypeLabel,
+  getStockLabel,
+} from "../utils/productFormatters";
 
 function Products() {
+
   const [searchParams] = useSearchParams();
 
   const categorieURL = searchParams.get("categorie");
-  
+
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -21,6 +32,8 @@ function Products() {
   const [maxPrice, setMaxPrice] = useState("");
   const [sort, setSort] = useState("recent");
   const [visibleCount, setVisibleCount] = useState(12);
+
+  const { fetchFavorites } = useFavorite();
 
   useEffect(() => {
     getProducts();
@@ -33,263 +46,511 @@ function Products() {
 
   useEffect(() => {
     setVisibleCount(12);
-  }, [search, category, location, minPrice, maxPrice, sort]);
-  
+  }, [
+    search,
+    category,
+    location,
+    minPrice,
+    maxPrice,
+    sort,
+  ]);
 
+  // --------------------------------------------------
+  // Récupération des produits
+  // --------------------------------------------------
   async function getProducts() {
     try {
       const res = await api.get("/products");
-      setProducts(res.data.produits);
+
+      setProducts(res.data.produits || []);
     } catch (error) {
-      console.log(error);
+      console.log(
+        "Erreur récupération produits :",
+        error
+      );
     } finally {
       setLoading(false);
     }
+  }
+
+  // --------------------------------------------------
+  // Favoris
+  // --------------------------------------------------
+  const toggleFavorite = async (productId) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        alert("Veuillez vous connecter.");
+        return;
+      }
+
+      if (favorites.includes(productId)) {
+        await api.delete(
+          `/favorites/${productId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setFavorites(
+          favorites.filter(
+            (id) => id !== productId
+          )
+        );
+      } else {
+        await api.post(
+          `/favorites/${productId}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        setFavorites([
+          ...favorites,
+          productId,
+        ]);
+      }
+    } catch (error) {
+      alert(
+        error.response?.data?.message ||
+          "Erreur"
+      );
+    }
   };
 
-  const { fetchFavorites } = useFavorite();
+  // --------------------------------------------------
+  // Produits filtrés
+  // --------------------------------------------------
+  const filteredProducts = products
+    .filter((product) =>
+      product.nom
+        ?.toLowerCase()
+        .includes(search.toLowerCase())
+    )
+    .filter((product) =>
+      category
+        ? product.categorie === category
+        : true
+    )
+    .filter((product) =>
+      location
+        ? product.localisation
+            ?.toLowerCase()
+            .includes(location.toLowerCase())
+        : true
+    )
+    .filter((product) =>
+      minPrice
+        ? product.prix >= Number(minPrice)
+        : true
+    )
+    .filter((product) =>
+      maxPrice
+        ? product.prix <= Number(maxPrice)
+        : true
+    )
+    .sort((a, b) => {
+      if (sort === "priceAsc") {
+        return a.prix - b.prix;
+      }
 
-  const toggleFavorite = async (productId) => {
-  try {
-    const token = localStorage.getItem("token");
+      if (sort === "priceDesc") {
+        return b.prix - a.prix;
+      }
 
-    if (!token) {
-      alert("Veuillez vous connecter.");
-      return;
-    }
-
-    if (favorites.includes(productId)) {
-
-      await api.delete(`/favorites/${productId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      setFavorites(favorites.filter(id => id !== productId));
-
-    } else {
-
-      await api.post(
-        `/favorites/${productId}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      return (
+        new Date(b.createdAt) -
+        new Date(a.createdAt)
       );
+    });
 
-      setFavorites([...favorites, productId]);
+  const visibleProducts =
+    filteredProducts.slice(
+      0,
+      visibleCount
+    );
+
+  // --------------------------------------------------
+  // Partage WhatsApp
+  // --------------------------------------------------
+  const shareOnWhatsApp = (product) => {
+    const url = `${window.location.origin}/products/${product._id}`;
+
+    let typeVente = "";
+
+    if (product.typeVente === "poids") {
+      typeVente = `Vente : Au poids`;
+    } else if (
+      product.typeVente === "unite"
+    ) {
+      typeVente = `Vente : À l'unité`;
+    } else if (
+      product.typeVente === "lot"
+    ) {
+      typeVente = `Vente : Par lot`;
     }
 
-  } catch (error) {
-    alert(error.response?.data?.message || "Erreur");
-  }
-};
+    let unite = "";
 
-const filteredProducts = products
-  .filter((product) =>
-    product.nom.toLowerCase().includes(search.toLowerCase())
-  )
-  .filter((product) =>
-    category ? product.categorie ===            category : true
-  )
-  .filter((product) =>
-    location
-      ? product.localisation
-          .toLowerCase()
-          .includes(location.toLowerCase())
-      : true
-  )
-  .filter((product) =>
-    minPrice ? product.prix >= Number(minPrice) : true
-  )
-  .filter((product) =>
-    maxPrice ? product.prix <= Number(maxPrice) : true
-  )
-  .sort((a, b) => {
-    if (sort === "priceAsc") return a.prix - b.prix;
-    if (sort === "priceDesc") return b.prix - a.prix;
-    return new Date(b.createdAt) - new Date(a.createdAt);
-  });
+    if (product.unite) {
+      unite = `\n📏 Unité : ${product.unite}`;
+    }
 
-  const visibleProducts = filteredProducts.slice(0, visibleCount);
+    let composition = "";
 
-const shareOnWhatsApp = (product) => {
-  const url = `${window.location.origin}/products/${product._id}`;
+    if (
+      product.typeVente === "lot" &&
+      product.quantiteParLot
+    ) {
+      composition = `\n🔢 Composition : ${product.quantiteParLot} unités / lot`;
+    }
 
-  const text = `🌾 *${product.nom}*
+    const text = `*${product.nom}*
 
-💰 Prix : ${product.prix} FCFA
-📍 Localisation : ${product.localisation}
+Prix : ${Number(
+      product.prix
+    ).toLocaleString("fr-FR")} FCFA
 
-Voir le produit : ${url}`;
+${typeVente}${unite}${composition}
 
-  window.open(
-    `https://wa.me/?text=${encodeURIComponent(text)}`,
-    "_blank"
-  );
-};
+Localisation : ${
+      product.localisation || "Non précisée"
+    }
 
-if (loading) {
-  return (
-    <div className="products-container">
-      <h1>Nos Produits</h1>
+Voir le produit :
+${url}`;
 
-      <div className="products-grid">
-        {[...Array(8)].map((_, index) => (
-          <div className="product-card skeleton-card" key={index}>
-            <div className="skeleton skeleton-image"></div>
-            <div className="skeleton skeleton-title"></div>
-            <div className="skeleton skeleton-price"></div>
-            <div className="skeleton skeleton-button"></div>
-          </div>
-        ))}
+    window.open(
+      `https://wa.me/?text=${encodeURIComponent(
+        text
+      )}`,
+      "_blank"
+    );
+  };
+
+  // --------------------------------------------------
+  // Chargement
+  // --------------------------------------------------
+  if (loading) {
+    return (
+      <div className="products-container">
+        <h1>Nos Produits</h1>
+
+        <div className="products-grid">
+          {[...Array(8)].map(
+            (_, index) => (
+              <div
+                className="product-card skeleton-card"
+                key={index}
+              >
+                <div className="skeleton skeleton-image"></div>
+
+                <div className="skeleton skeleton-title"></div>
+
+                <div className="skeleton skeleton-price"></div>
+
+                <div className="skeleton skeleton-button"></div>
+              </div>
+            )
+          )}
+        </div>
       </div>
-    </div>
-  );
-}
-  
+    );
+  }
 
+  // --------------------------------------------------
+  // Interface
+  // --------------------------------------------------
   return (
     <div className="products-container">
       <h1>Nos Produits</h1>
+
+      {/* ========================= */}
+      {/* FILTRES */}
+      {/* ========================= */}
 
       <div className="filters">
+        <input
+          type="text"
+          placeholder="Rechercher un produit..."
+          value={search}
+          onChange={(e) =>
+            setSearch(e.target.value)
+          }
+        />
 
-          <input
-    type="text"
-    placeholder="🔍 Rechercher un produit..."
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-  />
+        <select
+          value={category}
+          onChange={(e) =>
+            setCategory(e.target.value)
+          }
+        >
+          <option value="">
+            Toutes les catégories
+          </option>
 
-          <select
-    value={category}
-    onChange={(e) => setCategory(e.target.value)}
-  >
-            <option value="">Toutes les catégories</option>
-            <option value="Céréales">Céréales</option>
-            <option value="Légumes">Légumes</option>
-            <option value="Fruits">Fruits</option>
-            <option value="Tubercules">Tubercules</option>
-            <option value="Élevage">Élevage</option>
-          </select>
+          <option value="Céréales">
+            Céréales
+          </option>
 
-          <input
-    type="text"
-    placeholder="📍 Localité"
-    value={location}
-    onChange={(e) => setLocation(e.target.value)}
-  />
+          <option value="Légumes">
+            Légumes
+          </option>
 
-          <input
-    type="number"
-    placeholder="Prix min"
-    value={minPrice}
-    onChange={(e) => setMinPrice(e.target.value)}
-  />
+          <option value="Fruits">
+            Fruits
+          </option>
 
-          <input
-    type="number"
-    placeholder="Prix max"
-    value={maxPrice}
-    onChange={(e) => setMaxPrice(e.target.value)}
-  />
+          <option value="Tubercules">
+            Tubercules
+          </option>
 
-          <select
-    value={sort}
-    onChange={(e) => setSort(e.target.value)}
-  >
-            <option value="recent">🆕 Plus récent</option>
-            <option value="priceAsc">💰 Prix croissant</option>
-            <option value="priceDesc">💰 Prix décroissant</option>
-          </select>
+          <option value="Élevage">
+            Élevage
+          </option>
+        </select>
 
-        </div>
+        <input
+          type="text"
+          placeholder="Localité"
+          value={location}
+          onChange={(e) =>
+            setLocation(e.target.value)
+          }
+        />
 
-        <p className="results-count">
-          {filteredProducts.length} produit(s) trouvé(s)
-        </p>
+        <input
+          type="number"
+          placeholder="Prix min"
+          value={minPrice}
+          onChange={(e) =>
+            setMinPrice(e.target.value)
+          }
+        />
 
-        <button
-  className="reset-filters"
-  onClick={() => {
-    setSearch("");
-    setCategory("");
-    setLocation("");
-    setMinPrice("");
-    setMaxPrice("");
-    setSort("recent");
-  }}
->
-          🔄 Réinitialiser
-        </button>
+        <input
+          type="number"
+          placeholder="Prix max"
+          value={maxPrice}
+          onChange={(e) =>
+            setMaxPrice(e.target.value)
+          }
+        />
+
+        <select
+          value={sort}
+          onChange={(e) =>
+            setSort(e.target.value)
+          }
+        >
+          <option value="recent">
+            Plus récent
+          </option>
+
+          <option value="priceAsc">
+            Prix croissant
+          </option>
+
+          <option value="priceDesc">
+            Prix décroissant
+          </option>
+        </select>
+      </div>
+
+      {/* ========================= */}
+      {/* RÉSULTATS */}
+      {/* ========================= */}
+
+      <p className="results-count">
+        {filteredProducts.length} produit(s)
+        trouvé(s)
+      </p>
+
+      <button
+        className="reset-filters"
+        onClick={() => {
+          setSearch("");
+          setCategory("");
+          setLocation("");
+          setMinPrice("");
+          setMaxPrice("");
+          setSort("recent");
+        }}
+      >
+        🔄 Réinitialiser
+      </button>
+
+      {/* ========================= */}
+      {/* PRODUITS */}
+      {/* ========================= */}
 
       <div className="products-grid">
-
-        {visibleCount < filteredProducts.length && (
-          <div className="load-more-container">
-            <button
-      className="load-more-btn"
-      onClick={() => setVisibleCount((prev) => prev + 12)}
-    >
-              ⬇ Charger plus
-            </button>
-          </div>
-        )}
-        
         {filteredProducts.length === 0 ? (
-          <p>Aucun produit disponible.</p>
+          <p>
+            Aucun produit disponible.
+          </p>
         ) : (
-        visibleProducts.map((product) => (
-          <div className="product-card" key={product._id}>
+          visibleProducts.map(
+            (product) => (
+              <div
+                className="product-card"
+                key={product._id}
+              >
+                {/* FAVORI */}
+                <button
+                  className="favorite-btn"
+                  onClick={() =>
+                    toggleFavorite(
+                      product._id
+                    )
+                  }
+                >
+                  {favorites.includes(
+                    product._id
+                  ) ? (
+                    <FaHeart />
+                  ) : (
+                    <FaRegHeart />
+                  )}
+                </button>
 
-            <button
-  className="favorite-btn"
-  onClick={() => toggleFavorite(product._id)}
->
-  {favorites.includes(product._id) ? (
-    <FaHeart />
-  ) : (
-    <FaRegHeart />
-  )}
-            </button>
-            
-            <img src={optimizeImage(product.images?.[0] || product.image, 500)} alt={product.nom} loading="lazy" decoding="async" />
+                {/* IMAGE */}
+                <img
+                  src={optimizeImage(
+                    product.images?.[0] ||
+                      product.image,
+                    500
+                  )}
+                  alt={product.nom}
+                  loading="lazy"
+                  decoding="async"
+                  onError={(e) => {
+                    e.currentTarget.src =
+                      "/placeholder-product.png";
+                  }}
+                />
 
-            <h3>{product.nom}</h3>
+                {/* NOM */}
+                <h3>{product.nom}</h3>
 
-            <p>{product.prix} FCFA</p>
+                {/* TYPE DE VENTE */}
+                {getSaleTypeLabel(
+                  product
+                ) && (
+                  <span className="sale-type">
+                    {getSaleTypeLabel(
+                      product
+                    )}
+                  </span>
+                )}
 
-            <div className="product-rating">
-              ⭐ {product.averageRating || 0}
-                  <span>({product.totalReviews || 0} avis)</span>
-            </div>
+                {/* PRIX */}
+                <p className="product-price">
+                  {getPrixLabel(product)}
+                </p>
 
-            {product.quantite === 0 && (
-              <span className="stock-badge out">
-                Rupture
-              </span>
-            )}
+                {/* STOCK */}
+                {product.quantite !==
+                  undefined &&
+                  product.quantite !==
+                    null && (
+                    <p className="product-stock">
+                      Disponible :{" "}
+                      <strong>
+                        {getStockLabel(
+                          product
+                        )}
+                      </strong>
+                    </p>
+                  )}
 
-            <Link to={`/products/${product._id}`}>
-              <button className="details-btn" >
-                Voir les détails
-              </button>
-            </Link>
+                {/* COMPOSITION DU LOT */}
+                {product.typeVente ===
+                  "lot" &&
+                  product.quantiteParLot && (
+                    <p className="lot-info">
+                      {" "}
+                      {
+                        product.quantiteParLot
+                      }{" "}
+                      unités / lot
+                    </p>
+                  )}
 
-            <button
-  className="whatsapp-share-btn"
-  onClick={() => shareOnWhatsApp(product)}
->
-              <FaWhatsapp /> Partager
-            </button>
-            
-          </div>
-        )))}
+                {/* NOTE */}
+                <div className="product-rating">
+                  ⭐{" "}
+                  {product.averageRating ||
+                    0}
+
+                  <span>
+                    (
+                    {product.totalReviews ||
+                      0}{" "}
+                    avis)
+                  </span>
+                </div>
+
+                {/* RUPTURE */}
+                {Number(
+                  product.quantite
+                ) === 0 && (
+                  <span className="stock-badge out">
+                    Rupture
+                  </span>
+                )}
+
+                {/* VOIR LE PRODUIT */}
+                <Link
+                  to={`/products/${product._id}`}
+                >
+                  <button className="details-btn">
+                    Voir les détails
+                  </button>
+                </Link>
+
+                {/* WHATSAPP */}
+                <button
+                  className="whatsapp-share-btn"
+                  onClick={() =>
+                    shareOnWhatsApp(
+                      product
+                    )
+                  }
+                >
+                  <FaWhatsapp /> Partager
+                </button>
+              </div>
+            )
+          )
+        )}
       </div>
+
+      {/* ========================= */}
+      {/* CHARGER PLUS */}
+      {/* ========================= */}
+
+      {visibleCount <
+        filteredProducts.length && (
+        <div className="load-more-container">
+          <button
+            className="load-more-btn"
+            onClick={() =>
+              setVisibleCount(
+                (prev) => prev + 12
+              )
+            }
+          >
+            ⬇ Charger plus
+          </button>
+        </div>
+      )}
     </div>
   );
 }

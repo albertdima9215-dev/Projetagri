@@ -2,6 +2,14 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import api from "../services/api";
 import "../css/productDetails.css";
+import {
+  formatUnite,
+  getPrixLabel,
+  getSaleTypeLabel,
+  getQuantiteLabel,
+  getOrderLabel,
+  getSelectedQuantityLabel,
+} from "../utils/productFormatters";
 import { FaWhatsapp } from "react-icons/fa";
 
 function ProductDetails() {
@@ -13,121 +21,6 @@ function ProductDetails() {
   const [quantite, setQuantite] = useState(1);
   const [reviews, setReviews] = useState([]);
   const [selectedImage, setSelectedImage] = useState(0);
-
-  // =========================
-  // FORMATAGE UNITÉS
-  // =========================
-
-  const formatUnite = (unite) => {
-    const unites = {
-      "1kg": "1 kg",
-      "5kg": "5 kg",
-      "10kg": "10 kg",
-      "25kg": "25 kg",
-      "50kg": "50 kg",
-      "100kg": "100 kg",
-      "1tonne": "1 tonne",
-
-      piece: "pièce",
-      sac: "sac",
-      caisse: "caisse",
-      carton: "carton",
-      bidon: "bidon",
-      litre: "litre",
-
-      lot: "lot",
-    };
-
-    return unites[unite] || unite;
-  };
-
-  // =========================
-  // INFORMATIONS DE VENTE
-  // =========================
-
-  const getPrixLabel = () => {
-    if (!product) return "";
-
-    const prix = Number(product.prix || 0).toLocaleString("fr-FR");
-
-    const unite = formatUnite(product.unite || "1kg");
-
-    if (product.typeVente === "lot") {
-      const quantiteLot = Number(product.quantiteParLot || 0);
-
-      return `${prix} FCFA / lot de ${quantiteLot} ${unite}${
-        quantiteLot > 1 ? "s" : ""
-      }`;
-    }
-
-    return `${prix} FCFA / ${unite}`;
-  };
-
-  const getQuantiteLabel = () => {
-    if (!product) return "";
-
-    const quantite = Number(product.quantite || 0);
-
-    if (product.typeVente === "lot") {
-      return `${quantite} lot${quantite > 1 ? "s" : ""}`;
-    }
-
-    if (product.typeVente === "poids") {
-      const poids = {
-        "1kg": 1,
-        "5kg": 5,
-        "10kg": 10,
-        "25kg": 25,
-        "50kg": 50,
-        "100kg": 100,
-        "1tonne": 1000,
-      };
-
-      const kg = poids[product.unite];
-
-      if (kg) {
-        const totalKg = quantite * kg;
-
-        return `${totalKg.toLocaleString("fr-FR")} kg`;
-      }
-    }
-
-    const unite = formatUnite(product.unite || "pièce");
-
-    return `${quantite} ${unite}${quantite > 1 ? "s" : ""}`;
-  };
-
-  const getOrderLabel = () => {
-    if (!product) return "Quantité";
-
-    if (product.typeVente === "lot") {
-      return "Nombre de lots";
-    }
-
-    if (product.typeVente === "poids") {
-      return `Nombre de ${formatUnite(product.unite || "1kg")}`;
-    }
-
-    return `Nombre de ${formatUnite(product.unite || "pièce")}`;
-  };
-
-  const getSelectedQuantityLabel = () => {
-    if (!product) return "";
-
-    const qte = Number(quantite);
-
-    if (product.typeVente === "lot") {
-      return `${qte} lot${qte > 1 ? "s" : ""}`;
-    }
-
-    const unite = formatUnite(product.unite || "pièce");
-
-    return `${qte} ${unite}${qte > 1 ? "s" : ""}`;
-  };
-
-  // =========================
-  // PRODUIT
-  // =========================
 
   useEffect(() => {
     fetchProduct();
@@ -219,7 +112,7 @@ function ProductDetails() {
 
 Je suis intéressé(e) par votre produit "${product.nom}".
 
-Prix : ${getPrixLabel()}
+Prix : ${getPrixLabel(product)}
 
 Je viens de voir votre annonce sur AgriConnect.`;
 
@@ -230,6 +123,52 @@ Je viens de voir votre annonce sur AgriConnect.`;
 
     window.open(url, "_blank");
   };
+
+  // =========================
+// GESTION QUANTITÉ COMMANDE
+// =========================
+
+const diminuerQuantite = () => {
+  setQuantite((prev) => {
+    const nouvelleQuantite = Number(prev) - 1;
+
+    return nouvelleQuantite >= 1
+      ? nouvelleQuantite
+      : 1;
+  });
+};
+
+const augmenterQuantite = () => {
+  setQuantite((prev) => {
+    const nouvelleQuantite = Number(prev) + 1;
+
+    return nouvelleQuantite <= Number(product.quantite)
+      ? nouvelleQuantite
+      : Number(product.quantite);
+  });
+};
+
+const modifierQuantite = (value) => {
+  const nouvelleQuantite = Number(value);
+
+  if (
+    Number.isNaN(nouvelleQuantite) ||
+    nouvelleQuantite < 1
+  ) {
+    setQuantite(1);
+    return;
+  }
+
+  if (
+    nouvelleQuantite >
+    Number(product.quantite)
+  ) {
+    setQuantite(Number(product.quantite));
+    return;
+  }
+
+  setQuantite(nouvelleQuantite);
+};
 
   // =========================
   // COMMANDE
@@ -354,20 +293,18 @@ Je viens de voir votre annonce sur AgriConnect.`;
         <h1>{product.nom}</h1>
 
         {/* PRIX */}
-        <h2>{getPrixLabel()}</h2>
+        <h2>{getPrixLabel(product)}</h2>
 
         <p>
-          <strong>Type de vente :</strong>{" "}
-          {product.typeVente === "poids"
-            ? "Au poids"
-            : product.typeVente === "unite"
-            ? "À l'unité"
-            : "Par lot"}
+          <strong>
+            Type de vente :
+          </strong>{" "}
+          {getSaleTypeLabel(product)}
         </p>
 
         <p>
           <strong>Stock disponible :</strong>{" "}
-          {getQuantiteLabel()}
+          {getQuantiteLabel(product)}
         </p>
 
         <p>
@@ -441,96 +378,184 @@ Je viens de voir votre annonce sur AgriConnect.`;
       </div>
 
       {/* =========================
-          MODALE COMMANDE
-      ========================= */}
+    MODALE COMMANDE
+========================= */}
 
-      {showOrder && (
-        <div
-          className="order-modal"
-          onClick={() =>
-            setShowOrder(false)
+{showOrder && (
+  <div
+    className="order-modal"
+    onClick={() => setShowOrder(false)}
+  >
+    <div
+      className="order-content"
+      onClick={(e) => e.stopPropagation()}
+    >
+
+      {/* TITRE */}
+
+      <h2 className="order-title">
+        Commander le produit
+      </h2>
+
+      {/* PRODUIT */}
+
+      <p className="order-product">
+        Produit :{" "}
+        <strong>
+          {product.nom}
+        </strong>
+      </p>
+
+      {/* PRIX */}
+
+      <p className="order-price">
+        Prix :{" "}
+        <strong>
+          {getPrixLabel(product)}
+        </strong>
+      </p>
+
+      {/* TYPE DE VENTE */}
+
+      <p className="order-sale-type">
+        Type de vente :{" "}
+        <strong>
+          {getSaleTypeLabel(product)}
+        </strong>
+      </p>
+
+      {/* QUANTITÉ */}
+
+      <label className="order-label">
+        {getOrderLabel(product)}
+      </label>
+
+      <div className="quantity-control">
+
+        <button
+          type="button"
+          className="quantity-btn"
+          onClick={diminuerQuantite}
+          disabled={quantite <= 1}
+        >
+          −
+        </button>
+
+        <input
+          type="number"
+          min="1"
+          max={product.quantite}
+          step="1"
+          value={quantite}
+          onChange={(e) =>
+            modifierQuantite(e.target.value)
+          }
+          className="quantity-input"
+        />
+
+        <button
+          type="button"
+          className="quantity-btn"
+          onClick={augmenterQuantite}
+          disabled={
+            quantite >= Number(product.quantite)
           }
         >
-          <div
-            className="order-content"
-            onClick={(e) =>
-              e.stopPropagation()
-            }
-          >
+          +
+        </button>
 
-            <h2>
-              Commander le produit
-            </h2>
+      </div>
 
-            <p>
-              Produit :{" "}
-              <strong>
-                {product.nom}
-              </strong>
-            </p>
+      {/* LIMITES */}
 
-            <p>
-              Prix :{" "}
-              <strong>
-                {getPrixLabel()}
-              </strong>
-            </p>
+      <p className="quantity-limit">
+        Min : 1
+        <span>|</span>
+        Max :{" "}
+        {Number(product.quantite).toLocaleString(
+          "fr-FR"
+        )}{" "}
+        disponible
+        {Number(product.quantite) > 1
+          ? "s"
+          : ""}
+      </p>
 
-            <label>
-              {getOrderLabel()}
-            </label>
+      {/* INFORMATIONS QUANTITÉ */}
 
-            <input
-              type="number"
-              min="1"
-              max={product.quantite}
-              step="1"
-              value={quantite}
-              onChange={(e) => {
-                const value =
-                  Number(e.target.value);
+      <div className="selected-quantity-box">
 
-                if (
-                  value >= 0 &&
-                  value <= product.quantite
-                ) {
-                  setQuantite(value);
-                }
-              }}
-            />
-
-            <p>
-              Quantité choisie :{" "}
-              <strong>
-                {getSelectedQuantityLabel()}
-              </strong>
-            </p>
-
-            <h3>
-              Total :{" "}
-              {totalCommande.toLocaleString(
-                "fr-FR"
-              )}{" "}
-              FCFA
-            </h3>
-
-            <button
-              onClick={createOrder}
-            >
-              Confirmer la commande
-            </button>
-
-            <button
-              onClick={() =>
-                setShowOrder(false)
-              }
-            >
-              Annuler
-            </button>
-
-          </div>
+        <div className="selected-quantity-icon">
         </div>
-      )}
+
+        <div>
+          <p>
+            Quantité choisie :{" "}
+            <strong>
+              {getSelectedQuantityLabel(
+                product,
+                quantite
+              )}
+            </strong>
+          </p>
+
+          {product.typeVente === "lot" &&
+            product.quantiteParLot && (
+              <small>
+                ({quantite} lot
+                {quantite > 1 ? "s" : ""} de{" "}
+                {product.quantiteParLot}{" "}
+                {product.unite === "piece"
+                  ? product.quantiteParLot > 1
+                    ? "pièces"
+                    : "pièce"
+                  : formatUnite(product.unite)}
+                )
+              </small>
+            )}
+
+          {product.typeVente === "poids" && (
+            <small>
+              ({quantite} unité
+              {quantite > 1 ? "s" : ""} de{" "}
+              {formatUnite(product.unite)})
+            </small>
+          )}
+        </div>
+
+      </div>
+
+      {/* TOTAL */}
+
+      <h3 className="order-total">
+        Total :{" "}
+        {totalCommande.toLocaleString(
+          "fr-FR"
+        )}{" "}
+        FCFA
+      </h3>
+
+      {/* CONFIRMER */}
+
+      <button
+        className="confirm-order-btn"
+        onClick={createOrder}
+      >
+        Confirmer la commande
+      </button>
+
+      {/* ANNULER */}
+
+      <button
+        className="cancel-command-btn"
+        onClick={() => setShowOrder(false)}
+      >
+        Annuler
+      </button>
+
+    </div>
+  </div>
+)}
 
       {/* =========================
           AVIS

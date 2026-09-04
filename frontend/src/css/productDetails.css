@@ -68,7 +68,7 @@
     background:#218838;
 }
 
-/* Fond sombre */
+/* Fond sombre 
 .order-modal{
     position: fixed;
     inset: 0;
@@ -79,7 +79,7 @@
     z-index: 1000;
 }
 
-/* Fenêtre */
+/* Fenêtre 
 .order-content{
     background: #fff;
     width: 90%;
@@ -90,7 +90,7 @@
     animation: modalAnimation .3s ease;
 }
 
-/* Animation */
+/* Animation 
 @keyframes modalAnimation{
     from{
         opacity: 0;
@@ -135,7 +135,7 @@
     margin-bottom: 20px;
 }
 
-/* Boutons */
+/* Boutons 
 .order-content button{
     width: 100%;
     padding: 12px;
@@ -163,7 +163,7 @@
 
 .order-content button:last-of-type:hover{
     background: #c62828;
-}
+}*/
 
 .reviews-section{
     margin-top:40px;
@@ -221,6 +221,385 @@ body.dark-mode .out-of-stock {
 
 .thumbnails img:hover {
   transform: scale(1.05);
+}
+
+/* =========================================
+   MODALE COMMANDE
+========================================= */
+
+.order-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px;
+
+  background: rgba(0, 0, 0, 0.65);
+
+  overflow-y: auto;
+}
+
+/* =========================================
+   CONTENU
+========================================= */
+
+.order-content {
+  width: 100%;
+  max-width: 650px;
+
+  background: #ffffff;
+
+  border-radius: 28px;
+
+  padding: 35px 30px;
+
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+  animation: orderModalAppear 0.25s ease;
+
+  box-sizing: border-box;
+}
+
+@keyframes orderModalAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* =========================================
+   TITRE
+========================================= */
+
+.order-title {
+  margin: 0 0 28px;
+
+  text-align: center;
+
+  color: #2e7d32;
+
+  font-size: 34px;
+  font-weight: 700;
+}
+
+/* =========================================
+   INFORMATIONS
+========================================= */
+
+.order-product,
+.order-price,
+.order-sale-type {
+  margin: 15px 0;
+
+  font-size: 19px;
+
+  color: #222;
+}
+
+.order-product strong,
+.order-price strong {
+  font-weight: 700;
+}
+
+.order-sale-type strong {
+  color: #2e7d32;
+}
+
+/* =========================================
+   LABEL
+========================================= */
+
+.order-label {
+  display: block;
+
+  margin-top: 30px;
+  margin-bottom: 12px;
+
+  font-size: 19px;
+  font-weight: 700;
+}
+
+/* =========================================
+   CONTRÔLE QUANTITÉ
+========================================= */
+
+.quantity-control {
+  display: flex;
+
+  align-items: center;
+
+  width: 100%;
+
+  border: 3px solid #2e7d32;
+
+  border-radius: 16px;
+
+  overflow: hidden;
+
+  box-sizing: border-box;
+}
+
+.quantity-btn {
+  width: 70px;
+  height: 65px;
+
+  border: none;
+
+  background: #ffffff;
+
+  color: #2e7d32;
+
+  font-size: 38px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.quantity-btn:hover:not(:disabled) {
+  background: #e8f5e9;
+}
+
+.quantity-btn:disabled {
+  opacity: 0.35;
+
+  cursor: not-allowed;
+}
+
+.quantity-input {
+  flex: 1;
+
+  height: 65px;
+
+  border: none;
+
+  outline: none;
+
+  text-align: center;
+
+  font-size: 25px;
+
+  font-weight: 600;
+
+  color: #222;
+
+  min-width: 0;
+}
+
+/* Retirer les flèches natives du input */
+
+.quantity-input::-webkit-inner-spin-button,
+.quantity-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+
+  margin: 0;
+}
+
+.quantity-input {
+  -moz-appearance: textfield;
+}
+
+/* =========================================
+   LIMITE STOCK
+========================================= */
+
+.quantity-limit {
+  margin: 10px 5px 25px;
+
+  color: #666;
+
+  font-size: 15px;
+}
+
+.quantity-limit span {
+  margin: 0 12px;
+}
+
+/* =========================================
+   QUANTITÉ CHOISIE
+========================================= */
+
+.selected-quantity-box {
+  display: flex;
+
+  align-items: center;
+
+  gap: 20px;
+
+  padding: 20px;
+
+  margin-top: 20px;
+
+  border: 2px solid #9ac89d;
+
+  border-radius: 18px;
+
+  background: #f6fbf6;
+}
+
+.selected-quantity-icon {
+  font-size: 40px;
+}
+
+.selected-quantity-box p {
+  margin: 0;
+
+  font-size: 19px;
+}
+
+.selected-quantity-box strong {
+  color: #2e7d32;
+
+  font-size: 21px;
+}
+
+.selected-quantity-box small {
+  display: block;
+
+  margin-top: 8px;
+
+  color: #666;
+
+  font-size: 15px;
+}
+
+/* =========================================
+   TOTAL
+========================================= */
+
+.order-total {
+  margin: 28px 0;
+
+  text-align: center;
+
+  color: #2e7d32;
+
+  font-size: 28px;
+}
+
+/* =========================================
+   BOUTON CONFIRMER
+========================================= */
+
+.confirm-order-btn,
+.cancel-command-btn {
+  width: 100%;
+
+  min-height: 60px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  font-size: 18px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.confirm-order-btn {
+  background: #2e7d32;
+  color: white;
+  margin-bottom: 15px;
+}
+
+.confirm-order-btn:hover {
+  background: #256628;
+}
+
+.cancel-command-btn {
+  background: #ef3030;
+  color: white;
+}
+
+.cancel-order-btn:hover {
+  background: #d62525;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+  .order-modal {
+    align-items: flex-start;
+
+    padding: 20px 12px;
+
+    padding-top: 50px;
+  }
+
+  .order-content {
+    max-width: 100%;
+
+    padding: 28px 20px;
+
+    border-radius: 25px;
+  }
+
+  .order-title {
+    font-size: 29px;
+
+    margin-bottom: 24px;
+  }
+
+  .order-product,
+  .order-price,
+  .order-sale-type {
+    font-size: 17px;
+  }
+
+  .quantity-btn {
+    width: 60px;
+
+    height: 60px;
+
+    font-size: 34px;
+  }
+
+  .quantity-input {
+    height: 60px;
+
+    font-size: 22px;
+  }
+
+  .selected-quantity-box {
+    padding: 16px;
+
+    gap: 12px;
+  }
+
+  .selected-quantity-icon {
+    font-size: 32px;
+  }
+
+  .selected-quantity-box p {
+    font-size: 16px;
+  }
+
+  .selected-quantity-box strong {
+    font-size: 18px;
+  }
+
+  .order-total {
+    font-size: 25px;
+  }
+
 }
 
 @media(max-width:768px){

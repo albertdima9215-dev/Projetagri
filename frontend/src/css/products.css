@@ -35,9 +35,8 @@
     padding:10px;
 }
 
-.product-card p{
+.product-card p, .product-card .sale-type{
     padding:0 10px 10px;
-    color:var(--text-light);
     font-weight:bold;
 }
 
