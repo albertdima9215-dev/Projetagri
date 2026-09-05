@@ -2,6 +2,14 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import "../css/dashboard.css";
 import { Link } from "react-router-dom";
+import imageCompression from "browser-image-compression";
+import { optimizeImage } from "../utils/cloudinary";
+import {
+  formatUnite,
+  getPrixLabel,
+  getSaleTypeLabel,
+  getStockLabel,
+} from "../utils/productFormatters";
 
 import {
   ResponsiveContainer,
@@ -22,8 +30,6 @@ import {
 import { GiCardboardBox } from "react-icons/gi";
 import { IoMdCube } from "react-icons/io";
 import { GoGraph } from "react-icons/go";
-
-import { optimizeImage } from "../utils/cloudinary";
 
 function Dashboard() {
   const [products, setProducts] = useState([]);
@@ -107,119 +113,161 @@ function Dashboard() {
   // ==================================================
 
   const handleEdit = (product) => {
-    setEditingProduct({
-      ...product,
-      typeVente: product.typeVente || "poids",
-      unite: product.unite || "",
-      quantiteParLot:
-        product.quantiteParLot || "",
-    });
+  setEditingProduct({
+    ...product,
+    typeVente: product.typeVente || "",
+    unite: product.unite || "",
+    quantiteParLot: product.quantiteParLot || "",
+  });
 
-    setImages([]);
-  };
+  setImages([]);
+};
 
   const handleEditChange = (e) => {
+  const { name, value } = e.target;
+
+  if (name === "typeVente") {
     setEditingProduct({
       ...editingProduct,
-      [e.target.name]: e.target.value,
+      typeVente: value,
+      unite: "",
+      quantiteParLot: "",
     });
-  };
+
+    return;
+  }
+
+  setEditingProduct({
+    ...editingProduct,
+    [name]: value,
+  });
+};
 
   // ==================================================
   // MODIFIER PRODUIT
   // ==================================================
 
   const updateProduct = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    try {
-      const token = localStorage.getItem("token");
+  if (!editingProduct.typeVente) {
+    alert("Veuillez choisir un type de vente.");
+    return;
+  }
 
-      const data = new FormData();
+  if (!editingProduct.unite) {
+    alert("Veuillez choisir une unité.");
+    return;
+  }
 
+  if (
+    editingProduct.typeVente === "lot" &&
+    !editingProduct.quantiteParLot
+  ) {
+    alert(
+      "Veuillez indiquer la quantité contenue dans chaque lot."
+    );
+    return;
+  }
+
+  try {
+    const token = localStorage.getItem("token");
+
+    const data = new FormData();
+
+    data.append("nom", editingProduct.nom);
+    data.append(
+      "description",
+      editingProduct.description
+    );
+    data.append(
+      "categorie",
+      editingProduct.categorie
+    );
+
+    data.append(
+      "typeVente",
+      editingProduct.typeVente
+    );
+
+    data.append(
+      "prix",
+      editingProduct.prix
+    );
+
+    data.append(
+      "unite",
+      editingProduct.unite
+    );
+
+    data.append(
+      "quantite",
+      editingProduct.quantite
+    );
+
+    data.append(
+      "localisation",
+      editingProduct.localisation
+    );
+
+    // =========================
+    // QUANTITÉ PAR LOT
+    // =========================
+
+    if (
+      editingProduct.typeVente === "lot"
+    ) {
       data.append(
-        "nom",
-        editingProduct.nom
-      );
-
-      data.append(
-        "description",
-        editingProduct.description
-      );
-
-      data.append(
-        "categorie",
-        editingProduct.categorie
-      );
-
-      data.append(
-        "typeVente",
-        editingProduct.typeVente
-      );
-
-      data.append(
-        "unite",
-        editingProduct.unite
-      );
-
-      data.append(
-        "prix",
-        editingProduct.prix
-      );
-
-      data.append(
-        "quantite",
-        editingProduct.quantite
-      );
-
-      data.append(
-        "localisation",
-        editingProduct.localisation
-      );
-
-      // Seulement pour les lots
-      if (
-        editingProduct.typeVente === "lot" &&
+        "quantiteParLot",
         editingProduct.quantiteParLot
-      ) {
-        data.append(
-          "quantiteParLot",
-          editingProduct.quantiteParLot
-        );
-      }
-
-      // Images
-      if (images.length > 0) {
-        images.forEach((img) => {
-          data.append("images", img);
-        });
-      }
-
-      await api.put(
-        `/products/${editingProduct._id}`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
       );
-
-      alert(
-        "Produit modifié avec succès"
-      );
-
-      setEditingProduct(null);
-      setImages([]);
-
-      fetchMyProducts();
-    } catch (error) {
-      alert(
-        error.response?.data?.message ||
-          "Erreur lors de la modification"
+    } else {
+      data.append(
+        "quantiteParLot",
+        ""
       );
     }
-  };
+
+    // =========================
+    // IMAGES
+    // =========================
+
+    if (images.length > 0) {
+      images.forEach((img) => {
+        data.append("images", img);
+      });
+    }
+
+    await api.put(
+      `/products/${editingProduct._id}`,
+      data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    alert("Produit modifié avec succès.");
+
+    setEditingProduct(null);
+    setImages([]);
+
+    fetchMyProducts();
+
+  } catch (error) {
+    console.error(
+      "Erreur modification :",
+      error.response?.data || error
+    );
+
+    alert(
+      error.response?.data?.message ||
+        "Erreur lors de la modification du produit."
+    );
+  }
+};
 
   // ==================================================
   // STATISTIQUES PRODUITS
@@ -290,56 +338,39 @@ function Dashboard() {
   // ==================================================
 
   const filesModification = async (e) => {
-    try {
-      const files = Array.from(
-        e.target.files || []
-      );
+  const files = Array.from(e.target.files || []);
 
-      if (files.length === 0) return;
+  if (files.length === 0) return;
 
-      setImages(files);
-    } catch (error) {
-      console.log(error);
-    }
+  const options = {
+    maxSizeMB: 0.4,
+    maxWidthOrHeight: 1280,
+    useWebWorker: true,
   };
 
-  // ==================================================
-  // TYPE DE VENTE
-  // ==================================================
+  try {
+    const compressedFiles = await Promise.all(
+      files.map(async (file) => {
+        const compressed = await imageCompression(
+          file,
+          options
+        );
 
-  const getSaleTypeLabel = (product) => {
-    if (product.typeVente === "poids") {
-      return "Au poids";
-    }
+        console.log(
+          file.name,
+          (file.size / 1024).toFixed(0) + "KB →",
+          (compressed.size / 1024).toFixed(0) + "KB"
+        );
 
-    if (product.typeVente === "unite") {
-      return "À l'unité";
-    }
+        return compressed;
+      })
+    );
 
-    if (product.typeVente === "lot") {
-      return "Par lot";
-    }
-
-    return "Non défini";
-  };
-
-  // ==================================================
-  // STOCK
-  // ==================================================
-
-  const getStockLabel = (product) => {
-    if (product.typeVente === "lot") {
-      return `${product.quantite} lot${
-        Number(product.quantite) > 1
-          ? "s"
-          : ""
-      }`;
-    }
-
-    return `${product.quantite} × ${
-      product.unite || ""
-    }`;
-  };
+    setImages(compressedFiles);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   // ==================================================
   // AFFICHAGE
@@ -604,81 +635,44 @@ function Dashboard() {
                   decoding="async"
                 />
 
-                <h3>
-                  {product.nom}
-                </h3>
+                
+                <h3>{product.nom}</h3>
 
-                <span className="badge">
-                  {product.categorie}
-                </span>
+<span className="badge">
+  {product.categorie}
+</span>
 
-                {/* TYPE DE VENTE */}
+<p>
+  <strong>Type de vente :</strong>{" "}
+  {getSaleTypeLabel(product)}
+</p>
 
-                <p>
-                  <strong>
-                    Type de vente :
-                  </strong>{" "}
-                  {getSaleTypeLabel(product)}
-                </p>
+<p>
+  <strong>Prix :</strong>{" "}
+  {getPrixLabel(product)}
+</p>
 
-                {/* PRIX */}
+<p>
+  <strong>Stock :</strong>{" "}
+  {getStockLabel(product)}
+</p>
 
-                <p>
-                  <strong>
-                    Prix :
-                  </strong>{" "}
-                  {Number(
-                    product.prix
-                  ).toLocaleString(
-                    "fr-FR"
-                  )}{" "}
-                  FCFA
+{product.typeVente === "lot" &&
+  product.quantiteParLot && (
+    <p>
+      <strong>Composition :</strong>{" "}
+      {product.quantiteParLot}{" "}
+      {formatUnite(product.unite)}
+      {" / lot"}
+    </p>
+  )}
 
-                  {product.unite &&
-                    ` / ${product.unite}`}
-                </p>
+<p>
+  Publié le{" "}
+  {new Date(product.createdAt).toLocaleDateString("fr-FR")}
+</p>
 
-                {/* STOCK */}
-
-                <p>
-                  <strong>
-                    Stock :
-                  </strong>{" "}
-                  {getStockLabel(product)}
-                </p>
-
-                {/* COMPOSITION LOT */}
-
-                {product.typeVente ===
-                  "lot" &&
-                  product.quantiteParLot && (
-                    <p>
-                      <strong>
-                        Composition :
-                      </strong>{" "}
-                      {
-                        product.quantiteParLot
-                      }{" "}
-                      unités / lot
-                    </p>
-                  )}
-
-                {/* DATE */}
-
-                <p>
-                  Publié le{" "}
-                  {new Date(
-                    product.createdAt
-                  ).toLocaleDateString(
-                    "fr-FR"
-                  )}
-                </p>
-
-                {/* LOCALISATION */}
-
-                <p>
-                  {product.localisation}
-                </p>
+<p>{product.localisation}</p>
 
                 {/* ACTIONS */}
 
@@ -717,121 +711,118 @@ function Dashboard() {
       {/* =========================
           FORMULAIRE MODIFICATION
       ========================= */}
-
+      
       {editingProduct && (
+  <form
+    className="edit-form"
+    onSubmit={updateProduct}
+  >
 
-        <form
-          className="edit-form"
-          onSubmit={updateProduct}
-        >
+    <h2>Modifier le produit</h2>
 
-          <h2>
-            Modifier le produit
-          </h2>
+    {/* =========================
+        INFORMATIONS PRODUIT
+    ========================= */}
 
-          <input
-            type="text"
-            name="nom"
-            value={
-              editingProduct.nom
-            }
-            onChange={
-              handleEditChange
-            }
-          />
+    <input
+      type="text"
+      name="nom"
+      placeholder="Nom du produit"
+      value={editingProduct.nom || ""}
+      onChange={handleEditChange}
+      required
+    />
 
-          <textarea
-            name="description"
-            value={
-              editingProduct.description
-            }
-            onChange={
-              handleEditChange
-            }
-          />
+    <textarea
+      name="description"
+      placeholder="Description du produit"
+      value={editingProduct.description || ""}
+      onChange={handleEditChange}
+      required
+    />
 
-          <input
-            type="text"
-            name="categorie"
-            value={
-              editingProduct.categorie
-            }
-            onChange={
-              handleEditChange
-            }
-          />
+    <input
+      type="text"
+      name="categorie"
+      placeholder="Catégorie"
+      value={editingProduct.categorie || ""}
+      onChange={handleEditChange}
+      required
+    />
 
-          {/* TYPE DE VENTE */}
+    {/* =========================
+        TYPE DE VENTE
+    ========================= */}
 
-          <label>
-            Type de vente
-          </label>
+    <label>Type de vente</label>
 
-          <select
-            name="typeVente"
-            value={
-              editingProduct.typeVente
-            }
-            onChange={
-              handleEditChange
-            }
-          >
+    <select
+      name="typeVente"
+      value={editingProduct.typeVente || ""}
+      onChange={handleEditChange}
+      required
+    >
+      <option value="">
+        Choisir le type de vente
+      </option>
 
-            <option value="poids">
-              Au poids
-            </option>
+      <option value="poids">
+        Au poids
+      </option>
 
-            <option value="unite">
-              À l'unité
-            </option>
+      <option value="unite">
+        À l'unité
+      </option>
 
-            <option value="lot">
-              Par lot
-            </option>
+      <option value="lot">
+        Par lot
+      </option>
+    </select>
 
-          </select>
+    {/* =========================
+        UNITÉ
+    ========================= */}
 
-          {/* UNITÉ */}
-
-          <label>
-            Unité
-          </label>
+    {editingProduct.typeVente &&
+      editingProduct.typeVente !== "lot" && (
+        <>
+          <label>Unité de vente</label>
 
           <select
             name="unite"
-            value={
-              editingProduct.unite
-            }
-            onChange={
-              handleEditChange
-            }
+            value={editingProduct.unite || ""}
+            onChange={handleEditChange}
+            required
           >
+            <option value="">
+              Choisir une unité
+            </option>
 
             {editingProduct.typeVente ===
               "poids" && (
               <>
                 <option value="1kg">
-                  1kg
+                  1 kg
                 </option>
 
                 <option value="5kg">
-                  5kg
+                  5 kg
                 </option>
 
                 <option value="10kg">
-                  10kg
+                  10 kg
                 </option>
 
                 <option value="25kg">
-                  25kg
+                  25 kg
                 </option>
 
                 <option value="50kg">
-                  50kg
+                  50 kg
                 </option>
 
                 <option value="100kg">
-                  100kg
+                  100 kg
                 </option>
 
                 <option value="1tonne">
@@ -855,144 +846,250 @@ function Dashboard() {
                   Caisse
                 </option>
 
+                <option value="carton">
+                  Carton
+                </option>
+
                 <option value="bidon">
                   Bidon
                 </option>
 
-                <option value="bouteille">
-                  Bouteille
-                </option>
-
-                <option value="plateau">
-                  Plateau
+                <option value="litre">
+                  Litre
                 </option>
               </>
             )}
 
-            {editingProduct.typeVente ===
-              "lot" && (
-              <option value="lot">
-                Lot
-              </option>
-            )}
+          </select>
+        </>
+      )}
+
+    {/* =========================
+        LOT
+    ========================= */}
+
+    {editingProduct.typeVente ===
+      "lot" && (
+      <div className="lot-section">
+
+        <label>
+          Contenu du lot
+        </label>
+
+        <div className="lot-group">
+
+          <input
+            type="number"
+            name="quantiteParLot"
+            placeholder="Quantité"
+            value={
+              editingProduct.quantiteParLot ||
+              ""
+            }
+            onChange={handleEditChange}
+            min="1"
+            required
+          />
+
+          <select
+            name="unite"
+            value={
+              editingProduct.unite || ""
+            }
+            onChange={handleEditChange}
+            required
+          >
+
+            <option value="">
+              Unité
+            </option>
+
+            <option value="kg">
+              kg
+            </option>
+
+            <option value="piece">
+              pièce(s)
+            </option>
+
+            <option value="sac">
+              sac(s)
+            </option>
+
+            <option value="caisse">
+              caisse(s)
+            </option>
+
+            <option value="carton">
+              carton(s)
+            </option>
 
           </select>
 
-          {/* COMPOSITION LOT */}
+        </div>
 
-          {editingProduct.typeVente ===
-            "lot" && (
-            <>
+        {editingProduct.quantiteParLot &&
+          editingProduct.unite && (
+            <p className="lot-preview">
 
-              <label>
-                Nombre d'unités par lot
-              </label>
+              Chaque lot contient{" "}
 
-              <input
-                type="number"
-                name="quantiteParLot"
-                min="1"
-                value={
-                  editingProduct.quantiteParLot ||
-                  ""
-                }
-                onChange={
-                  handleEditChange
-                }
-              />
+              <strong>
+                {editingProduct.quantiteParLot}{" "}
+                {editingProduct.unite}
+              </strong>
 
-            </>
+            </p>
           )}
 
-          {/* PRIX */}
+      </div>
+    )}
 
-          <label>
-            Prix
-          </label>
+    {/* =========================
+        PRIX
+    ========================= */}
 
-          <input
-            type="number"
-            name="prix"
-            min="0"
-            value={
-              editingProduct.prix
-            }
-            onChange={
-              handleEditChange
-            }
-          />
+    <div className="price-group">
 
-          {/* QUANTITÉ */}
+      <input
+        type="number"
+        name="prix"
+        placeholder="Prix"
+        value={editingProduct.prix || ""}
+        onChange={handleEditChange}
+        min="0"
+        required
+      />
 
-          <label>
-            Stock disponible
-          </label>
+      <span>FCFA</span>
 
-          <input
-            type="number"
-            name="quantite"
-            min="0"
-            value={
-              editingProduct.quantite
-            }
-            onChange={
-              handleEditChange
-            }
-          />
+    </div>
 
-          {/* LOCALISATION */}
+    {/* =========================
+        APERÇU PRIX
+    ========================= */}
 
-          <label>
-            Localisation
-          </label>
+    {editingProduct.prix &&
+      editingProduct.unite && (
+      <p className="price-preview">
 
-          <input
-            type="text"
-            name="localisation"
-            value={
-              editingProduct.localisation
-            }
-            onChange={
-              handleEditChange
-            }
-          />
+        Prix de vente :{" "}
 
-          {/* IMAGES */}
+        <strong>
+          {Number(
+            editingProduct.prix
+          ).toLocaleString()} FCFA
+        </strong>
 
-          <label>
-            Nouvelles images
-          </label>
+        {" / "}
 
-          <input
-            type="file"
-            accept="image/*"
-            multiple
-            onChange={
-              filesModification
-            }
-          />
+        {editingProduct.typeVente ===
+        "lot"
+          ? `lot de ${editingProduct.quantiteParLot} ${editingProduct.unite}`
+          : editingProduct.unite}
 
-          {/* ACTIONS */}
+      </p>
+    )}
 
-          <div className="edit-actions">
+    {/* =========================
+        STOCK
+    ========================= */}
 
-            <button type="submit">
-              Enregistrer
-            </button>
+    <input
+      type="number"
+      name="quantite"
+      placeholder={
+        editingProduct.typeVente ===
+        "lot"
+          ? "Nombre de lots disponibles"
+          : "Quantité disponible"
+      }
+      value={
+        editingProduct.quantite || ""
+      }
+      onChange={handleEditChange}
+      min="0"
+      required
+    />
 
-            <button
-              type="button"
-              onClick={() =>
-                setEditingProduct(null)
-              }
-            >
-              Annuler
-            </button>
+    {/* =========================
+        LOCALISATION
+    ========================= */}
+
+    <input
+      type="text"
+      name="localisation"
+      placeholder="Localisation"
+      value={
+        editingProduct.localisation || ""
+      }
+      onChange={handleEditChange}
+      required
+    />
+
+    {/* =========================
+        IMAGES
+    ========================= */}
+
+    <label>
+      Nouvelles images
+    </label>
+
+    <input
+      type="file"
+      accept="image/*"
+      multiple
+      onChange={filesModification}
+    />
+
+    {images.length > 0 && (
+      <div className="image-preview-grid">
+
+        {images.map((img, index) => (
+          <div
+            key={index}
+            className="preview-item"
+          >
+
+            <img
+              src={URL.createObjectURL(img)}
+              alt="preview"
+            />
+
+            <span>
+              {(img.size / 1024).toFixed(0)} KB
+            </span>
 
           </div>
+        ))}
 
-        </form>
-      )}
+      </div>
+    )}
+
+    {/* =========================
+        ACTIONS
+    ========================= */}
+
+    <div className="edit-actions">
+
+      <button type="submit">
+        Enregistrer
+      </button>
+
+      <button
+        type="button"
+        onClick={() => {
+          setEditingProduct(null);
+          setImages([]);
+        }}
+      >
+        Annuler
+      </button>
+
+    </div>
+
+  </form>
+)}
 
     </div>
   );

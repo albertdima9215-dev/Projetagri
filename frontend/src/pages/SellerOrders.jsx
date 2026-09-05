@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import "../css/orders.css";
 import { Link } from "react-router-dom";
+import {
+  formatUnite,
+  getSelectedQuantityLabel,
+} from "../utils/productFormatters";
 
 // Icons
 import { FaCheckSquare } from "react-icons/fa";
@@ -70,51 +74,6 @@ function SellerOrders() {
 
     return matchStatus && matchSearch;
   });
-
-  // --------------------------------------------------
-  // Affichage de la quantité selon le type de vente
-  // --------------------------------------------------
-  const getQuantityLabel = (order) => {
-    if (order.typeVente === "lot") {
-      return `${order.quantite} lot${
-        order.quantite > 1 ? "s" : ""
-      }`;
-    }
-
-    if (order.typeVente === "poids") {
-      return `${order.quantite} × ${order.unite || ""}`;
-    }
-
-    if (order.typeVente === "unite") {
-      return `${order.quantite} × ${order.unite || ""}`;
-    }
-
-    // Compatibilité avec les anciennes commandes
-    return order.quantite;
-  };
-
-  // --------------------------------------------------
-  // Description de la vente
-  // --------------------------------------------------
-  const getSaleDescription = (order) => {
-    if (order.typeVente === "lot") {
-      if (order.quantiteParLot) {
-        return `${order.quantiteParLot} unités par lot`;
-      }
-
-      return "Vente par lot";
-    }
-
-    if (order.typeVente === "poids") {
-      return `Vente au poids : ${order.unite || ""}`;
-    }
-
-    if (order.typeVente === "unite") {
-      return `Vente à l'unité : ${order.unite || ""}`;
-    }
-
-    return "";
-  };
 
   return (
     <div className="orders-container">
@@ -185,28 +144,28 @@ function SellerOrders() {
               </p>
 
               {/* TYPE DE VENTE */}
-              {order.typeVente && (
-                <p>
-                  <strong>Type de vente :</strong>{" "}
-                  {order.typeVente === "poids"
-                    ? "Au poids"
-                    : order.typeVente === "unite"
-                    ? "À l'unité"
-                    : "Par lot"}
-                </p>
-              )}
+              {order.typeVente === "poids"
+  ? "Au poids"
+  : order.typeVente === "unite"
+  ? order.unite === "piece"
+    ? "À l'unité"
+    : `Par ${formatUnite(order.unite)}`
+  : "Par lot"}
 
               {/* QUANTITE */}
               <p>
                 <strong>Quantité commandée :</strong>{" "}
-                {getQuantityLabel(order)}
+                {getSelectedQuantityLabel(
+  order,
+  order.quantite
+)}
               </p>
 
               {/* UNITE */}
               {order.unite && (
                 <p>
                   <strong>Unité :</strong>{" "}
-                  {order.unite}
+                  {formatUnite(order.unite)}
                 </p>
               )}
 
@@ -215,7 +174,13 @@ function SellerOrders() {
                 order.quantiteParLot && (
                   <p>
                     <strong>Composition :</strong>{" "}
-                    {order.quantiteParLot} unités / lot
+                    {order.quantiteParLot}{" "}
+{order.unite === "piece"
+  ? Number(order.quantiteParLot) > 1
+    ? "pièces"
+    : "pièce"
+  : formatUnite(order.unite)}{" "}
+/ lot
                   </p>
                 )}
 

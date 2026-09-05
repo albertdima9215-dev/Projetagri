@@ -1,7 +1,14 @@
+// ==================================================
 // FORMATAGE DES PRODUITS AGRICONNECT
+// ==================================================
+
+// --------------------------------------------------
+// UNITÉS
+// --------------------------------------------------
 
 export const formatUnite = (unite) => {
   const unites = {
+    // Poids
     "1kg": "1 kg",
     "5kg": "5 kg",
     "10kg": "10 kg",
@@ -9,7 +16,9 @@ export const formatUnite = (unite) => {
     "50kg": "50 kg",
     "100kg": "100 kg",
     "1tonne": "1 tonne",
+    kg: "kg",
 
+    // Unités
     piece: "pièce",
     sac: "sac",
     caisse: "caisse",
@@ -17,14 +26,53 @@ export const formatUnite = (unite) => {
     bidon: "bidon",
     litre: "litre",
 
+    // Lot
     lot: "lot",
   };
 
-  return unites[unite] || unite;
+  return unites[unite] || unite || "";
 };
 
 // --------------------------------------------------
-// Prix du produit
+// PLURIEL DES UNITÉS
+// --------------------------------------------------
+
+export const formatUnitePluriel = (
+  unite,
+  quantite = 1
+) => {
+  const qte = Number(quantite);
+
+  if (qte <= 1) {
+    return formatUnite(unite);
+  }
+
+  const pluriels = {
+    piece: "pièces",
+    sac: "sacs",
+    caisse: "caisses",
+    carton: "cartons",
+    bidon: "bidons",
+    litre: "litres",
+    kg: "kg",
+
+    "1kg": "1 kg",
+    "5kg": "5 kg",
+    "10kg": "10 kg",
+    "25kg": "25 kg",
+    "50kg": "50 kg",
+    "100kg": "100 kg",
+    "1tonne": "1 tonne",
+  };
+
+  return (
+    pluriels[unite] ||
+    formatUnite(unite)
+  );
+};
+
+// --------------------------------------------------
+// PRIX DU PRODUIT
 // --------------------------------------------------
 
 export const getPrixLabel = (product) => {
@@ -45,14 +93,11 @@ export const getPrixLabel = (product) => {
     );
 
     if (quantiteLot > 0) {
-      let uniteLot = unite;
-
-      if (product.unite === "piece") {
-        uniteLot =
-          quantiteLot > 1
-            ? "pièces"
-            : "pièce";
-      }
+      const uniteLot =
+        formatUnitePluriel(
+          product.unite,
+          quantiteLot
+        );
 
       return `${prix} FCFA / lot de ${quantiteLot} ${uniteLot}`;
     }
@@ -70,7 +115,7 @@ export const getPrixLabel = (product) => {
 };
 
 // --------------------------------------------------
-// Type de vente
+// TYPE DE VENTE
 // --------------------------------------------------
 
 export const getSaleTypeLabel = (product) => {
@@ -88,7 +133,9 @@ export const getSaleTypeLabel = (product) => {
         return "À l'unité";
       }
 
-      return `Par ${formatUnite(product.unite)}`;
+      return `Par ${formatUnite(
+        product.unite
+      )}`;
 
     default:
       return null;
@@ -96,7 +143,7 @@ export const getSaleTypeLabel = (product) => {
 };
 
 // --------------------------------------------------
-// Stock disponible
+// STOCK DISPONIBLE
 // --------------------------------------------------
 
 export const getStockLabel = (product) => {
@@ -163,7 +210,7 @@ export const getStockLabel = (product) => {
 };
 
 // --------------------------------------------------
-// Quantité affichée sur la page détails
+// QUANTITÉ AFFICHÉE SUR LA PAGE DÉTAILS
 // --------------------------------------------------
 
 export const getQuantiteLabel = (product) => {
@@ -205,19 +252,19 @@ export const getQuantiteLabel = (product) => {
     }
   }
 
-  const unite = formatUnite(
-    product.unite || "piece"
-  );
+  const unite =
+    formatUnitePluriel(
+      product.unite || "piece",
+      quantite
+    );
 
   return `${quantite.toLocaleString(
     "fr-FR"
-  )} ${unite}${
-    quantite > 1 ? "s" : ""
-  }`;
+  )} ${unite}`;
 };
 
 // --------------------------------------------------
-// Libellé pour la commande
+// LIBELLÉ POUR LA COMMANDE
 // --------------------------------------------------
 
 export const getOrderLabel = (product) => {
@@ -239,7 +286,7 @@ export const getOrderLabel = (product) => {
 };
 
 // --------------------------------------------------
-// Quantité sélectionnée lors de la commande
+// QUANTITÉ SÉLECTIONNÉE LORS DE LA COMMANDE
 // --------------------------------------------------
 
 export const getSelectedQuantityLabel = (
@@ -258,11 +305,155 @@ export const getSelectedQuantityLabel = (
     }`;
   }
 
-  const unite = formatUnite(
-    product.unite || "piece"
-  );
+  const unite =
+    formatUnitePluriel(
+      product.unite || "piece",
+      qte
+    );
 
-  return `${qte} ${unite}${
-    qte > 1 ? "s" : ""
-  }`;
+  return `${qte} ${unite}`;
+};
+
+// --------------------------------------------------
+// UNITÉS DISPONIBLES DANS LE FORMULAIRE
+// --------------------------------------------------
+
+export const unitesPoids = [
+  {
+    value: "1kg",
+    label: "1 kg",
+  },
+  {
+    value: "5kg",
+    label: "5 kg",
+  },
+  {
+    value: "10kg",
+    label: "10 kg",
+  },
+  {
+    value: "25kg",
+    label: "25 kg",
+  },
+  {
+    value: "50kg",
+    label: "50 kg",
+  },
+  {
+    value: "100kg",
+    label: "100 kg",
+  },
+  {
+    value: "1tonne",
+    label: "1 tonne",
+  },
+];
+
+export const unites = [
+  {
+    value: "piece",
+    label: "Pièce",
+  },
+  {
+    value: "sac",
+    label: "Sac",
+  },
+  {
+    value: "caisse",
+    label: "Caisse",
+  },
+  {
+    value: "carton",
+    label: "Carton",
+  },
+  {
+    value: "bidon",
+    label: "Bidon",
+  },
+  {
+    value: "litre",
+    label: "Litre",
+  },
+];
+
+export const unitesLot = [
+  {
+    value: "kg",
+    label: "kg",
+  },
+  {
+    value: "piece",
+    label: "pièce(s)",
+  },
+  {
+    value: "sac",
+    label: "sac(s)",
+  },
+  {
+    value: "caisse",
+    label: "caisse(s)",
+  },
+  {
+    value: "carton",
+    label: "carton(s)",
+  },
+];
+
+// --------------------------------------------------
+// UNITÉS SELON LE TYPE DE VENTE
+// --------------------------------------------------
+
+export const getUnitesForSaleType = (
+  typeVente
+) => {
+  if (typeVente === "poids") {
+    return unitesPoids;
+  }
+
+  if (typeVente === "unite") {
+    return unites;
+  }
+
+  if (typeVente === "lot") {
+    return unitesLot;
+  }
+
+  return [];
+};
+
+// --------------------------------------------------
+// APERÇU DU PRIX
+// --------------------------------------------------
+
+export const getPricePreview = (product) => {
+  if (
+    !product ||
+    !product.prix ||
+    !product.unite
+  ) {
+    return "";
+  }
+
+  const prix = Number(
+    product.prix
+  ).toLocaleString("fr-FR");
+
+  if (product.typeVente === "lot") {
+    const quantiteLot = Number(
+      product.quantiteParLot || 0
+    );
+
+    if (quantiteLot > 0) {
+      return `Prix de vente : ${prix} FCFA / lot de ${quantiteLot} ${formatUnitePluriel(
+        product.unite,
+        quantiteLot
+      )}`;
+    }
+
+    return `Prix de vente : ${prix} FCFA / lot`;
+  }
+
+  return `Prix de vente : ${prix} FCFA / ${formatUnite(
+    product.unite
+  )}`;
 };

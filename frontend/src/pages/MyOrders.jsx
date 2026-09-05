@@ -2,6 +2,12 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import "../css/orders.css";
 import { Link } from "react-router-dom";
+import {
+  formatUnite,
+  getOrderLabel,
+  getSelectedQuantityLabel,
+  getPrixLabel,
+} from "../utils/productFormatters";
 
 // Icons
 import {
@@ -97,53 +103,6 @@ function MyOrders() {
     }
   };
 
-  // ==================================================
-  // AFFICHAGE DE LA QUANTITÉ
-  // ==================================================
-
-  const getQuantityLabel = (order) => {
-    // Vente par lot
-    if (order.typeVente === "lot") {
-      return `${order.quantite} lot${
-        order.quantite > 1 ? "s" : ""
-      }`;
-    }
-
-    // Vente au poids
-    if (order.typeVente === "poids") {
-      return `${order.quantite} × ${order.unite || ""}`;
-    }
-
-    // Vente à l'unité
-    if (order.typeVente === "unite") {
-      return `${order.quantite} × ${order.unite || ""}`;
-    }
-
-    // Compatibilité avec les anciennes commandes
-    return order.quantite;
-  };
-
-  // ==================================================
-  // TYPE DE VENTE
-  // ==================================================
-
-  const getSaleTypeLabel = (order) => {
-    if (order.typeVente === "poids") {
-      return "Au poids";
-    }
-
-    if (order.typeVente === "unite") {
-      return "À l'unité";
-    }
-
-    if (order.typeVente === "lot") {
-      return "Par lot";
-    }
-
-    return null;
-  };
-
-  // ==================================================
   // AVIS
   // ==================================================
 
@@ -340,61 +299,70 @@ function MyOrders() {
 
                 {/* TYPE DE VENTE */}
 
-                {getSaleTypeLabel(order) && (
-                  <p>
-                    <strong>
-                      Type de vente :
-                    </strong>{" "}
-                    {getSaleTypeLabel(order)}
-                  </p>
-                )}
+                {order.typeVente && (
+  <p>
+    <strong>Type de vente :</strong>{" "}
+    {order.typeVente === "poids"
+      ? "Au poids"
+      : order.typeVente === "unite"
+      ? order.unite === "piece"
+        ? "À l'unité"
+        : `Par ${formatUnite(order.unite)}`
+      : "Par lot"}
+  </p>
+)}
 
                 {/* QUANTITÉ */}
 
                 <p>
-                  <strong>
-                    Quantité commandée :
-                  </strong>{" "}
-                  {getQuantityLabel(order)}
-                </p>
+  <strong>Quantité commandée :</strong>{" "}
+  {getSelectedQuantityLabel(
+    order,
+    order.quantite
+  )}
+</p>
 
                 {/* UNITÉ */}
 
                 {order.unite && (
-                  <p>
-                    <strong>Unité :</strong>{" "}
-                    {order.unite}
-                  </p>
-                )}
+  <p>
+    <strong>Unité :</strong>{" "}
+    {formatUnite(order.unite)}
+  </p>
+)}
 
                 {/* COMPOSITION DU LOT */}
 
                 {order.typeVente === "lot" &&
-                  order.quantiteParLot && (
-                    <p>
-                      <strong>
-                        Composition :
-                      </strong>{" "}
-                      {order.quantiteParLot} unités
-                      {" / lot"}
-                    </p>
-                  )}
+  order.quantiteParLot && (
+    <p>
+      <strong>Composition :</strong>{" "}
+      {order.quantiteParLot}{" "}
+      {order.unite === "piece"
+        ? Number(order.quantiteParLot) > 1
+          ? "pièces"
+          : "pièce"
+        : formatUnite(order.unite)}{" "}
+      / lot
+    </p>
+)}
 
                 {/* PRIX UNITAIRE */}
 
                 {order.prixUnitaire !== undefined && (
-                  <p>
-                    <strong>
-                      Prix unitaire :
-                    </strong>{" "}
-                    {Number(
-                      order.prixUnitaire
-                    ).toLocaleString("fr-FR")}{" "}
-                    FCFA
-                    {order.unite &&
-                      ` / ${order.unite}`}
-                  </p>
-                )}
+  <p>
+    <strong>Prix unitaire :</strong>{" "}
+    {Number(order.prixUnitaire).toLocaleString(
+      "fr-FR"
+    )}{" "}
+    FCFA
+    {order.typeVente === "lot"
+      ? " / lot"
+      : order.unite
+      ? ` / ${formatUnite(order.unite)}`
+      : ""}
+  </p>
+)}
 
                 {/* MONTANT TOTAL */}
 
