@@ -1,9 +1,12 @@
 import { useState,useEffect,useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import api from "../services/api";
 import "../css/navbar.css";
 import { useFavorite } from "../context/FavoriteContext";
 import socket from "../services/socket";
+
+//icons
+import { FaUser } from "react-icons/fa";
 
 
 function Navbar() {
@@ -265,6 +268,17 @@ function Navbar() {
           </li>
           <li>
             <Link to="/dashboard">Dashboard</Link>
+          </li>
+          <li>
+            <NavLink
+  to={user ? `/seller/${user.id}` : "/login"}
+  className={({ isActive }) =>
+    isActive ? "nav-item active" : "nav-item"
+  }
+>
+              <FaUser />
+              <span>Profil</span>
+            </NavLink>
           </li>
         </>
         ) : (

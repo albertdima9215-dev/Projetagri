@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../services/api";
 import "../css/favorites.css";
-import { FaHeart, FaRegHeart } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
+
+import {
+  getPrixLabel,
+  getSaleTypeLabel,
+  getStockLabel,
+} from "../utils/productFormatters";
 
 function Favorites() {
   const [favorites, setFavorites] = useState([]);
@@ -10,6 +16,10 @@ function Favorites() {
   useEffect(() => {
     fetchFavorites();
   }, []);
+
+  // ==================================================
+  // RÉCUPÉRER LES FAVORIS
+  // ==================================================
 
   const fetchFavorites = async () => {
     try {
@@ -22,11 +32,14 @@ function Favorites() {
       });
 
       setFavorites(res.data);
-
     } catch (error) {
       console.log(error);
     }
   };
+
+  // ==================================================
+  // RETIRER UN FAVORI
+  // ==================================================
 
   const removeFavorite = async (productId) => {
     try {
@@ -39,50 +52,153 @@ function Favorites() {
       });
 
       fetchFavorites();
-
     } catch (error) {
-      alert(error.response?.data?.message || "Erreur");
+      alert(
+        error.response?.data?.message ||
+          "Erreur lors du retrait du favori"
+      );
     }
   };
+
+  // ==================================================
+  // AFFICHAGE
+  // ==================================================
 
   return (
     <div className="favorites">
 
-      <h1><FaHeart/> Mes favoris</h1>
+      <h1>
+        <FaHeart /> Mes favoris
+      </h1>
 
       {favorites.length === 0 ? (
-        <p>Vous n'avez aucun favori.</p>
+        <div className="empty-favorites">
+          <FaHeart />
+
+          <h2>Aucun favori</h2>
+
+          <p>
+            Vous n'avez encore ajouté aucun produit
+            à vos favoris.
+          </p>
+
+          <Link to="/products">
+            Découvrir les produits
+          </Link>
+        </div>
       ) : (
         <div className="favorites-grid">
 
-          {favorites.map((item) => (
+          {favorites.map((item) => {
 
-            <div className="favorite-card" key={item._id}>
+            const product = item.produit;
 
-              <img
-                src={item.produit.images?.[0] || item.produit.image}
-                alt={item.produit.nom}
-              />
+            // Éviter une erreur si le produit
+            // a été supprimé
+            if (!product) return null;
 
-              <h3>{item.produit.nom}</h3>
-
-              <p>{item.produit.prix} FCFA</p>
-
-              <p>{item.produit.localisation}</p>
-
-              <Link to={`/products/${item.produit._id}`}>
-                Voir le produit
-              </Link>
-
-              <button
-                onClick={() => removeFavorite(item.produit._id)}
+            return (
+              <div
+                className="favorite-card"
+                key={item._id}
               >
-                Retirer <FaHeart />
-              </button>
 
-            </div>
+                {/* =========================
+                    IMAGE
+                ========================= */}
 
-          ))}
+                <div className="favorite-image">
+
+                  <img
+                    src={
+                      product.images?.[0] ||
+                      product.image
+                    }
+                    alt={product.nom}
+                  />
+
+                  {/* RETIRER DES FAVORIS */}
+
+                  <button
+                    className="remove-favorite"
+                    onClick={() =>
+                      removeFavorite(product._id)
+                    }
+                    title="Retirer des favoris"
+                  >
+                    <FaHeart />
+                  </button>
+
+                </div>
+
+                {/* =========================
+                    INFORMATIONS
+                ========================= */}
+
+                <div className="favorite-info">
+
+                  <h3>
+                    {product.nom}
+                  </h3>
+
+                  {/* TYPE DE VENTE */}
+
+                  {getSaleTypeLabel(product) && (
+                    <span className="sale-type">
+                      {getSaleTypeLabel(product)}
+                    </span>
+                  )}
+
+                  {/* PRIX */}
+
+                  <p className="favorite-price">
+                    {getPrixLabel(product)}
+                  </p>
+
+                  {/* STOCK */}
+
+                  <p className="favorite-stock">
+                    {getStockLabel(product)}
+                  </p>
+
+                  {/* LOCALISATION */}
+
+                  {product.localisation && (
+                    <p className="favorite-location">
+                      📍 {product.localisation}
+                    </p>
+                  )}
+
+                  {/* =========================
+                      ACTIONS
+                  ========================= */}
+
+                  <div className="favorite-actions">
+
+                    <Link
+                      to={`/products/${product._id}`}
+                      className="view-product-btn"
+                    >
+                      Voir le produit
+                    </Link>
+
+                    <button
+                      className="remove-btn"
+                      onClick={() =>
+                        removeFavorite(product._id)
+                      }
+                    >
+                      <FaHeart />
+                      Retirer
+                    </button>
+
+                  </div>
+
+                </div>
+
+              </div>
+            );
+          })}
 
         </div>
       )}

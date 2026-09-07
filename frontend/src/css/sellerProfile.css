@@ -1,47 +1,663 @@
-.seller-profile{
-    padding:40px 8%;
+/* =====================================================
+   PROFIL VENDEUR AGRICONNECT
+===================================================== */
+
+.seller-profile {
+  width: 92%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 0 80px;
+  color: #222;
 }
 
-.seller-header{
-    display:flex;
-    gap:30px;
-    align-items:center;
-    margin-bottom:50px;
-    flex-wrap:wrap;
+
+/* =====================================================
+   CHARGEMENT
+===================================================== */
+
+.seller-loading {
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #2e7d32;
 }
 
-.seller-header img{
-    width:180px;
-    height:180px;
-    border-radius:50%;
-    object-fit:cover;
-    border:4px solid #2e7d32;
+
+/* =====================================================
+   HEADER VENDEUR
+===================================================== */
+
+.seller-header {
+  display: flex;
+  align-items: center;
+  gap: 35px;
+
+  padding: 30px;
+
+  background: #fff;
+
+  border-radius: 20px;
+
+  box-shadow:
+    0 4px 20px rgba(0, 0, 0, 0.08);
+
+  border: 1px solid #eeeeee;
+
+  margin-bottom: 45px;
 }
 
-.seller-products{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:25px;
+
+/* =====================================================
+   PHOTO VENDEUR
+===================================================== */
+
+.seller-photo-container {
+  flex-shrink: 0;
 }
 
-.seller-products a{
-    width:100%;
-    border:none;
-    background:#2e7d32;
-    color:white;
-    padding:12px;
-    cursor:pointer;
-    text-decoration: none;
-    display: inline-block;
-    text-align: center;
+.seller-photo {
+  width: 150px;
+  height: 150px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+
+  border: 5px solid #2e7d32;
+
+  padding: 3px;
+
+  background: #fff;
+
+  box-shadow:
+    0 5px 15px rgba(46, 125, 50, 0.2);
 }
+
+
+/* =====================================================
+   INFORMATIONS VENDEUR
+===================================================== */
+
+.seller-info {
+  flex: 1;
+}
+
+.seller-info h1 {
+  margin: 0 0 18px;
+
+  font-size: 32px;
+
+  font-weight: 700;
+
+  color: #1b5e20;
+}
+
+
+/* Informations */
+
+.seller-info > p {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin: 9px 0;
+
+  color: #555;
+
+  font-size: 15px;
+}
+
+
+/* Icônes */
+
+.seller-info > p svg {
+  color: #2e7d32;
+
+  font-size: 16px;
+
+  flex-shrink: 0;
+}
+
+
+/* Bio */
+
+.seller-info .seller-bio {
+  margin-top: 18px;
+
+  padding-top: 15px;
+
+  border-top: 1px solid #eeeeee;
+
+  line-height: 1.6;
+
+  color: #666;
+
+  max-width: 700px;
+}
+
+
+/* =====================================================
+   SECTION PRODUITS
+===================================================== */
+
+.seller-products-section {
+  margin-top: 20px;
+}
+
+
+/* =====================================================
+   TITRE PRODUITS
+===================================================== */
+
+.products-title {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 25px;
+
+  border-bottom: 2px solid #eeeeee;
+
+  padding-bottom: 15px;
+}
+
+.products-title h2 {
+  margin: 0;
+
+  font-size: 26px;
+
+  color: #222;
+
+  font-weight: 700;
+}
+
+.products-title span {
+  background: #e8f5e9;
+
+  color: #2e7d32;
+
+  padding: 7px 14px;
+
+  border-radius: 20px;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+
+/* =====================================================
+   GRILLE PRODUITS
+===================================================== */
+
+.seller-products {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill, minmax(240px, 1fr));
+
+  gap: 25px;
+}
+
+
+/* =====================================================
+   CARTE PRODUIT
+===================================================== */
+
+.seller-products .product-card {
+  overflow: hidden;
+
+  background: #fff;
+
+  border-radius: 16px;
+
+  border: 1px solid #eeeeee;
+
+  box-shadow:
+    0 3px 12px rgba(0, 0, 0, 0.07);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+  display: flex;
+
+  flex-direction: column;
+}
+
+
+/* Hover */
+
+.seller-products .product-card:hover {
+  transform: translateY(-5px);
+
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =====================================================
+   IMAGE PRODUIT
+===================================================== */
+
+.product-image-container {
+  width: 100%;
+
+  height: 200px;
+
+  overflow: hidden;
+
+  background: #f5f5f5;
+}
+
+.product-image-container img {
+  width: 100%;
+
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+
+  transition: transform 0.35s ease;
+}
+
+.product-card:hover
+.product-image-container img {
+  transform: scale(1.05);
+}
+
+
+/* =====================================================
+   CONTENU CARTE
+===================================================== */
+
+.product-card-content {
+  display: flex;
+
+  flex-direction: column;
+
+  flex: 1;
+
+  padding: 18px;
+}
+
+
+/* Nom */
+
+.product-card-content h3 {
+  margin: 0 0 10px;
+
+  font-size: 19px;
+
+  font-weight: 700;
+
+  color: #222;
+
+  line-height: 1.3;
+}
+
+
+/* =====================================================
+   TYPE DE VENTE
+===================================================== */
+
+.product-sale-type {
+  display: inline-block;
+
+  align-self: flex-start;
+
+  background: #f1f8f2;
+
+  color: #2e7d32;
+
+  border-radius: 20px;
+
+  padding: 5px 10px;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  margin-bottom: 12px;
+}
+
+
+/* =====================================================
+   PRIX
+===================================================== */
+
+.product-price {
+  margin: 5px 0;
+
+  color: #1b5e20;
+
+  font-size: 18px;
+
+  font-weight: 700;
+
+  line-height: 1.4;
+}
+
+
+/* =====================================================
+   STOCK
+===================================================== */
+
+.product-stock {
+  margin: 6px 0 15px;
+
+  font-size: 13px;
+
+  color: #777;
+}
+
+
+/* Rupture */
+
+.product-stock:has(+ .view-product-btn) {
+  /* volontairement neutre */
+}
+
+
+/* =====================================================
+   BOUTON VOIR PRODUIT
+===================================================== */
+
+.seller-products .view-product-btn {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 100%;
+
+  min-height: 44px;
+
+  box-sizing: border-box;
+
+  margin-top: auto;
+
+  padding: 10px 15px;
+
+  background: #2e7d32;
+
+  color: #fff;
+
+  border: none;
+
+  border-radius: 9px;
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.seller-products .view-product-btn:hover {
+  background: #1b5e20;
+
+  transform: translateY(-1px);
+}
+
+
+/* =====================================================
+   AUCUN PRODUIT
+===================================================== */
+
+.no-products {
+  padding: 50px 20px;
+
+  text-align: center;
+
+  background: #fafafa;
+
+  border: 1px dashed #cccccc;
+
+  border-radius: 15px;
+
+  color: #777;
+}
+
+.no-products p {
+  margin: 0;
+
+  font-size: 15px;
+}
+
+
+/* =====================================================
+   TABLETTE
+===================================================== */
 
 @media (max-width: 768px) {
-  .seller-products{
-    grid-template-columns: repeat(2,1fr);
+
+  .seller-profile {
+    width: 94%;
+
+    padding:
+      25px 0
+      70px;
+  }
+
+
+  /* Header */
+
+  .seller-header {
+    flex-direction: column;
+
+    text-align: center;
+
+    gap: 20px;
+
+    padding: 25px 20px;
+
+    margin-bottom: 35px;
+  }
+
+
+  /* Photo */
+
+  .seller-photo {
+    width: 120px;
+
+    height: 120px;
+  }
+
+
+  /* Nom */
+
+  .seller-info h1 {
+    font-size: 26px;
+
+    margin-bottom: 15px;
+  }
+
+
+  /* Infos */
+
+  .seller-info > p {
+    justify-content: center;
+
+    font-size: 14px;
+  }
+
+
+  /* Bio */
+
+  .seller-info .seller-bio {
+    text-align: center;
+
+    font-size: 14px;
+  }
+
+
+  /* Produits */
+
+  .products-title h2 {
+    font-size: 22px;
+  }
+
+
+  .products-title span {
+    font-size: 12px;
+
+    padding: 6px 10px;
+  }
+
+
+  .seller-products {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+
+    gap: 12px;
+  }
+
+
+  /* Image */
+
+  .product-image-container {
+    height: 140px;
+  }
+
+
+  /* Contenu */
+
+  .product-card-content {
+    padding: 12px;
+  }
+
+
+  .product-card-content h3 {
+    font-size: 15px;
+
+    margin-bottom: 7px;
+  }
+
+
+  .product-sale-type {
+    font-size: 10px;
+
+    padding: 4px 8px;
+
+    margin-bottom: 8px;
+  }
+
+
+  .product-price {
+    font-size: 14px;
+  }
+
+
+  .product-stock {
+    font-size: 11px;
+
+    margin-bottom: 12px;
+  }
+
+
+  .seller-products .view-product-btn {
+    min-height: 38px;
+
+    padding: 8px;
+
+    font-size: 12px;
+  }
+}
+
+
+/* =====================================================
+   PETIT MOBILE
+===================================================== */
+
+@media (max-width: 420px) {
+
+  .seller-profile {
+    width: 94%;
+  }
+
+
+  .seller-header {
+    padding: 20px 15px;
+
+    border-radius: 15px;
+  }
+
+
+  .seller-photo {
+    width: 105px;
+
+    height: 105px;
+  }
+
+
+  .seller-info h1 {
+    font-size: 23px;
+  }
+
+
+  .seller-info > p {
+    font-size: 13px;
+
+    word-break: break-word;
+  }
+
+
+  .products-title {
+    align-items: flex-start;
+
     gap: 10px;
   }
-  .seller-products .product-card img {
-    height: 100px;
+
+
+  .products-title h2 {
+    font-size: 19px;
+  }
+
+
+  .seller-products {
+    gap: 10px;
+  }
+
+
+  .product-image-container {
+    height: 115px;
+  }
+
+
+  .product-card-content {
+    padding: 10px;
+  }
+
+
+  .product-card-content h3 {
+    font-size: 14px;
+  }
+
+
+  .product-price {
+    font-size: 13px;
+  }
+
+
+  .product-stock {
+    font-size: 10px;
+  }
+
+
+  .seller-products .view-product-btn {
+    font-size: 11px;
+
+    min-height: 35px;
   }
 }

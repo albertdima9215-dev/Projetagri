@@ -1,15 +1,8 @@
-// ==================================================
-// FORMATAGE DES PRODUITS AGRICONNECT
-// ==================================================
-
-// --------------------------------------------------
-// UNITÉS
-// --------------------------------------------------
 
 export const formatUnite = (unite) => {
   const unites = {
     // Poids
-    "1kg": "1 kg",
+    "1kg": "kg",
     "5kg": "5 kg",
     "10kg": "10 kg",
     "25kg": "25 kg",
@@ -56,7 +49,7 @@ export const formatUnitePluriel = (
     litre: "litres",
     kg: "kg",
 
-    "1kg": "1 kg",
+    "1kg": "kg",
     "5kg": "5 kg",
     "10kg": "10 kg",
     "25kg": "25 kg",
@@ -320,8 +313,8 @@ export const getSelectedQuantityLabel = (
 
 export const unitesPoids = [
   {
-    value: "1kg",
-    label: "1 kg",
+    value: "kg",
+    label: "kg",
   },
   {
     value: "5kg",

@@ -3,8 +3,18 @@ import { useParams, Link } from "react-router-dom";
 import api from "../services/api";
 import "../css/sellerProfile.css";
 
-//icons
-import { FaMapPin, FaPhoneAlt, } from "react-icons/fa";
+// Formatage des produits
+import {
+  getPrixLabel,
+  getSaleTypeLabel,
+  getStockLabel,
+} from "../utils/productFormatters";
+
+// Icons
+import {
+  FaMapPin,
+  FaPhoneAlt,
+} from "react-icons/fa";
 import { MdAttachEmail } from "react-icons/md";
 
 function SellerProfile() {
@@ -15,80 +25,181 @@ function SellerProfile() {
 
   useEffect(() => {
     fetchSeller();
-  }, []);
+  }, [id]);
 
   const fetchSeller = async () => {
     try {
       const res = await api.get(`/users/profile/${id}`);
 
       setSeller(res.data.vendeur);
-      setProducts(res.data.produits);
-
+      setProducts(res.data.produits || []);
     } catch (error) {
       console.log(error);
     }
   };
 
   if (!seller) {
-    return <h2>Chargement...</h2>;
+    return (
+      <div className="seller-loading">
+        <h2>Chargement...</h2>
+      </div>
+    );
   }
 
   return (
     <div className="seller-profile">
 
+      {/* =========================
+          INFORMATIONS DU VENDEUR
+      ========================= */}
+
       <div className="seller-header">
 
-        <img
-          src={
-            seller.photo ||
-            "https://via.placeholder.com/150"
-          }
-          alt={seller.nom}
-        />
+        <div className="seller-photo-container">
+          <img
+            src={
+              seller.photo ||
+              "https://via.placeholder.com/150"
+            }
+            alt={seller.nom}
+            className="seller-photo"
+          />
+        </div>
 
-        <div>
+        <div className="seller-info">
 
           <h1>{seller.nom}</h1>
 
-          <p><FaMapPin /> {seller.localisation}</p>
+          {seller.localisation && (
+            <p>
+              <FaMapPin />
+              <span>{seller.localisation}</span>
+            </p>
+          )}
 
-          <p><FaPhoneAlt /> {seller.telephone}</p>
+          {seller.telephone && (
+            <p>
+              <FaPhoneAlt />
+              <span>{seller.telephone}</span>
+            </p>
+          )}
 
-          <p><MdAttachEmail /> {seller.email}</p>
+          {seller.email && (
+            <p>
+              <MdAttachEmail />
+              <span>{seller.email}</span>
+            </p>
+          )}
 
-          <p>{seller.bio}</p>
+          {seller.bio && (
+            <p className="seller-bio">
+              {seller.bio}
+            </p>
+          )}
 
         </div>
 
       </div>
 
-      <h2>Produits publiés</h2>
+      {/* =========================
+          PRODUITS
+      ========================= */}
 
-      <div className="seller-products">
+      <div className="seller-products-section">
 
-        {products.map((product) => (
+        <div className="products-title">
 
-          <div
-            className="product-card"
-            key={product._id}
-          >
+          <h2>
+            Produits publiés
+          </h2>
 
-            <img
-              src={product.images?.[0] || product.image}
-              alt={product.nom}
-            />
+          <span>
+            {products.length} produit
+            {products.length > 1 ? "s" : ""}
+          </span>
 
-            <h3>{product.nom}</h3>
+        </div>
 
-            <p>{product.prix} FCFA</p>
+        {products.length === 0 ? (
 
-            <Link to={`/products/${product._id}`}>
-              Voir le produit
-            </Link>
+          <div className="no-products">
+            <p>
+              Ce vendeur n'a encore publié
+              aucun produit.
+            </p>
+          </div>
+
+        ) : (
+
+          <div className="seller-products">
+
+            {products.map((product) => (
+
+              <div
+                className="product-card"
+                key={product._id}
+              >
+
+                {/* IMAGE */}
+
+                <div className="product-image-container">
+
+                  <img
+                    src={
+                      product.images?.[0] ||
+                      product.image
+                    }
+                    alt={product.nom}
+                  />
+
+                </div>
+
+                {/* INFORMATIONS */}
+
+                <div className="product-card-content">
+
+                  <h3>
+                    {product.nom}
+                  </h3>
+
+                  {/* TYPE DE VENTE */}
+
+                  {getSaleTypeLabel(product) && (
+                    <span className="product-sale-type">
+                      {getSaleTypeLabel(product)}
+                    </span>
+                  )}
+
+                  {/* PRIX */}
+
+                  <p className="product-price">
+                    {getPrixLabel(product)}
+                  </p>
+
+                  {/* STOCK */}
+
+                  <p className="product-stock">
+                    {getStockLabel(product)}
+                  </p>
+
+                  {/* BOUTON */}
+
+                  <Link
+                    to={`/products/${product._id}`}
+                    className="view-product-btn"
+                  >
+                    Voir le produit
+                  </Link>
+
+                </div>
+
+              </div>
+
+            ))}
 
           </div>
 
-        ))}
+        )}
 
       </div>
 
