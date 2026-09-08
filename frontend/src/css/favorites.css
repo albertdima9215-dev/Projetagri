@@ -1,78 +1,640 @@
-.favorites{
-    padding:40px 8%;
+/* =========================================================
+   PAGE FAVORIS — AGRICONNECT
+   ========================================================= */
+
+.favorites {
+  width: min(1180px, 92%);
+  margin: 0 auto;
+  padding: 38px 0 70px;
 }
 
-.favorites h1{
-    margin-bottom:30px;
-    color:#2e7d32;
+/* =========================================================
+   TITRE
+   ========================================================= */
+
+.favorites h1 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin: 0 0 30px;
+
+  color: #256b2b;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
 }
 
-.favorites-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:25px;
+.favorites h1 svg {
+  font-size: 28px;
 }
 
-.favorite-card{
-    background:white;
-    border-radius:12px;
-    overflow:hidden;
-    box-shadow:0 5px 15px rgba(0,0,0,.1);
+
+/* =========================================================
+   GRILLE
+   ========================================================= */
+
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  align-items: stretch;
 }
 
-.favorite-card img{
-    width:100%;
-    height:220px;
-    object-fit:cover;
+
+/* =========================================================
+   CARTE
+   ========================================================= */
+
+.favorite-card {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  min-width: 0;
+  overflow: hidden;
+
+  background: #fff;
+
+  border: 1px solid #e8ece9;
+  border-radius: 16px;
+
+  box-shadow: 0 4px 18px rgba(24, 48, 29, 0.07);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
 }
 
-.favorite-card h3,
-.favorite-card p{
-    padding:0 15px;
+.favorite-card:hover {
+  transform: translateY(-4px);
+
+  border-color: #d5e4d7;
+
+  box-shadow:
+    0 12px 30px rgba(24, 48, 29, 0.12);
 }
 
-.favorite-card a,
-.favorite-card button{
-    display:block;
-    margin:15px;
-    text-align:center;
-    text-decoration:none;
-    padding:12px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
+
+/* =========================================================
+   IMAGE
+   ========================================================= */
+
+.favorite-image {
+  position: relative;
+
+  width: 100%;
+  height: 215px;
+
+  overflow: hidden;
+
+  background: #f2f4f2;
 }
 
-.favorite-card a{
-    background:#2e7d32;
-    color:white;
+.favorite-image img {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  transition: transform 0.4s ease;
 }
 
-.favorite-card button{
-    background:#e53935;
-    color:white;
-}
-.favorite-link{
-    position:relative;
+.favorite-card:hover .favorite-image img {
+  transform: scale(1.04);
 }
 
-.favorite-badge{
-    position:absolute;
-    top:-8px;
-    right:-14px;
 
-    background:#e53935;
-    color:white;
+/* =========================================================
+   OVERLAY IMAGE
+   ========================================================= */
 
-    min-width:20px;
-    height:20px;
+.favorite-image::after {
+  content: "";
 
-    border-radius:50%;
+  position: absolute;
+  inset: 0;
 
-    display:flex;
-    align-items:center;
-    justify-content:center;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.02),
+    rgba(0, 0, 0, 0.12)
+  );
 
-    font-size:12px;
-    font-weight:bold;
+  pointer-events: none;
+}
+
+
+/* =========================================================
+   BOUTON FAVORI
+   ========================================================= */
+
+.remove-favorite {
+  position: absolute;
+
+  top: 14px;
+  right: 14px;
+
+  z-index: 5;
+
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  color: #e53935;
+
+  font-size: 18px;
+
+  cursor: pointer;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.remove-favorite:hover {
+  background: #e53935;
+  color: #fff;
+
+  transform: scale(1.08);
+}
+
+
+/* =========================================================
+   INFORMATIONS
+   ========================================================= */
+
+.favorite-info {
+  display: flex;
+  flex-direction: column;
+
+  flex: 1;
+
+  padding: 18px 18px 17px;
+}
+
+
+/* =========================================================
+   NOM
+   ========================================================= */
+
+.favorite-info h3 {
+  margin: 0 0 7px;
+
+  color: #1f2921;
+
+  font-size: 19px;
+  font-weight: 800;
+
+  line-height: 1.25;
+}
+
+
+/* =========================================================
+   TYPE DE VENTE
+   ========================================================= */
+
+.sale-type {
+  align-self: flex-start;
+
+  display: inline-flex;
+  align-items: center;
+
+  width: fit-content;
+
+  margin-bottom: 10px;
+  padding: 5px 9px;
+
+  border-radius: 20px;
+
+  background: #edf7ee;
+  color: #2e7d32;
+
+  font-size: 11px;
+  font-weight: 700;
+
+  border: 1px solid #dceede;
+}
+
+
+/* =========================================================
+   PRIX
+   ========================================================= */
+
+.favorite-price {
+  margin: 2px 0 7px;
+
+  color: #23712b;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  line-height: 1.35;
+}
+
+
+/* =========================================================
+   STOCK
+   ========================================================= */
+
+.favorite-stock {
+  display: flex;
+  align-items: center;
+
+  margin: 0 0 7px;
+
+  color: #555;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  line-height: 1.4;
+}
+
+
+/* =========================================================
+   LOCALISATION
+   ========================================================= */
+
+.favorite-location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  margin: 0 0 16px;
+
+  color: #737873;
+
+  font-size: 13px;
+
+  line-height: 1.4;
+}
+
+.favorite-location::first-letter {
+  color: #2e7d32;
+}
+
+
+/* =========================================================
+   ACTIONS
+   ========================================================= */
+
+.favorite-actions {
+  display: flex;
+  align-items: stretch;
+
+  gap: 8px;
+
+  margin-top: auto;
+}
+
+
+/* =========================================================
+   VOIR LE PRODUIT
+   ========================================================= */
+
+.view-product-btn {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 42px;
+
+  padding: 9px 12px;
+
+  border-radius: 9px;
+
+  background: #2e7d32;
+  color: #fff;
+
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.view-product-btn:hover {
+  background: #256628;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 4px 10px rgba(46, 125, 50, 0.2);
+}
+
+
+/* =========================================================
+   RETIRER
+   ========================================================= */
+
+.favorite-actions .remove-btn {
+  flex: 0 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  min-height: 42px;
+
+  padding: 9px 12px;
+
+  border: 1px solid #ffd6d6;
+  border-radius: 9px;
+
+  background: #fff5f5;
+
+  color: #d93434;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.favorite-actions .remove-btn:hover {
+  background: #e53935;
+  color: #fff;
+  border-color: #e53935;
+}
+
+
+/* =========================================================
+   AUCUN FAVORI
+   ========================================================= */
+
+.empty-favorites {
+  min-height: 360px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  padding: 40px 20px;
+
+  text-align: center;
+
+  background:
+    linear-gradient(
+      145deg,
+      #fbfdfb,
+      #f5faf6
+    );
+
+  border: 1px dashed #cbd8cd;
+  border-radius: 18px;
+}
+
+.empty-favorites > svg {
+  margin-bottom: 16px;
+
+  color: #a9b9ad;
+
+  font-size: 54px;
+}
+
+.empty-favorites h2 {
+  margin: 4px 0 8px;
+
+  color: #29312b;
+
+  font-size: 23px;
+  font-weight: 800;
+}
+
+.empty-favorites p {
+  max-width: 420px;
+
+  margin: 0 0 22px;
+
+  color: #747a75;
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.empty-favorites a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 44px;
+
+  padding: 10px 22px;
+
+  border-radius: 9px;
+
+  background: #2e7d32;
+  color: #fff;
+
+  text-decoration: none;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  transition: 0.2s ease;
+}
+
+.empty-favorites a:hover {
+  background: #256628;
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   BADGE FAVORIS NAVBAR
+   ========================================================= */
+
+.favorite-link {
+  position: relative;
+}
+
+.favorite-badge {
+  position: absolute;
+
+  top: -9px;
+  right: -14px;
+
+  min-width: 18px;
+  height: 18px;
+
+  padding: 0 4px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #e53935;
+  color: #fff;
+
+  border: 2px solid #fff;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  line-height: 1;
+}
+
+
+/* =========================================================
+   TABLETTE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+
+  .favorites {
+    width: 92%;
+    padding-top: 32px;
+  }
+
+  .favorites-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .favorite-image {
+    height: 205px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+
+  .favorites {
+    width: 92%;
+    padding: 24px 0 55px;
+  }
+
+  .favorites h1 {
+    gap: 9px;
+
+    margin-bottom: 22px;
+
+    font-size: 25px;
+  }
+
+  .favorites h1 svg {
+    font-size: 24px;
+  }
+
+  .favorites-grid {
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+  }
+
+  .favorite-card {
+    border-radius: 15px;
+  }
+
+  .favorite-image {
+    height: 210px;
+  }
+
+  .favorite-info {
+    padding: 17px;
+  }
+
+  .favorite-info h3 {
+    font-size: 19px;
+  }
+
+  .favorite-price {
+    font-size: 17px;
+  }
+
+  .favorite-stock,
+  .favorite-location {
+    font-size: 13px;
+  }
+
+  .favorite-actions {
+    gap: 8px;
+  }
+
+  .view-product-btn {
+    min-height: 43px;
+
+    font-size: 13px;
+  }
+
+  .favorite-actions .remove-btn {
+    min-height: 43px;
+
+    padding: 8px 11px;
+
+    font-size: 12px;
+  }
+}
+
+
+/* =========================================================
+   PETITS TÉLÉPHONES
+   ========================================================= */
+
+@media (max-width: 390px) {
+
+  .favorites {
+    width: 94%;
+    padding-top: 20px;
+  }
+
+  .favorites h1 {
+    font-size: 23px;
+  }
+
+  .favorite-image {
+    height: 190px;
+  }
+
+  .favorite-info {
+    padding: 15px;
+  }
+
+  .favorite-info h3 {
+    font-size: 18px;
+  }
+
+  .favorite-actions {
+    flex-direction: column;
+  }
+
+  .view-product-btn,
+  .favorite-actions .remove-btn {
+    width: 45%;
+  }
 }
