@@ -17,9 +17,6 @@ function Favorites() {
     fetchFavorites();
   }, []);
 
-  // ==================================================
-  // RÉCUPÉRER LES FAVORIS
-  // ==================================================
 
   const fetchFavorites = async () => {
     try {
@@ -37,9 +34,6 @@ function Favorites() {
     }
   };
 
-  // ==================================================
-  // RETIRER UN FAVORI
-  // ==================================================
 
   const removeFavorite = async (productId) => {
     try {
@@ -60,9 +54,6 @@ function Favorites() {
     }
   };
 
-  // ==================================================
-  // AFFICHAGE
-  // ==================================================
 
   return (
     <div className="favorites">
@@ -102,10 +93,6 @@ function Favorites() {
                 className="favorite-card"
                 key={item._id}
               >
-
-                {/* =========================
-                    IMAGE
-                ========================= */}
 
                 <div className="favorite-image">
 
