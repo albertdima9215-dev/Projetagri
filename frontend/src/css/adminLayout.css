@@ -26,6 +26,8 @@
     color:white;
     text-decoration:none;
     padding:12px;
+    font-size: 18px;
+    font-weight: 700;
     border-radius:8px;
     transition:.3s;
 }
