@@ -133,7 +133,7 @@
 
   margin-bottom: 8px;
 
-  font-size: 12px;
+  font-size: 18px;
   font-weight: 800;
 
   letter-spacing: 1.5px;
@@ -141,6 +141,9 @@
   color: #d8ffd9;
 }
 
+.promo-label .fire{
+  font-size: 30px;
+}
 
 .promo-text h2 {
   margin: 0 0 10px;

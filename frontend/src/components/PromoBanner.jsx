@@ -113,7 +113,7 @@ function PromoBanner() {
         <div className="promo-text">
 
           <span className="promo-label">
-            <FaFireAlt /> OFFRE AGRICONNECT
+            <FaFireAlt className="fire" /> OFFRE AGRICONNECT
           </span>
 
           <h2>
