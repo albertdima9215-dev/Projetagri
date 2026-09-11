@@ -367,7 +367,7 @@ const downloadInvoice = async (req, res) => {
     doc.pipe(res);
 
     // Titre
-    doc.fontSize(22).text("AgriConnect Faso", { align: "center" });
+    doc.fontSize(22).text("AgriConnect", { align: "center" });
     doc.moveDown();
 
     doc.fontSize(18).text("FACTURE", { align: "center" });
@@ -425,7 +425,7 @@ doc.text(
     doc.moveDown(3);
 
     // Footer
-    doc.fontSize(10).text("Merci pour votre confiance envers AgriConnect Faso.", {
+    doc.fontSize(10).text("Merci pour votre confiance envers AgriConnect.", {
       align: "center",
     });
 
