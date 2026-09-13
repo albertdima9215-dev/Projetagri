@@ -1,73 +1,411 @@
-.features{
-    padding:50px 4%;
-    background:#fff;
-    text-align:center;
+/* =========================================
+   SECTION FEATURES
+========================================= */
+
+.features {
+  position: relative;
+  padding: 80px 5%;
+  background: #ffffff;
+  text-align: center;
+  overflow: hidden;
 }
 
-.features h2{
-    font-size:36px;
-    color:#2e7d32;
-    margin-bottom:50px;
+/* Petite décoration en arrière-plan */
+.features::before {
+  content: "";
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  top: -180px;
+  left: -160px;
+  background: rgba(46, 125, 50, 0.05);
+  border-radius: 50%;
 }
 
-.features-container{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-    gap:25px;
+.features::after {
+  content: "";
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  bottom: -160px;
+  right: -120px;
+  background: rgba(46, 125, 50, 0.05);
+  border-radius: 50%;
 }
 
-.feature-card{
-    background:#f8f8f8;
-    padding:30px;
-    border-radius:12px;
-    transition:.3s;
-    box-shadow:0 4px 10px rgba(0,0,0,.08);
+/* =========================================
+   TITRE
+========================================= */
+
+.features h2 {
+  position: relative;
+  z-index: 1;
+
+  max-width: 700px;
+  margin: 0 auto 55px;
+
+  color: #2e7d32;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
-.feature-card:hover{
-    transform:translateY(-8px);
+/* Petit trait sous le titre */
+.features h2::after {
+  content: "";
+  display: block;
+
+  width: 70px;
+  height: 4px;
+
+  margin: 18px auto 0;
+
+  background: #2e7d32;
+  border-radius: 10px;
 }
 
-.feature-card .icon{
-    font-size:50px;
-    margin-bottom:20px;
+/* =========================================
+   CONTAINER
+========================================= */
+
+.features-container {
+  position: relative;
+  z-index: 1;
+
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
 }
 
-.feature-card h3{
-    color:#2e7d32;
-    margin-bottom:15px;
+/* =========================================
+   CARTE
+========================================= */
+
+.feature-card {
+  position: relative;
+
+  min-height: 250px;
+
+  padding: 35px 25px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: #ffffff;
+
+  border: 1px solid #e8eee8;
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.05),
+    0 15px 35px rgba(46, 125, 50, 0.05);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
-.feature-card p{
-    color:#555;
-    line-height:1.6;
+/* Barre supérieure */
+.feature-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 25%;
+
+  width: 50%;
+  height: 4px;
+
+  background: #2e7d32;
+
+  border-radius: 0 0 10px 10px;
+
+  transform: scaleX(0);
+
+  transition: transform 0.3s ease;
 }
 
-@media (max-width: 768px) {
-  .features{
-    padding: 30px 10px;
+/* Hover */
+.feature-card:hover {
+  transform: translateY(-8px);
+
+  border-color: #c8dfca;
+
+  box-shadow:
+    0 12px 25px rgba(0, 0, 0, 0.08),
+    0 20px 45px rgba(46, 125, 50, 0.10);
+}
+
+.feature-card:hover::before {
+  transform: scaleX(1);
+}
+
+/* =========================================
+   ICÔNE
+========================================= */
+
+.feature-card .icon {
+  width: 72px;
+  height: 72px;
+
+  margin-bottom: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #eaf6eb;
+
+  color: #2e7d32;
+
+  border-radius: 20px;
+
+  font-size: 34px;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+.feature-card:hover .icon {
+  transform: translateY(-4px) scale(1.05);
+
+  background: #2e7d32;
+
+  color: #ffffff;
+}
+
+/* =========================================
+   TITRE CARTE
+========================================= */
+
+.feature-card h3 {
+  margin: 0 0 14px;
+
+  color: #2e7d32;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 22px;
+  font-weight: 700;
+
+  line-height: 1.3;
+}
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.feature-card p {
+  max-width: 260px;
+
+  margin: 0;
+
+  color: #68706a;
+
+  font-size: 15px;
+
+  line-height: 1.7;
+}
+
+/* =========================================
+   MODE SOMBRE
+========================================= */
+
+body.dark-mode .features {
+  background: #111712;
+}
+
+body.dark-mode .features::before,
+body.dark-mode .features::after {
+  background: rgba(76, 175, 80, 0.08);
+}
+
+body.dark-mode .features h2 {
+  color: #66bb6a;
+}
+
+body.dark-mode .feature-card {
+  background: #182019;
+
+  border-color: #29372b;
+
+  box-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.25),
+    0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+body.dark-mode .feature-card:hover {
+  border-color: #3c5a40;
+
+  box-shadow:
+    0 12px 25px rgba(0, 0, 0, 0.35),
+    0 20px 45px rgba(46, 125, 50, 0.15);
+}
+
+body.dark-mode .feature-card .icon {
+  background: #223624;
+  color: #66bb6a;
+}
+
+body.dark-mode .feature-card:hover .icon {
+  background: #2e7d32;
+  color: #ffffff;
+}
+
+body.dark-mode .feature-card h3 {
+  color: #81c784;
+}
+
+body.dark-mode .feature-card p {
+  color: #b7c1b8;
+}
+
+/* =========================================
+   TABLETTE
+========================================= */
+
+@media (max-width: 1000px) {
+
+  .features {
+    padding: 65px 4%;
   }
-  .features h2{
-    font-size: 25px;
-    margin-bottom: 10px;
+
+  .features h2 {
+    font-size: 36px;
+    margin-bottom: 40px;
   }
-  .features-container{
-    grid-template-columns: repeat(2,1fr);
-    gap: 10px;
+
+  .features-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
-  .feature-card{
-    gap: 15px;
-    padding: 10px;
+
+  .feature-card {
+    min-height: 230px;
   }
-  .feature-card .icon{
-    font-size: 20px;
-    margin-bottom: 10px;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+  .features {
+    padding: 55px 16px 75px;
   }
-  .feature-card h3{
+
+  .features h2 {
+    max-width: 340px;
+
+    margin-bottom: 32px;
+
+    font-size: 29px;
+    line-height: 1.25;
+  }
+
+  .features h2::after {
+    width: 55px;
+    height: 3px;
+
+    margin-top: 14px;
+  }
+
+  .features-container {
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 12px;
+  }
+
+  .feature-card {
+    min-height: 220px;
+
+    padding: 22px 12px;
+
+    border-radius: 18px;
+
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.06);
+  }
+
+  .feature-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .feature-card .icon {
+    width: 52px;
+    height: 52px;
+
+    margin-bottom: 14px;
+
+    border-radius: 15px;
+
+    font-size: 24px;
+  }
+
+  .feature-card h3 {
+    margin-bottom: 9px;
+
+    font-size: 17px;
+  }
+
+  .feature-card p {
+    max-width: 155px;
+
     font-size: 12px;
-    margin-bottom: 10px;
+
+    line-height: 1.5;
   }
-  .feature-card p{
-    font-size: 8px;
+}
+
+/* =========================================
+   PETITS ÉCRANS
+========================================= */
+
+@media (max-width: 380px) {
+
+  .features {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .features h2 {
+    font-size: 26px;
+  }
+
+  .features-container {
+    gap: 9px;
+  }
+
+  .feature-card {
+    min-height: 205px;
+    padding: 18px 9px;
+  }
+
+  .feature-card .icon {
+    width: 46px;
+    height: 46px;
+
+    font-size: 21px;
+  }
+
+  .feature-card h3 {
+    font-size: 15px;
+  }
+
+  .feature-card p {
+    font-size: 11px;
   }
 }

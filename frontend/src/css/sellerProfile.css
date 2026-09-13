@@ -306,7 +306,7 @@
    TYPE DE VENTE
 ===================================================== */
 
-.product-sale-type {
+.product-card-content .product-sale-type {
   display: inline-block;
 
   align-self: flex-start;
@@ -331,7 +331,7 @@
    PRIX
 ===================================================== */
 
-.product-price {
+.product-card-content .product-price {
   margin: 5px 0;
 
   color: #1b5e20;
@@ -348,10 +348,10 @@
    STOCK
 ===================================================== */
 
-.product-stock {
-  margin: 6px 0 15px;
+.product-card-content .product-stock {
+  margin: 6px 0 35px;
 
-  font-size: 13px;
+  font-size: 14px;
 
   color: #777;
 }
@@ -368,7 +368,7 @@
    BOUTON VOIR PRODUIT
 ===================================================== */
 
-.seller-products .view-product-btn {
+.product-card-content .view-product-btn {
   display: flex;
 
   align-items: center;
@@ -404,7 +404,7 @@
     transform 0.2s ease;
 }
 
-.seller-products .view-product-btn:hover {
+.product-card-content .view-product-btn:hover {
   background: #1b5e20;
 
   transform: translateY(-1px);
@@ -545,7 +545,7 @@
   }
 
 
-  .product-sale-type {
+  .product-card-content .product-sale-type {
     font-size: 10px;
 
     padding: 4px 8px;
@@ -554,19 +554,19 @@
   }
 
 
-  .product-price {
+  .product-card-content .product-price {
     font-size: 14px;
   }
 
 
-  .product-stock {
+  .product-card-content .product-stock {
     font-size: 11px;
 
-    margin-bottom: 12px;
+    margin-bottom: 35px;
   }
 
 
-  .seller-products .view-product-btn {
+  .product-card-content .view-product-btn {
     min-height: 38px;
 
     padding: 8px;
@@ -645,17 +645,17 @@
   }
 
 
-  .product-price {
+  .product-card-content .product-price {
     font-size: 13px;
   }
 
 
-  .product-stock {
+  .product-card-content .product-stock {
     font-size: 10px;
   }
 
 
-  .seller-products .view-product-btn {
+  .product-card-content .view-product-btn {
     font-size: 11px;
 
     min-height: 35px;

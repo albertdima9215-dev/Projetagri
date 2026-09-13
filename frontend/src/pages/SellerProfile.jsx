@@ -179,7 +179,7 @@ function SellerProfile() {
                   {/* STOCK */}
 
                   <p className="product-stock">
-                    {getStockLabel(product)}
+                    Stock: {getStockLabel(product)}
                   </p>
 
                   {/* BOUTON */}

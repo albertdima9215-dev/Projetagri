@@ -1,71 +1,427 @@
-.stats-section{
-    padding:50px 4%;
-    background:#f7fff6;
-    color:white;
-    text-align:center;
-    margin-top: 0px;
+/* =========================================
+   AGRICONNECT — SECTION STATISTIQUES
+========================================= */
+
+.stats-section {
+  position: relative;
+  padding: 85px 5%;
+  background: #f4fbf4;
+  text-align: center;
+  overflow: hidden;
 }
 
-.stats-section h2{
-    font-size:36px;
-    margin-bottom:50px;
-    color: #2e7d32;
+/* Décorations légères */
+.stats-section::before {
+  content: "";
+  position: absolute;
+
+  width: 350px;
+  height: 350px;
+
+  top: -220px;
+  left: -180px;
+
+  background: rgba(46, 125, 50, 0.06);
+
+  border-radius: 50%;
 }
 
-.stats-container{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:25px;
+.stats-section::after {
+  content: "";
+  position: absolute;
+
+  width: 300px;
+  height: 300px;
+
+  right: -160px;
+  bottom: -180px;
+
+  background: rgba(46, 125, 50, 0.06);
+
+  border-radius: 50%;
 }
 
-.stat-box{
-    background:#2e7d32;
-    border-radius:12px;
-    padding:35px 20px;
-    transition:.3s;
+/* =========================================
+   TITRE
+========================================= */
+
+.stats-section h2 {
+  position: relative;
+  z-index: 1;
+
+  max-width: 750px;
+
+  margin: 0 auto 55px;
+
+  color: #2e7d32;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 42px;
+  font-weight: 700;
+
+  line-height: 1.2;
 }
 
-.stat-box:hover{
-    transform:translateY(-8px);
-    background: #6db98e;
+/* Trait sous le titre */
+
+.stats-section h2::after {
+  content: "";
+
+  display: block;
+
+  width: 70px;
+  height: 4px;
+
+  margin: 18px auto 0;
+
+  background: #2e7d32;
+
+  border-radius: 20px;
 }
 
-.stat-box h3{
-    font-size:48px;
-    margin-bottom:15px;
+/* =========================================
+   CONTAINER
+========================================= */
+
+.stats-container {
+  position: relative;
+  z-index: 1;
+
+  max-width: 1200px;
+
+  margin: 0 auto;
+
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 22px;
 }
 
-.stat-box span{
-    display:block;
-    font-size:38px;
-    font-weight:bold;
-    margin-bottom:10px;
+/* =========================================
+   CARTE STATISTIQUE
+========================================= */
+
+.stat-box {
+  position: relative;
+
+  min-height: 220px;
+
+  padding: 32px 20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  background: #2e7d32;
+
+  color: #ffffff;
+
+  border-radius: 22px;
+
+  box-shadow:
+    0 8px 20px rgba(46, 125, 50, 0.15),
+    0 15px 35px rgba(0, 0, 0, 0.06);
+
+  overflow: hidden;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-.stat-box p{
-    font-size:18px;
+/* Décoration dans la carte */
+
+.stat-box::before {
+  content: "";
+
+  position: absolute;
+
+  width: 130px;
+  height: 130px;
+
+  top: -65px;
+  right: -65px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  border-radius: 50%;
 }
 
-@media (max-width: 768px) {
-  .stats-section h2{
-    font-size: 25px;
-    margin-bottom: 20px;
+.stat-box::after {
+  content: "";
+
+  position: absolute;
+
+  width: 90px;
+  height: 90px;
+
+  bottom: -45px;
+  left: -45px;
+
+  background: rgba(255, 255, 255, 0.06);
+
+  border-radius: 50%;
+}
+
+/* =========================================
+   HOVER
+========================================= */
+
+.stat-box:hover {
+  transform: translateY(-8px);
+
+  box-shadow:
+    0 15px 30px rgba(46, 125, 50, 0.22),
+    0 20px 45px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================================
+   ICÔNE
+========================================= */
+
+.stat-box h3 {
+  position: relative;
+  z-index: 1;
+
+  width: 70px;
+  height: 70px;
+
+  margin: 0 0 20px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.14);
+
+  border-radius: 20px;
+
+  font-size: 38px;
+
+  line-height: 1;
+
+  transition: transform 0.3s ease;
+}
+
+.stat-box:hover h3 {
+  transform: scale(1.08);
+}
+
+/* =========================================
+   CHIFFRE
+========================================= */
+
+.stat-box span {
+  position: relative;
+  z-index: 1;
+
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #ffffff;
+
+  font-family: Georgia, "Times New Roman", serif;
+
+  font-size: 38px;
+
+  font-weight: 700;
+
+  line-height: 1.1;
+}
+
+/* =========================================
+   DESCRIPTION
+========================================= */
+
+.stat-box p {
+  position: relative;
+  z-index: 1;
+
+  margin: 0;
+
+  color: rgba(255, 255, 255, 0.92);
+
+  font-size: 16px;
+
+  font-weight: 500;
+
+  line-height: 1.5;
+}
+
+/* =========================================
+   MODE SOMBRE
+========================================= */
+
+body.dark-mode .stats-section {
+  background: #111712;
+}
+
+body.dark-mode .stats-section::before,
+body.dark-mode .stats-section::after {
+  background: rgba(76, 175, 80, 0.08);
+}
+
+body.dark-mode .stats-section h2 {
+  color: #66bb6a;
+}
+
+body.dark-mode .stat-box {
+  background: #1f6b2a;
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.3),
+    0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .stat-box h3 {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* =========================================
+   TABLETTE
+========================================= */
+
+@media (max-width: 1000px) {
+
+  .stats-section {
+    padding: 70px 4%;
   }
-  .stats-container{
-    grid-template-columns: repeat(3,1fr);
-    gap: 5px;
+
+  .stats-section h2 {
+    font-size: 36px;
+
+    margin-bottom: 40px;
   }
-  .stat-box{
-    padding: 5px;
+
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 18px;
   }
-  .stat-box h3{
-    font-size: 32px;
-    margin-bottom: 5px;
+
+  .stat-box {
+    min-height: 210px;
   }
-  .stat-box span{
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+  .stats-section {
+    padding: 60px 16px 70px;
+  }
+
+  .stats-section h2 {
+    max-width: 340px;
+
+    margin-bottom: 32px;
+
+    font-size: 29px;
+
+    line-height: 1.25;
+  }
+
+  .stats-section h2::after {
+    width: 55px;
+
+    height: 3px;
+
+    margin-top: 14px;
+  }
+
+  .stats-container {
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 12px;
+  }
+
+  .stat-box {
+    min-height: 190px;
+
+    padding: 22px 10px;
+
+    border-radius: 18px;
+
+    box-shadow:
+      0 5px 14px rgba(46, 125, 50, 0.12);
+  }
+
+  .stat-box:hover {
+    transform: translateY(-4px);
+  }
+
+  .stat-box h3 {
+    width: 52px;
+    height: 52px;
+
+    margin-bottom: 14px;
+
+    border-radius: 15px;
+
+    font-size: 27px;
+  }
+
+  .stat-box span {
+    margin-bottom: 6px;
+
+    font-size: 27px;
+  }
+
+  .stat-box p {
     font-size: 12px;
+
+    line-height: 1.4;
   }
-  .stat-box p{
-    font-size: 10px;
+}
+
+/* =========================================
+   TRÈS PETITS ÉCRANS
+========================================= */
+
+@media (max-width: 380px) {
+
+  .stats-section {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .stats-section h2 {
+    font-size: 26px;
+  }
+
+  .stats-container {
+    gap: 9px;
+  }
+
+  .stat-box {
+    min-height: 175px;
+
+    padding: 18px 8px;
+  }
+
+  .stat-box h3 {
+    width: 46px;
+    height: 46px;
+
+    font-size: 23px;
+  }
+
+  .stat-box span {
+    font-size: 24px;
+  }
+
+  .stat-box p {
+    font-size: 11px;
   }
 }

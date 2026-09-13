@@ -31,9 +31,13 @@
     transform:translateY(-8px);
 }
 
-.category-icon{
-    font-size:50px;
-    margin-bottom:15px;
+.category-card .category-icon{
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.category-card h3{
+  font-size: 18px;
 }
 
 @media (max-width: 768px) {
@@ -47,7 +51,8 @@
   .category-card{
     padding: 5px;
   }
-  .category-icon{
+  
+  category-card .category-icon{
     font-size: 20px;
   }
   .category-card h3{

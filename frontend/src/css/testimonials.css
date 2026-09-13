@@ -1,78 +1,327 @@
-.testimonials{
-    padding:50px 4%;
-    background:#f8f8f8;
-    text-align:center;
+/* =========================================
+   SECTION TÉMOIGNAGES
+========================================= */
+
+.testimonials {
+  position: relative;
+  padding: 80px 5%;
+  background: linear-gradient(
+    180deg,
+    #f8faf8 0%,
+    #ffffff 100%
+  );
+  text-align: center;
+  overflow: hidden;
 }
 
-.testimonials h2{
-    color:#2e7d32;
-    font-size:36px;
-    margin-bottom:50px;
+/* Décoration légère en arrière-plan */
+
+.testimonials::before {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  top: -120px;
+  left: -100px;
+  background: rgba(46, 125, 50, 0.06);
+  border-radius: 50%;
 }
 
-.testimonial-container{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:25px;
+.testimonials::after {
+  content: "";
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  bottom: -120px;
+  right: -80px;
+  background: rgba(46, 125, 50, 0.05);
+  border-radius: 50%;
 }
 
-.testimonial-card{
-    background:white;
-    padding:30px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,.1);
-    transition:.3s;
+/* =========================================
+   TITRE
+========================================= */
+
+.testimonials h2 {
+  position: relative;
+  z-index: 1;
+
+  max-width: 700px;
+  margin: 0 auto 50px;
+
+  color: #2e7d32;
+
+  font-size: 38px;
+  font-weight: 800;
+
+  line-height: 1.2;
 }
 
-.testimonial-card:hover{
-    transform:translateY(-8px);
+/* Petit élément décoratif sous le titre */
+
+.testimonials h2::after {
+  content: "";
+  display: block;
+
+  width: 60px;
+  height: 4px;
+
+  margin: 16px auto 0;
+
+  background: #2e7d32;
+  border-radius: 10px;
 }
 
-.stars{
-    font-size:22px;
-    margin-bottom:20px;
+/* =========================================
+   CONTENEUR
+========================================= */
+
+.testimonial-container {
+  position: relative;
+  z-index: 1;
+
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 25px;
 }
 
-.text{
-    color:#555;
-    line-height:1.7;
-    margin-bottom:25px;
-    font-style:italic;
+/* =========================================
+   CARTE
+========================================= */
+
+.testimonial-card {
+  position: relative;
+
+  background: #ffffff;
+
+  padding: 32px 26px;
+
+  border: 1px solid #edf1ed;
+  border-radius: 20px;
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.06);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
 }
 
-.testimonial-card h3{
-    color:#2e7d32;
-    margin-bottom:5px;
+/* Petit guillemet décoratif */
+
+.testimonial-card::before {
+  content: "“";
+
+  position: absolute;
+
+  top: 8px;
+  left: 20px;
+
+  font-size: 60px;
+  line-height: 1;
+
+  color: rgba(46, 125, 50, 0.12);
+
+  font-family: Georgia, serif;
 }
 
-.testimonial-card span{
-    color:#777;
+/* Hover */
+
+.testimonial-card:hover {
+  transform: translateY(-8px);
+
+  border-color: rgba(46, 125, 50, 0.2);
+
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.10);
 }
 
-@media (max-width: 768px) {
-  .testimonials h2{
-    font-size: 25px;
-    margin-bottom: 20px;
+/* =========================================
+   ÉTOILES
+========================================= */
+
+.stars {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 3px;
+
+  margin-bottom: 22px;
+
+  color: #f59e0b;
+
+  font-size: 23px;
+
+  letter-spacing: 1px;
+}
+
+/* =========================================
+   TEXTE
+========================================= */
+
+.text {
+  margin: 0 auto 25px;
+
+  max-width: 330px;
+
+  color: #555;
+
+  font-size: 16px;
+  line-height: 1.7;
+
+  font-style: italic;
+}
+
+/* =========================================
+   NOM
+========================================= */
+
+.testimonial-card h3 {
+  margin: 0 0 5px;
+
+  color: #2e7d32;
+
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* =========================================
+   RÔLE / TYPE UTILISATEUR
+========================================= */
+
+.testimonial-card span {
+  color: #8a8f8a;
+
+  font-size: 14px;
+}
+
+/* =========================================
+   DARK MODE
+========================================= */
+
+body.dark-mode .testimonials {
+  background: #111714;
+}
+
+body.dark-mode .testimonial-card {
+  background: #1b211e;
+
+  border-color: #2b332e;
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.25);
+}
+
+body.dark-mode .testimonial-card:hover {
+  border-color: rgba(76, 175, 80, 0.4);
+
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+body.dark-mode .text {
+  color: #c8cec9;
+}
+
+body.dark-mode .testimonial-card span {
+  color: #9da59f;
+}
+
+body.dark-mode .testimonial-card::before {
+  color: rgba(76, 175, 80, 0.12);
+}
+
+/* =========================================
+   TABLETTE
+========================================= */
+
+@media (max-width: 900px) {
+
+  .testimonials {
+    padding: 60px 4%;
   }
-  .testimonial-container{
-    grid-template-columns: repeat(3,1fr);
-    gap: 5px;
+
+  .testimonials h2 {
+    font-size: 32px;
+    margin-bottom: 40px;
   }
-  .testimonial-card{
-    padding: 10px;
+
+  .testimonial-container {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
   }
-  .stars{
-    font-size: 15px;
-    margin-bottom: 10px;
+
+  .testimonial-card {
+    padding: 25px 20px;
   }
-  .text{
-    font-size: 8px;
-    margin-bottom: 10px;
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+  .testimonials {
+    padding: 55px 15px;
   }
-  .testimonial-card h3{
+
+  .testimonials h2 {
+    font-size: 27px;
+    line-height: 1.25;
+
+    margin-bottom: 32px;
+  }
+
+  .testimonials h2::after {
+    width: 45px;
+    height: 3px;
+
+    margin-top: 12px;
+  }
+
+  .testimonial-container {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .testimonial-card {
+    padding: 25px 20px;
+
+    border-radius: 18px;
+  }
+
+  .testimonial-card::before {
+    font-size: 50px;
+    top: 5px;
+    left: 15px;
+  }
+
+  .stars {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .text {
+    max-width: 100%;
+
+    font-size: 14px;
+    line-height: 1.6;
+
+    margin-bottom: 18px;
+  }
+
+  .testimonial-card h3 {
+    font-size: 16px;
+  }
+
+  .testimonial-card span {
     font-size: 12px;
-  }
-  .testimonial-card span{
-    font-size: 10px;
   }
 }
