@@ -113,7 +113,7 @@ function ProductsMap() {
               ]
             : [14.7167, -17.4677]
         }
-        zoom={15}
+        zoom={11}
         style={{
           height: "100%",
           width: "100%",
