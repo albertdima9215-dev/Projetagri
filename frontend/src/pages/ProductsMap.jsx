@@ -8,78 +8,64 @@ import {
 } from "react-leaflet";
 import { Link } from "react-router-dom";
 import L from "leaflet";
+
 import api from "../services/api";
+
+import {
+  formatUnitePluriel,
+  getPrixLabel,
+  getSaleTypeLabel,
+  getStockLabel,
+} from "../utils/productFormatters";
+
 import "leaflet/dist/leaflet.css";
 import "../css/productsMap.css";
+
+/* =========================================================
+   ICÔNE LEAFLET
+   ========================================================= */
 
 const customIcon = new L.Icon({
   iconUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-icon.png",
+
   shadowUrl:
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
+
   iconSize: [25, 41],
   iconAnchor: [12, 41],
 });
 
-// --------------------------------------------------
-// Image du produit
-// --------------------------------------------------
+/* =========================================================
+   IMAGE DU PRODUIT
+   ========================================================= */
+
 const getProductImage = (product) => {
-  if (Array.isArray(product.images) && product.images.length > 0) {
+  if (
+    Array.isArray(product?.images) &&
+    product.images.length > 0 &&
+    product.images[0]
+  ) {
     return product.images[0];
   }
 
-  if (product.image) {
+  if (product?.image) {
     return product.image;
   }
 
   return "/placeholder-product.png";
 };
 
-// --------------------------------------------------
-// Type de vente
-// --------------------------------------------------
-const getSaleTypeLabel = (product) => {
-  switch (product.typeVente) {
-    case "poids":
-      return "Au poids";
-
-    case "unite":
-      return "À l'unité";
-
-    case "lot":
-      return "Par lot";
-
-    default:
-      return null;
-  }
-};
-
-// --------------------------------------------------
-// Quantité disponible
-// --------------------------------------------------
-const getStockLabel = (product) => {
-  const quantite = Number(product.quantite);
-
-  if (Number.isNaN(quantite)) {
-    return null;
-  }
-
-  if (product.typeVente === "lot") {
-    return `${quantite.toLocaleString("fr-FR")} lot${
-      quantite > 1 ? "s" : ""
-    }`;
-  }
-
-  if (product.unite) {
-    return `${quantite.toLocaleString("fr-FR")} × ${product.unite}`;
-  }
-
-  return quantite.toLocaleString("fr-FR");
-};
+/* =========================================================
+   PRODUITS SUR LA CARTE
+   ========================================================= */
 
 function ProductsMap() {
   const [products, setProducts] = useState([]);
+
+  /* -------------------------------------------------------
+     RÉCUPÉRATION DES PRODUITS
+     ------------------------------------------------------- */
 
   useEffect(() => {
     fetchProducts();
@@ -91,11 +77,30 @@ function ProductsMap() {
 
       console.log("PRODUCTS MAP =", res.data);
 
-      setProducts(res.data);
+      setProducts(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
-      console.log("Erreur récupération produits :", error);
+      console.error(
+        "Erreur récupération produits :",
+        error
+      );
+
+      setProducts([]);
     }
   };
+
+  /* =======================================================
+     CENTRE DE LA CARTE
+     ======================================================= */
+
+  const mapCenter =
+    products.length > 0 &&
+    !Number.isNaN(parseFloat(products[0].latitude)) &&
+    !Number.isNaN(parseFloat(products[0].longitude))
+      ? [
+          parseFloat(products[0].latitude),
+          parseFloat(products[0].longitude),
+        ]
+      : [14.7167, -17.4677];
 
   return (
     <div
@@ -105,33 +110,67 @@ function ProductsMap() {
       }}
     >
       <MapContainer
-        center={
-          products.length > 0
-            ? [
-                parseFloat(products[0].latitude),
-                parseFloat(products[0].longitude),
-              ]
-            : [14.7167, -17.4677]
-        }
+        center={mapCenter}
         zoom={11}
         style={{
           height: "100%",
           width: "100%",
         }}
       >
+        {/* =================================================
+            OPEN STREET MAP
+            ================================================= */}
+
         <TileLayer
           attribution="&copy; OpenStreetMap contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
+        {/* =================================================
+            MARQUEURS
+            ================================================= */}
+
         {products.map((product, index) => {
           const lat = parseFloat(product.latitude);
           const lng = parseFloat(product.longitude);
 
-          // Évite les marqueurs invalides
-          if (Number.isNaN(lat) || Number.isNaN(lng)) {
+          /* -----------------------------------------------
+             Éviter les coordonnées invalides
+             ----------------------------------------------- */
+
+          if (
+            Number.isNaN(lat) ||
+            Number.isNaN(lng)
+          ) {
             return null;
           }
+
+          /* -----------------------------------------------
+             Données formatées
+             ----------------------------------------------- */
+
+          const saleType = getSaleTypeLabel(product);
+
+          const priceLabel = getPrixLabel(product);
+
+          const stockLabel = getStockLabel(product);
+
+          /* -----------------------------------------------
+             Composition du lot
+             ----------------------------------------------- */
+
+          const lotQuantity = Number(
+            product.quantiteParLot || 0
+          );
+
+          const lotComposition =
+            product.typeVente === "lot" &&
+            lotQuantity > 0
+              ? `${lotQuantity} ${formatUnitePluriel(
+                  product.unite,
+                  lotQuantity
+                )} / lot`
+              : null;
 
           return (
             <Marker
@@ -142,9 +181,10 @@ function ProductsMap() {
               ]}
               icon={customIcon}
             >
-              {/* ---------------------------------- */}
-              {/* Nom du produit toujours visible */}
-              {/* ---------------------------------- */}
+              {/* =================================================
+                  NOM DU PRODUIT TOUJOURS VISIBLE
+                  ================================================= */}
+
               <Tooltip
                 permanent
                 direction="top"
@@ -154,15 +194,20 @@ function ProductsMap() {
                 {product.nom}
               </Tooltip>
 
-              {/* ---------------------------------- */}
-              {/* Fenêtre au clic */}
-              {/* ---------------------------------- */}
-              <Popup maxWidth={280}>
+              {/* =================================================
+                  POPUP
+                  ================================================= */}
+
+              <Popup maxWidth={300}>
                 <div className="product-popup">
-                  {/* Image */}
+
+                  {/* -------------------------------------------
+                      IMAGE
+                      ------------------------------------------- */}
+
                   <img
                     src={getProductImage(product)}
-                    alt={product.nom}
+                    alt={product.nom || "Produit"}
                     className="popup-image"
                     loading="lazy"
                     onError={(e) => {
@@ -171,60 +216,86 @@ function ProductsMap() {
                     }}
                   />
 
-                  {/* Nom */}
-                  <h3>{product.nom}</h3>
+                  {/* -------------------------------------------
+                      INFORMATIONS
+                      ------------------------------------------- */}
 
-                  {/* Type de vente */}
-                  {getSaleTypeLabel(product) && (
-                    <p>
-                      <strong>Type de vente :</strong>{" "}
-                      {getSaleTypeLabel(product)}
-                    </p>
-                  )}
+                  <div className="popup-content">
 
-                  {/* Prix */}
-                  <p className="popup-price">
-                    {Number(product.prix).toLocaleString(
-                      "fr-FR"
-                    )}{" "}
-                    FCFA
-                    {product.unite && (
-                      <span> / {product.unite}</span>
+                    {/* Nom */}
+
+                    <h3>
+                      {product.nom}
+                    </h3>
+
+                    {/* Catégorie */}
+
+                    {product.categorie && (
+                      <span className="popup-category">
+                        {product.categorie}
+                      </span>
                     )}
-                  </p>
 
-                  {/* Stock disponible */}
-                  {getStockLabel(product) && (
-                    <p>
-                      <strong>Disponible :</strong>{" "}
-                      {getStockLabel(product)}
-                    </p>
-                  )}
+                    {/* Type de vente */}
 
-                  {/* Composition du lot */}
-                  {product.typeVente === "lot" &&
-                    product.quantiteParLot && (
-                      <p>
-                        <strong>Composition :</strong>{" "}
-                        {product.quantiteParLot} unités / lot
+                    {saleType && (
+                      <p className="popup-info">
+                        <strong>
+                          Type de vente :
+                        </strong>{" "}
+                        {saleType}
                       </p>
                     )}
 
-                  {/* Localisation */}
-                  {product.localisation && (
-                    <p>
-                      <strong>📍 Localisation :</strong>{" "}
-                      {product.localisation}
-                    </p>
-                  )}
+                    {/* Prix */}
 
-                  {/* Bouton */}
-                  <Link
-                    to={`/products/${product._id}`}
-                    className="popup-btn"
-                  >
-                    👁 Voir le produit
-                  </Link>
+                    <p className="popup-price">
+                      {priceLabel}
+                    </p>
+
+                    {/* Stock */}
+
+                    {stockLabel && (
+                      <p className="popup-stock">
+                        <strong>
+                          Disponible :
+                        </strong>{" "}
+                        {stockLabel}
+                      </p>
+                    )}
+
+                    {/* Composition du lot */}
+
+                    {lotComposition && (
+                      <p className="popup-info">
+                        <strong>
+                          Composition :
+                        </strong>{" "}
+                        {lotComposition}
+                      </p>
+                    )}
+
+                    {/* Localisation */}
+
+                    {product.localisation && (
+                      <p className="popup-location">
+                        <strong>
+                          📍 Localisation :
+                        </strong>{" "}
+                        {product.localisation}
+                      </p>
+                    )}
+
+                    {/* Bouton */}
+
+                    <Link
+                      to={`/products/${product._id}`}
+                      className="popup-btn"
+                    >
+                      👁 Voir le produit
+                    </Link>
+
+                  </div>
                 </div>
               </Popup>
             </Marker>

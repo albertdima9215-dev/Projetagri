@@ -245,6 +245,7 @@ const modifierQuantite = (value) => {
     prixUnitaire * quantiteCommande;
 
   return (
+    <div className="producstDetails">
     <div className="product-details">
 
       {/* =========================
@@ -283,6 +284,7 @@ const modifierQuantite = (value) => {
           />
         ))}
       </div>
+    </div>
 
       {/* =========================
           INFORMATIONS PRODUIT
@@ -328,7 +330,7 @@ const modifierQuantite = (value) => {
         {/* =========================
             VENDEUR
         ========================= */}
-
+        <div className="seller-section">
         <h3>Vendeur</h3>
 
         <Link
@@ -354,6 +356,7 @@ const modifierQuantite = (value) => {
           <FaWhatsapp />
           Contacter sur WhatsApp
         </button>
+        </div>
 
         {/* =========================
             COMMANDER
@@ -601,7 +604,6 @@ const modifierQuantite = (value) => {
         )}
 
       </div>
-
     </div>
   );
 }
