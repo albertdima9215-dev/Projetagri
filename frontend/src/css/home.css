@@ -743,6 +743,44 @@
   }
 }
 
+/* =========================================
+   INDICATEUR DE RECHERCHE
+========================================= */
+
+.search-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  min-height: 30px;
+
+  margin: 5px auto 15px;
+
+  color: #2e7d32;
+
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.search-spinner {
+  width: 16px;
+  height: 16px;
+
+  border: 2px solid #d7ead8;
+  border-top-color: #2e7d32;
+
+  border-radius: 50%;
+
+  animation: searchSpinner 0.7s linear infinite;
+}
+
+@keyframes searchSpinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* =========================================================
    TABLETTE
    ========================================================= */
