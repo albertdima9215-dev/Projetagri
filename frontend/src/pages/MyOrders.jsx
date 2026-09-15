@@ -317,7 +317,7 @@ function MyOrders() {
                 <p>
   <strong>Quantité commandée :</strong>{" "}
   {getSelectedQuantityLabel(
-    order,
+    order ,
     order.quantite
   )}
 </p>
@@ -425,9 +425,9 @@ function MyOrders() {
                 {order.numeroSuivi && (
                   <p>
                     <FaCar /> Suivi :{" "}
-                    <strong>
+                    
                       {order.numeroSuivi}
-                    </strong>
+                    
                   </p>
                 )}
 

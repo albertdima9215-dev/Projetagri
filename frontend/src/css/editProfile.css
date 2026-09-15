@@ -1,40 +1,512 @@
-.edit-profile{
-    max-width:700px;
-    margin:40px auto;
-    padding:30px;
+/* =========================================================
+   EDIT PROFILE — AGRICONNECT
+========================================================= */
+
+.edit-profile {
+  width: 100%;
+  max-width: 850px;
+  margin: 45px auto 100px;
+  padding: 0 20px;
+  box-sizing: border-box;
 }
 
-.edit-profile h1{
-    text-align:center;
-    color:#2e7d32;
-    margin-bottom:30px;
+/* =========================================================
+   EN-TÊTE
+========================================================= */
+
+.edit-profile h1 {
+  margin: 0 0 35px;
+  text-align: center;
+
+  color: #2e7d32;
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
 }
 
-.edit-profile form{
-    display:flex;
-    flex-direction:column;
-    gap:20px;
+/* Petit trait décoratif */
+
+.edit-profile h1::after {
+  content: "";
+  display: block;
+
+  width: 65px;
+  height: 4px;
+
+  margin: 12px auto 0;
+
+  background: #2e7d32;
+  border-radius: 10px;
 }
+
+/* =========================================================
+   FORMULAIRE
+========================================================= */
+
+.edit-profile form {
+  background: #ffffff;
+
+  padding: 40px;
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.08),
+    0 2px 8px rgba(0, 0, 0, 0.04);
+
+  border: 1px solid #edf2ee;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   LABELS
+========================================================= */
+
+.edit-profile label {
+  margin-top: 12px;
+  margin-bottom: 5px;
+
+  color: #263238;
+
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   CHAMPS
+========================================================= */
 
 .edit-profile input,
-.edit-profile textarea{
-    padding:15px;
-    border:1px solid #ddd;
-    border-radius:8px;
-    font-size:16px;
+.edit-profile select,
+.edit-profile textarea {
+  width: 100%;
+
+  padding: 14px 16px;
+
+  box-sizing: border-box;
+
+  border: 1.5px solid #dce5df;
+
+  border-radius: 12px;
+
+  background: #fbfdfb;
+
+  color: #263238;
+
+  font-size: 16px;
+
+  font-family: inherit;
+
+  outline: none;
+
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
 }
 
-.edit-profile textarea{
-    min-height:120px;
-    resize:vertical;
+/* Focus */
+
+.edit-profile input:focus,
+.edit-profile select:focus,
+.edit-profile textarea:focus {
+  border-color: #2e7d32;
+
+  background: #ffffff;
+
+  box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.10);
 }
 
-.edit-profile button{
-    background:#2e7d32;
-    color:white;
-    border:none;
-    padding:15px;
-    border-radius:8px;
-    cursor:pointer;
-    font-size:17px;
+/* Placeholder */
+
+.edit-profile input::placeholder,
+.edit-profile textarea::placeholder {
+  color: #9aa5a0;
+}
+
+/* Indicatif */
+
+.edit-profile input[readonly] {
+  background: #f1f5f2;
+
+  color: #2e7d32;
+
+  font-weight: 700;
+
+  cursor: default;
+}
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.edit-profile select {
+  cursor: pointer;
+
+  appearance: auto;
+}
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.edit-profile textarea {
+  min-height: 140px;
+
+  resize: vertical;
+
+  line-height: 1.6;
+}
+
+/* =========================================================
+   INPUT PHOTO
+========================================================= */
+
+.edit-profile input[type="file"] {
+  padding: 10px;
+
+  background: #f8faf8;
+
+  cursor: pointer;
+
+  font-size: 14px;
+}
+
+.edit-profile input[type="file"]::file-selector-button {
+  margin-right: 12px;
+
+  padding: 9px 15px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: #e8f5e9;
+
+  color: #2e7d32;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.edit-profile input[type="file"]::file-selector-button:hover {
+  background: #d2ecd5;
+}
+
+/* =========================================================
+   BOUTON LOCALISATION
+========================================================= */
+
+.edit-profile .location-btn {
+  width: 100%;
+
+  min-height: 52px;
+
+  margin-top: 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  border: 1.5px solid #2e7d32;
+
+  border-radius: 12px;
+
+  background: #f0f8f1;
+
+  color: #2e7d32;
+
+  font-size: 16px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    background 0.25s ease,
+    color 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.edit-profile .location-btn svg {
+  font-size: 18px;
+}
+
+.edit-profile .location-btn:hover {
+  background: #2e7d32;
+
+  color: #ffffff;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 16px rgba(46, 125, 50, 0.20);
+}
+
+/* =========================================================
+   BOUTON ENREGISTRER
+========================================================= */
+
+.edit-profile form > button[type="submit"] {
+  width: 100%;
+
+  min-height: 56px;
+
+  margin-top: 12px;
+
+  padding: 14px 20px;
+
+  border: none;
+
+  border-radius: 12px;
+
+  background: #2e7d32;
+
+  color: #ffffff;
+
+  font-size: 17px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow: 0 7px 18px rgba(46, 125, 50, 0.20);
+
+  transition:
+    background 0.25s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.edit-profile form > button[type="submit"]:hover:not(:disabled) {
+  background: #256628;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 10px 22px rgba(46, 125, 50, 0.25);
+}
+
+/* Bouton désactivé */
+
+.edit-profile form > button[type="submit"]:disabled {
+  background: #9eaaa1;
+
+  cursor: not-allowed;
+
+  box-shadow: none;
+
+  transform: none;
+}
+
+/* ANIMATION */
+
+.edit-profile form {
+  animation: profileFormAppear 0.45s ease;
+}
+
+@keyframes profileFormAppear {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* DARK MODE */
+
+body.dark .edit-profile h1 {
+  color: #81c784;
+}
+
+body.dark .edit-profile form {
+  background: #17201a;
+
+  border-color: #29372d;
+
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.30);
+}
+
+body.dark .edit-profile label {
+  color: #e5eee7;
+}
+
+body.dark .edit-profile input,
+body.dark .edit-profile select,
+body.dark .edit-profile textarea {
+  background: #202a23;
+
+  border-color: #3a4a3e;
+
+  color: #f1f5f2;
+}
+
+body.dark .edit-profile input::placeholder,
+body.dark .edit-profile textarea::placeholder {
+  color: #87948b;
+}
+
+body.dark .edit-profile input:focus,
+body.dark .edit-profile select:focus,
+body.dark .edit-profile textarea:focus {
+  background: #253028;
+
+  border-color: #66bb6a;
+
+  box-shadow: 0 0 0 4px rgba(102, 187, 106, 0.12);
+}
+
+body.dark .edit-profile input[readonly] {
+  background: #29352c;
+
+  color: #81c784;
+}
+
+body.dark .edit-profile input[type="file"] {
+  background: #202a23;
+}
+
+body.dark .edit-profile input[type="file"]::file-selector-button {
+  background: #2c4430;
+
+  color: #81c784;
+}
+
+body.dark .edit-profile .location-btn {
+  background: rgba(46, 125, 50, 0.15);
+
+  border-color: #66bb6a;
+
+  color: #81c784;
+}
+
+body.dark .edit-profile .location-btn:hover {
+  background: #2e7d32;
+
+  color: #ffffff;
+}
+
+/* TABLETTE */
+
+@media (max-width: 768px) {
+
+  .edit-profile {
+    max-width: 650px;
+
+    margin: 30px auto 100px;
+
+    padding: 0 16px;
+  }
+
+  .edit-profile h1 {
+    font-size: 30px;
+
+    margin-bottom: 28px;
+  }
+
+  .edit-profile form {
+    padding: 28px 22px;
+
+    border-radius: 20px;
+  }
+}
+
+/* MOBILE */
+
+@media (max-width: 480px) {
+
+  .edit-profile {
+    margin-top: 22px;
+
+    padding: 0 12px;
+  }
+
+  .edit-profile h1 {
+    font-size: 26px;
+
+    line-height: 1.2;
+
+    margin-bottom: 25px;
+  }
+
+  .edit-profile h1::after {
+    width: 50px;
+
+    height: 3px;
+
+    margin-top: 9px;
+  }
+
+  .edit-profile form {
+    padding: 22px 17px;
+
+    border-radius: 18px;
+
+    gap: 8px;
+  }
+
+  .edit-profile label {
+    font-size: 14px;
+
+    margin-top: 10px;
+  }
+
+  .edit-profile input,
+  .edit-profile select,
+  .edit-profile textarea {
+    padding: 13px 14px;
+
+    font-size: 15px;
+
+    border-radius: 10px;
+  }
+
+  .edit-profile textarea {
+    min-height: 120px;
+  }
+
+  .edit-profile .location-btn {
+    min-height: 50px;
+
+    font-size: 15px;
+
+    border-radius: 10px;
+  }
+
+  .edit-profile form > button[type="submit"] {
+    min-height: 52px;
+
+    font-size: 15px;
+
+    border-radius: 10px;
+  }
+}
+
+
+@media (max-width: 360px) {
+
+  .edit-profile {
+    padding: 0 9px;
+  }
+
+  .edit-profile form {
+    padding: 18px 14px;
+  }
+
+  .edit-profile h1 {
+    font-size: 23px;
+  }
 }
