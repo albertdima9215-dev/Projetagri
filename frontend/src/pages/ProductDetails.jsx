@@ -63,36 +63,43 @@ function ProductDetails() {
   // =========================
 
   const startConversation = async () => {
-    try {
-      const token = localStorage.getItem("token");
+  try {
+    const token = localStorage.getItem("token");
 
-      if (!token) {
-        alert("Veuillez vous connecter pour contacter le vendeur.");
-        return;
-      }
-
-      await api.post(
-        "/messages",
-        {
-          destinataireId: product.vendeur._id,
-          contenu:
-            "Bonjour, je suis intéressé(e) par votre produit.",
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      navigate("/messages");
-    } catch (error) {
-      alert(
-        error.response?.data?.message ||
-          "Erreur lors de l'envoi du message."
-      );
+    if (!token) {
+      alert("Veuillez vous connecter pour contacter le vendeur.");
+      return;
     }
-  };
+
+    await api.post(
+      "/messages",
+      {
+        destinataireId: product.vendeur._id,
+        contenu:
+          "Bonjour, je suis intéressé(e) par votre produit.",
+        automatique: true,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    navigate("/messages");
+
+  } catch (error) {
+    console.error(
+      "Erreur démarrage conversation :",
+      error.response?.data || error.message
+    );
+
+    alert(
+      error.response?.data?.message ||
+        "Erreur lors de l'envoi du message."
+    );
+  }
+};
 
   // =========================
   // WHATSAPP

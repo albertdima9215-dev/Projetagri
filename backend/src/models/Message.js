@@ -20,6 +20,12 @@ const messageSchema = new mongoose.Schema(
       trim: true,
     },
 
+    // Permet d'identifier les messages automatiques
+    automatique: {
+      type: Boolean,
+      default: false,
+    },
+
     lu: {
       type: Boolean,
       default: false,
