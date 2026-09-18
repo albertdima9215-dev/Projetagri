@@ -1,16 +1,35 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import api from "../services/api";
 import "../css/messages.css";
 
 function Messages() {
   const [conversations, setConversations] = useState([]);
-  const [selectedConversation, setSelectedConversation] = useState(null);
+  const [selectedConversation, setSelectedConversation] =
+    useState(null);
+
   const [messages, setMessages] = useState([]);
   const [contenu, setContenu] = useState("");
-  const [loadingConversations, setLoadingConversations] = useState(true);
-  const [loadingMessages, setLoadingMessages] = useState(false);
+
+  const [loadingConversations, setLoadingConversations] =
+    useState(true);
+
+  const [loadingMessages, setLoadingMessages] =
+    useState(false);
+
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
+
+  // Empêche plusieurs requêtes messages simultanées
+  const messagesRequestRunning = useRef(false);
+
+  // Référence de la zone de messages
+  const messagesListRef = useRef(null);
 
   // ==================================================
   // UTILISATEUR CONNECTÉ
@@ -18,43 +37,58 @@ function Messages() {
 
   const currentUser = useMemo(() => {
     try {
-      return JSON.parse(localStorage.getItem("user")) || null;
+      return JSON.parse(
+        localStorage.getItem("user")
+      ) || null;
     } catch {
       return null;
     }
   }, []);
 
-  const currentUserId = currentUser?.id || currentUser?._id;
+  const currentUserId =
+    currentUser?.id || currentUser?._id;
 
   // ==================================================
   // RÉCUPÉRER LES CONVERSATIONS
   // ==================================================
 
-  const fetchConversations = useCallback(async () => {
-    try {
-      const token = localStorage.getItem("token");
+  const fetchConversations = useCallback(
+    async (silent = false) => {
+      try {
+        const token = localStorage.getItem("token");
 
-      if (!token) return;
+        if (!token) return;
 
-      const res = await api.get("/messages/conversations", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+        const res = await api.get(
+          "/messages/conversations",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-      setConversations(res.data || []);
-      setError("");
-    } catch (error) {
-      console.error(
-        "Erreur récupération conversations :",
-        error.response?.data || error.message
-      );
+        setConversations(res.data || []);
+        setError("");
+      } catch (error) {
+        console.error(
+          "Erreur récupération conversations :",
+          error.response?.data || error.message
+        );
 
-      setError("Impossible de récupérer les conversations.");
-    } finally {
-      setLoadingConversations(false);
-    }
-  }, []);
+        if (!silent) {
+          setError(
+            "Impossible de récupérer les conversations."
+          );
+        }
+      } finally {
+        if (!silent) {
+          setLoadingConversations(false);
+        }
+      }
+    },
+    []
+  );
 
   // ==================================================
   // RÉCUPÉRER LES MESSAGES
@@ -62,10 +96,17 @@ function Messages() {
 
   const fetchMessages = useCallback(
     async (conversationId, silent = false) => {
+      if (!conversationId) return;
+
+      // Évite les requêtes qui se chevauchent
+      if (messagesRequestRunning.current) return;
+
       try {
         const token = localStorage.getItem("token");
 
         if (!token) return;
+
+        messagesRequestRunning.current = true;
 
         if (!silent) {
           setLoadingMessages(true);
@@ -82,12 +123,15 @@ function Messages() {
 
         setMessages(res.data || []);
         setError("");
+
       } catch (error) {
         console.error(
           "Erreur récupération messages :",
           error.response?.data || error.message
         );
       } finally {
+        messagesRequestRunning.current = false;
+
         if (!silent) {
           setLoadingMessages(false);
         }
@@ -105,7 +149,7 @@ function Messages() {
   }, [fetchConversations]);
 
   // ==================================================
-  // RAFRAÎCHISSEMENT AUTOMATIQUE
+  // ACTUALISATION AUTOMATIQUE
   // ==================================================
 
   useEffect(() => {
@@ -114,10 +158,14 @@ function Messages() {
     // Première récupération
     fetchMessages(selectedConversation);
 
-    // Vérification automatique toutes les 2 secondes
+    // Vérification automatique
     const interval = setInterval(() => {
-      fetchMessages(selectedConversation, true);
-      fetchConversations();
+      fetchMessages(
+        selectedConversation,
+        true
+      );
+
+      fetchConversations(true);
     }, 2000);
 
     return () => clearInterval(interval);
@@ -128,14 +176,59 @@ function Messages() {
   ]);
 
   // ==================================================
+  // SCROLL AUTOMATIQUE
+  // ==================================================
+
+  useEffect(() => {
+    const container = messagesListRef.current;
+
+    if (!container) return;
+
+    /*
+      On descend automatiquement uniquement si
+      l'utilisateur est déjà proche du bas.
+    */
+
+    const distanceFromBottom =
+      container.scrollHeight -
+      container.scrollTop -
+      container.clientHeight;
+
+    if (distanceFromBottom < 150) {
+      container.scrollTo({
+        top: container.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [messages]);
+
+  // ==================================================
   // SÉLECTION CONVERSATION
   // ==================================================
 
-  const handleSelectConversation = (conversationId) => {
-    if (conversationId === selectedConversation) return;
+  const handleSelectConversation = (
+    conversationId
+  ) => {
+    if (!conversationId) return;
 
     setSelectedConversation(conversationId);
     setMessages([]);
+
+    // Sur mobile, on affiche le chat
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  // ==================================================
+  // RETOUR MOBILE
+  // ==================================================
+
+  const handleBackToConversations = () => {
+    setSelectedConversation(null);
+    setMessages([]);
+    setContenu("");
   };
 
   // ==================================================
@@ -143,7 +236,9 @@ function Messages() {
   // ==================================================
 
   const getOtherUser = (conversation) => {
-    if (!conversation?.participants) return null;
+    if (!conversation?.participants) {
+      return null;
+    }
 
     return conversation.participants.find(
       (participant) =>
@@ -151,6 +246,18 @@ function Messages() {
         currentUserId?.toString()
     );
   };
+
+  // ==================================================
+  // CONVERSATION ACTUELLE
+  // ==================================================
+
+  const selectedConv = conversations.find(
+    (conv) =>
+      conv._id === selectedConversation
+  );
+
+  const selectedUser =
+    getOtherUser(selectedConv);
 
   // ==================================================
   // ENVOYER MESSAGE
@@ -161,15 +268,22 @@ function Messages() {
 
     const messageText = contenu.trim();
 
-    if (!messageText || !selectedConversation || sending) {
+    if (
+      !messageText ||
+      !selectedConversation ||
+      sending
+    ) {
       return;
     }
 
-    const conversation = conversations.find(
-      (c) => c._id === selectedConversation
-    );
+    const conversation =
+      conversations.find(
+        (c) =>
+          c._id === selectedConversation
+      );
 
-    const destinataire = getOtherUser(conversation);
+    const destinataire =
+      getOtherUser(conversation);
 
     if (!destinataire?._id) {
       alert("Destinataire introuvable.");
@@ -179,13 +293,26 @@ function Messages() {
     try {
       setSending(true);
 
-      const token = localStorage.getItem("token");
+      const token =
+        localStorage.getItem("token");
+
+      if (!token) {
+        alert(
+          "Votre session a expiré. Veuillez vous reconnecter."
+        );
+        return;
+      }
 
       const res = await api.post(
         "/messages",
         {
-          destinataireId: destinataire._id,
+          destinataireId:
+            destinataire._id,
+
           contenu: messageText,
+
+          // Message normal
+          automatique: false,
         },
         {
           headers: {
@@ -196,35 +323,46 @@ function Messages() {
 
       setContenu("");
 
-      // Ajouter immédiatement le message envoyé
-      // si le backend retourne le message créé.
-      if (res.data) {
-        const newMessage =
-          res.data.message || res.data;
+      // ==========================================
+      // AJOUT IMMÉDIAT DU MESSAGE
+      // ==========================================
 
-        if (newMessage?._id) {
-          setMessages((prev) => {
-            const alreadyExists = prev.some(
-              (msg) => msg._id === newMessage._id
-            );
+      const newMessage =
+        res.data?.data ||
+        res.data?.message;
 
-            if (alreadyExists) {
-              return prev;
-            }
+      if (
+        newMessage &&
+        typeof newMessage === "object" &&
+        newMessage._id
+      ) {
+        setMessages((prev) => {
+          const exists = prev.some(
+            (msg) =>
+              msg._id === newMessage._id
+          );
 
-            return [...prev, newMessage];
-          });
-        }
+          if (exists) {
+            return prev;
+          }
+
+          return [...prev, newMessage];
+        });
       }
 
-      // Synchronisation avec le backend
-      await fetchMessages(selectedConversation, true);
-      await fetchConversations();
+      // Synchronisation backend
+      await fetchMessages(
+        selectedConversation,
+        true
+      );
+
+      await fetchConversations(true);
 
     } catch (error) {
       console.error(
         "Erreur envoi message :",
-        error.response?.data || error.message
+        error.response?.data ||
+          error.message
       );
 
       alert(
@@ -241,7 +379,10 @@ function Messages() {
   // ==================================================
 
   const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
+    if (
+      e.key === "Enter" &&
+      !e.shiftKey
+    ) {
       e.preventDefault();
 
       if (contenu.trim()) {
@@ -251,97 +392,149 @@ function Messages() {
   };
 
   // ==================================================
-  // CONVERSATION SÉLECTIONNÉE
-  // ==================================================
-
-  const selectedConv = conversations.find(
-    (conv) => conv._id === selectedConversation
-  );
-
-  const selectedUser = getOtherUser(selectedConv);
-
-  // ==================================================
   // AFFICHAGE
   // ==================================================
 
   return (
     <div className="messages-page">
 
-      {/* =============================================
-          SIDEBAR
-      ============================================= */}
+      {/* =================================================
+          SIDEBAR CONVERSATIONS
+      ================================================= */}
 
-      <aside className="conversations">
+      <aside
+        className={`conversations ${
+          selectedConversation
+            ? "mobile-hidden"
+            : ""
+        }`}
+      >
+
+        {/* HEADER */}
 
         <div className="conversations-header">
+
           <div>
             <h2>Messages</h2>
+
             <p>
               {conversations.length}{" "}
               conversation
-              {conversations.length > 1 ? "s" : ""}
+              {conversations.length > 1
+                ? "s"
+                : ""}
             </p>
           </div>
+
         </div>
 
-        {loadingConversations ? (
-          <div className="messages-loading">
-            <div className="conversation-skeleton"></div>
-            <div className="conversation-skeleton"></div>
-            <div className="conversation-skeleton"></div>
-          </div>
-        ) : conversations.length === 0 ? (
-          <div className="empty-conversations">
-            <div className="empty-icon">💬</div>
+        {/* LOADING */}
 
-            <h3>Aucune conversation</h3>
+        {loadingConversations ? (
+
+          <div className="messages-loading">
+
+            <div className="conversation-skeleton"></div>
+            <div className="conversation-skeleton"></div>
+            <div className="conversation-skeleton"></div>
+
+          </div>
+
+        ) : conversations.length === 0 ? (
+
+          /* =================================================
+             AUCUNE CONVERSATION
+          ================================================= */
+
+          <div className="empty-conversations">
+
+            <div className="empty-icon">
+              💬
+            </div>
+
+            <h3>
+              Aucune conversation
+            </h3>
 
             <p>
               Vos conversations avec les
-              vendeurs et acheteurs apparaîtront ici.
+              vendeurs et acheteurs
+              apparaîtront ici.
             </p>
+
           </div>
+
         ) : (
+
+          /* =================================================
+             LISTE
+          ================================================= */
+
           <div className="conversation-list">
 
             {conversations.map((conv) => {
-              const otherUser = getOtherUser(conv);
+
+              const otherUser =
+                getOtherUser(conv);
 
               const isActive =
-                conv._id === selectedConversation;
+                conv._id ===
+                selectedConversation;
 
               return (
+
                 <button
                   key={conv._id}
                   type="button"
                   className={`conversation ${
-                    isActive ? "active" : ""
+                    isActive
+                      ? "active"
+                      : ""
                   }`}
                   onClick={() =>
-                    handleSelectConversation(conv._id)
+                    handleSelectConversation(
+                      conv._id
+                    )
                   }
                 >
 
+                  {/* AVATAR */}
+
                   <div className="conversation-avatar">
+
                     {otherUser?.photo ? (
+
                       <img
-                        src={otherUser.photo}
-                        alt={otherUser.nom}
+                        src={
+                          otherUser.photo
+                        }
+                        alt={
+                          otherUser.nom
+                        }
                       />
+
                     ) : (
+
                       otherUser?.nom
                         ?.charAt(0)
-                        ?.toUpperCase() || "U"
+                        ?.toUpperCase() ||
+                      "U"
+
                     )}
+
                   </div>
+
+                  {/* INFORMATIONS */}
 
                   <div className="conversation-info">
 
                     <div className="conversation-top">
+
                       <strong>
                         {otherUser?.nom ||
                           "Utilisateur"}
                       </strong>
+
                     </div>
 
                     <p>
@@ -352,19 +545,32 @@ function Messages() {
                   </div>
 
                 </button>
+
               );
             })}
 
           </div>
+
         )}
 
       </aside>
 
-      {/* =============================================
-          CHAT
-      ============================================= */}
 
-      <main className="chat">
+      {/* =================================================
+          CHAT
+      ================================================= */}
+
+      <main
+        className={`chat ${
+          selectedConversation
+            ? "mobile-visible"
+            : ""
+        }`}
+      >
+
+        {/* =================================================
+            AUCUNE CONVERSATION
+        ================================================= */}
 
         {!selectedConversation ? (
 
@@ -374,11 +580,13 @@ function Messages() {
               💬
             </div>
 
-            <h2>Vos messages</h2>
+            <h2>
+              Vos messages
+            </h2>
 
             <p>
-              Sélectionnez une conversation pour
-              commencer à discuter.
+              Sélectionnez une conversation
+              pour commencer à discuter.
             </p>
 
           </div>
@@ -387,24 +595,52 @@ function Messages() {
 
           <>
 
-            {/* HEADER CHAT */}
+            {/* =================================================
+                HEADER CHAT
+            ================================================= */}
 
             <header className="chat-header">
+
+              {/* BOUTON RETOUR MOBILE */}
+
+              <button
+                type="button"
+                className="mobile-back-btn"
+                onClick={
+                  handleBackToConversations
+                }
+                aria-label="Retour aux conversations"
+              >
+                ←
+              </button>
+
+              {/* AVATAR */}
 
               <div className="chat-user-avatar">
 
                 {selectedUser?.photo ? (
+
                   <img
-                    src={selectedUser.photo}
-                    alt={selectedUser.nom}
+                    src={
+                      selectedUser.photo
+                    }
+                    alt={
+                      selectedUser.nom
+                    }
                   />
+
                 ) : (
+
                   selectedUser?.nom
                     ?.charAt(0)
-                    ?.toUpperCase() || "U"
+                    ?.toUpperCase() ||
+                  "U"
+
                 )}
 
               </div>
+
+              {/* INFOS */}
 
               <div className="chat-user-info">
 
@@ -421,16 +657,26 @@ function Messages() {
 
             </header>
 
-            {/* LISTE DES MESSAGES */}
 
-            <div className="messages-list">
+            {/* =================================================
+                MESSAGES
+            ================================================= */}
+
+            <div
+              className="messages-list"
+              ref={messagesListRef}
+            >
 
               {loadingMessages ? (
 
                 <div className="chat-loading">
+
                   <div className="message-skeleton left"></div>
+
                   <div className="message-skeleton right"></div>
+
                   <div className="message-skeleton left"></div>
+
                 </div>
 
               ) : messages.length === 0 ? (
@@ -458,6 +704,7 @@ function Messages() {
                     currentUserId?.toString();
 
                   return (
+
                     <div
                       key={msg._id}
                       className={`message-row ${
@@ -469,18 +716,27 @@ function Messages() {
 
                       <div className="message">
 
+                        {/* NOM DESTINATAIRE */}
+
                         {!isMine && (
+
                           <strong>
                             {msg.expediteur?.nom ||
                               "Utilisateur"}
                           </strong>
+
                         )}
+
+                        {/* TEXTE */}
 
                         <p>
                           {msg.contenu}
                         </p>
 
+                        {/* HEURE */}
+
                         <small>
+
                           {msg.createdAt
                             ? new Date(
                                 msg.createdAt
@@ -488,15 +744,18 @@ function Messages() {
                                 "fr-FR",
                                 {
                                   hour: "2-digit",
-                                  minute: "2-digit",
+                                  minute:
+                                    "2-digit",
                                 }
                               )
                             : ""}
+
                         </small>
 
                       </div>
 
                     </div>
+
                   );
                 })
 
@@ -504,7 +763,10 @@ function Messages() {
 
             </div>
 
-            {/* FORMULAIRE */}
+
+            {/* =================================================
+                FORMULAIRE
+            ================================================= */}
 
             <form
               onSubmit={sendMessage}
@@ -526,24 +788,35 @@ function Messages() {
               <button
                 type="submit"
                 disabled={
-                  sending || !contenu.trim()
+                  sending ||
+                  !contenu.trim()
                 }
                 aria-label="Envoyer le message"
               >
-                {sending ? "..." : "➤"}
+                {sending
+                  ? "..."
+                  : "➤"}
               </button>
 
             </form>
 
           </>
+
         )}
 
       </main>
 
+
+      {/* =================================================
+          ERREUR
+      ================================================= */}
+
       {error && (
+
         <div className="messages-error">
           {error}
         </div>
+
       )}
 
     </div>
