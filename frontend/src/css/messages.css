@@ -638,6 +638,7 @@
 
   .messages-page {
     height: calc(100vh - 60px);
+    flex-direction: column;
   }
 
   .conversations {
