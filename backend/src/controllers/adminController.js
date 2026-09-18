@@ -79,8 +79,16 @@ const getUsers = async (req, res) => {
 // Modifier le rôle
 const updateUserRole = async (req, res) => {
   try {
-
     const { role } = req.body;
+
+    // Vérifier que le rôle est autorisé
+    const rolesAutorises = ["vendeur", "acheteur", "admin"];
+
+    if (!rolesAutorises.includes(role)) {
+      return res.status(400).json({
+        message: "Rôle invalide. Les rôles autorisés sont : vendeur, acheteur et admin.",
+      });
+    }
 
     const user = await User.findById(req.params.id);
 
@@ -99,14 +107,14 @@ const updateUserRole = async (req, res) => {
 
     // Empêcher de retirer le rôle du dernier administrateur
     if (user.role === "admin" && role !== "admin") {
-
       const adminCount = await User.countDocuments({
         role: "admin",
       });
 
       if (adminCount <= 1) {
         return res.status(400).json({
-          message: "Il doit toujours rester au moins un administrateur.",
+          message:
+            "Il doit toujours rester au moins un administrateur.",
         });
       }
     }
@@ -117,15 +125,15 @@ const updateUserRole = async (req, res) => {
 
     res.status(200).json({
       message: "Rôle mis à jour avec succès.",
-      user,
+      user: user.toObject(),
     });
 
   } catch (error) {
+    console.error("Erreur modification rôle :", error);
 
     res.status(500).json({
       message: error.message,
     });
-
   }
 };
 

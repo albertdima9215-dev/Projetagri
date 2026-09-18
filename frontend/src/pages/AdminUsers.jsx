@@ -106,7 +106,7 @@ function AdminUsers() {
                     changeRole(
                       user._id,
                       user.role === "admin"
-                        ? "user"
+                        ? "acheteur"
                         : "admin"
                     )
                   }
