@@ -43,3 +43,22 @@
   background: darkgreen;
 }
 
+.forgot-password {
+  width: 100%;
+  text-align: right;
+  margin: -5px 0 15px;
+}
+
+.forgot-password button {
+  border: none;
+  background: transparent;
+  color: #2e7d32;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.forgot-password button:hover {
+  text-decoration: underline;
+}
+

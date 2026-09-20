@@ -1,6 +1,8 @@
 const User = require("../models/User.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+const { sendPasswordResetCode } = require("../services/emailService");
 
 const register = async (req, res) => {
   try {
@@ -223,4 +225,268 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = {register,login,};
+const forgotPassword = async (req, res) => {
+  try {
+    const { identifiant } = req.body;
+
+    if (!identifiant) {
+      return res.status(400).json({
+        message: "Veuillez renseigner votre email ou votre numéro de téléphone.",
+      });
+    }
+
+    const valeur = identifiant.trim();
+
+    const emailRecherche = valeur.toLowerCase();
+
+    const telephoneRecherche = valeur.replace(/\s/g, "");
+
+    const user = await User.findOne({
+      $or: [
+        { email: emailRecherche },
+        { telephoneComplet: telephoneRecherche },
+        { telephone: telephoneRecherche },
+      ],
+    });
+
+    // Ne pas révéler si le compte existe
+    if (!user) {
+      return res.status(200).json({
+        message:
+          "Si un compte correspond à ces informations, un code de récupération a été envoyé par email.",
+      });
+    }
+
+    if (!user.email) {
+      return res.status(200).json({
+        message:
+          "Si un compte correspond à ces informations, un code de récupération a été envoyé par email.",
+      });
+    }
+
+    // Générer un code à 6 chiffres
+    const code = crypto.randomInt(100000, 1000000).toString();
+
+    // Hasher le code avant de le stocker
+    const codeHash = crypto
+      .createHash("sha256")
+      .update(code)
+      .digest("hex");
+
+    const expiresAt = new Date(
+      Date.now() + 10 * 60 * 1000
+    );
+
+    await User.updateOne(
+      { _id: user._id },
+      {
+        $set: {
+          resetPasswordCodeHash: codeHash,
+          resetPasswordCodeExpiresAt: expiresAt,
+          resetPasswordTokenHash: null,
+          resetPasswordTokenExpiresAt: null,
+        },
+      }
+    );
+
+    await sendPasswordResetCode(user.email, code);
+
+    res.status(200).json({
+      message:
+        "Un code de récupération a été envoyé à votre adresse email.",
+    });
+
+  } catch (error) {
+    console.error(
+      "Erreur forgot password :",
+      error
+    );
+
+    res.status(500).json({
+      message:
+        "Une erreur est survenue lors de l'envoi du code.",
+    });
+  }
+};
+
+const verifyResetCode = async (req, res) => {
+  try {
+    const { identifiant, code } = req.body;
+
+    if (!identifiant || !code) {
+      return res.status(400).json({
+        message: "Identifiant et code requis.",
+      });
+    }
+
+    const valeur = identifiant.trim();
+
+    const telephoneRecherche = valeur.replace(/\s/g, "");
+
+    const user = await User.findOne({
+      $or: [
+        { email: valeur.toLowerCase() },
+        { telephoneComplet: telephoneRecherche },
+        { telephone: telephoneRecherche },
+      ],
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        message: "Code invalide ou expiré.",
+      });
+    }
+
+    if (
+      !user.resetPasswordCodeHash ||
+      !user.resetPasswordCodeExpiresAt
+    ) {
+      return res.status(400).json({
+        message: "Code invalide ou expiré.",
+      });
+    }
+
+    if (
+      new Date() >
+      new Date(user.resetPasswordCodeExpiresAt)
+    ) {
+      return res.status(400).json({
+        message: "Le code a expiré. Veuillez demander un nouveau code.",
+      });
+    }
+
+    const codeHash = crypto
+      .createHash("sha256")
+      .update(code.trim())
+      .digest("hex");
+
+    if (codeHash !== user.resetPasswordCodeHash) {
+      return res.status(400).json({
+        message: "Code incorrect.",
+      });
+    }
+
+    // Générer un token temporaire
+    const resetToken = crypto.randomBytes(32).toString("hex");
+
+    const resetTokenHash = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+
+    const resetTokenExpiresAt = new Date(
+      Date.now() + 10 * 60 * 1000
+    );
+
+    await User.updateOne(
+      { _id: user._id },
+      {
+        $set: {
+          resetPasswordTokenHash: resetTokenHash,
+          resetPasswordTokenExpiresAt:
+            resetTokenExpiresAt,
+
+          resetPasswordCodeHash: null,
+          resetPasswordCodeExpiresAt: null,
+        },
+      }
+    );
+
+    res.status(200).json({
+      message: "Code vérifié avec succès.",
+      resetToken,
+    });
+
+  } catch (error) {
+    console.error(
+      "Erreur vérification code :",
+      error
+    );
+
+    res.status(500).json({
+      message: "Erreur lors de la vérification du code.",
+    });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const {
+      resetToken,
+      nouveauMotDePasse,
+    } = req.body;
+
+    if (!resetToken || !nouveauMotDePasse) {
+      return res.status(400).json({
+        message:
+          "Token et nouveau mot de passe requis.",
+      });
+    }
+
+    if (nouveauMotDePasse.length < 8) {
+      return res.status(400).json({
+        message:
+          "Le mot de passe doit contenir au moins 8 caractères.",
+      });
+    }
+
+    const resetTokenHash = crypto
+      .createHash("sha256")
+      .update(resetToken)
+      .digest("hex");
+
+    const user = await User.findOne({
+      resetPasswordTokenHash: resetTokenHash,
+      resetPasswordTokenExpiresAt: {
+        $gt: new Date(),
+      },
+    });
+
+    if (!user) {
+      return res.status(400).json({
+        message:
+          "Le lien de réinitialisation est invalide ou expiré.",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(
+      nouveauMotDePasse,
+      10
+    );
+
+    await User.updateOne(
+      { _id: user._id },
+      {
+        $set: {
+          motDePasse: hashedPassword,
+          resetPasswordTokenHash: null,
+          resetPasswordTokenExpiresAt: null,
+        },
+      }
+    );
+
+    res.status(200).json({
+      message:
+        "Mot de passe réinitialisé avec succès. Vous pouvez maintenant vous connecter.",
+    });
+
+  } catch (error) {
+    console.error(
+      "Erreur réinitialisation mot de passe :",
+      error
+    );
+
+    res.status(500).json({
+      message:
+        "Impossible de réinitialiser le mot de passe.",
+    });
+  }
+};
+
+module.exports = {
+  register,
+  login,
+  forgotPassword,
+  verifyResetCode,
+  resetPassword,
+};

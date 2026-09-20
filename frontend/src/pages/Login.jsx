@@ -58,6 +58,15 @@ function Login() {
           required
         />
 
+        <div className="forgot-password">
+          <button
+            type="button"
+            onClick={() => navigate("/forgot-password")}
+          >
+            Mot de passe oublié ?
+          </button>
+        </div>
+
         <button type="submit">Se connecter</button>
       </form>
     </div>

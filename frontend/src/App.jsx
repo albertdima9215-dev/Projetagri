@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPassword from "./pages/ForgotPassword";
 import AddProduct from "./pages/AddProduct";
 import PrivateRoute from "./components/PrivateRoute";
 import ProductDetails from "./pages/ProductDetails";
@@ -83,6 +84,10 @@ useEffect(() => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route
+  path="/forgot-password"
+  element={<ForgotPassword />}
+/>
         <Route path="/register" element={<Register />} />
         <Route path="/products" element={<Products />} />
         <Route path="/add-product" element={
