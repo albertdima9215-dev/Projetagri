@@ -552,14 +552,14 @@ function MyOrders() {
                 {/* WHATSAPP */}
 
                 <a
-                  href={`https://wa.me/226${
-                    order.vendeur?.telephone || ""
-                  }`}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  Contacter le vendeur
-                </a>
+  href={`https://wa.me/${String(
+    order.vendeur?.telephoneComplet || ""
+  ).replace(/\D/g, "")}`}
+  target="_blank"
+  rel="noreferrer"
+>
+  Contacter le vendeur
+</a>
 
                 {/* FACTURE */}
 

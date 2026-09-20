@@ -185,7 +185,7 @@ const getMyOrders = async (req, res) => {
       ],
     })
       .populate("produit")
-      .populate("vendeur", "nom telephone")
+      .populate("vendeur", "nom telephone telephoneComplet")
       .sort({ createdAt: -1 });
 
     res.status(200).json(commandes);
@@ -207,7 +207,7 @@ const getSellerOrders = async (req, res) => {
       ],
     })
       .populate("produit")
-      .populate("acheteur", "nom telephone")
+      .populate("acheteur", "nom telephone telephoneComplet")
       .sort({ createdAt: -1 });
 
     res.status(200).json(commandes);
