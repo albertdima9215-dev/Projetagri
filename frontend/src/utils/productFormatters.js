@@ -450,3 +450,45 @@ export const getPricePreview = (product) => {
     product.unite
   )}`;
 };
+
+
+export const getOrderQuantityLabel = (order) => {
+  if (!order) return "";
+
+  const quantite = Number(order.quantite || 0);
+
+  if (order.typeVente === "lot") {
+    return `${quantite.toLocaleString("fr-FR")} ${
+      quantite > 1 ? "lots" : "lot"
+    }`;
+  }
+
+  if (order.typeVente === "poids") {
+    const poidsValeur = {
+      kg: 1,
+      "1kg": 1,
+      "5kg": 5,
+      "10kg": 10,
+      "25kg": 25,
+      "50kg": 50,
+      "100kg": 100,
+      "1tonne": 1000,
+    };
+
+    const kg = poidsValeur[order.unite];
+
+    if (kg) {
+      const totalKg = quantite * kg;
+
+      return `${totalKg.toLocaleString("fr-FR")} kg`;
+    }
+
+    return `${quantite.toLocaleString("fr-FR")} ${formatUnite(
+      order.unite
+    )}`;
+  }
+
+  return `${quantite.toLocaleString("fr-FR")} ${
+    formatUnitePluriel(order.unite || "piece", quantite)
+  }`;
+};
