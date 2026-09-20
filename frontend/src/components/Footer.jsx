@@ -31,7 +31,7 @@ function Footer() {
 
           <p>Ouagadougou, Burkina Faso</p>
           <p>+226 XX XX XX XX</p>
-          <p>contact@agriconnect.com</p>
+          <p>aldiagriconnect26@gmail.com</p>
         </div>
 
         <div className="footer-section">
