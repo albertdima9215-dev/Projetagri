@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import api from "../services/api";
 import "../css/payments.css";
 
+import {
+  formatUnite,
+  formatUnitePluriel,
+  getOrderQuantityLabel,
+} from "../utils/productFormatters";
+
 function SellerPayments() {
   const [payments, setPayments] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchPayments();
@@ -13,9 +17,6 @@ function SellerPayments() {
 
   const fetchPayments = async () => {
     try {
-      setLoading(true);
-      setError("");
-
       const token = localStorage.getItem("token");
 
       const res = await api.get("/orders/seller-payments", {
@@ -28,37 +29,12 @@ function SellerPayments() {
 
       setPayments(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
-      console.error("Erreur récupération paiements :", error);
-      setError(
-        error.response?.data?.message ||
-          "Impossible de récupérer les paiements."
+      console.error(
+        "Erreur récupération paiements :",
+        error
       );
-    } finally {
-      setLoading(false);
     }
   };
-
-  if (loading) {
-    return (
-      <div className="payments-container">
-        <h1>Paiements reçus</h1>
-        <p>Chargement des paiements...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="payments-container">
-        <h1>Paiements reçus</h1>
-        <p className="payment-error">{error}</p>
-
-        <button onClick={fetchPayments}>
-          Réessayer
-        </button>
-      </div>
-    );
-  }
 
   return (
     <div className="payments-container">
@@ -72,7 +48,11 @@ function SellerPayments() {
           const acheteur = payment.acheteur;
 
           return (
-            <div key={payment._id} className="payment-card">
+            <div
+              key={payment._id}
+              className="payment-card"
+            >
+              {/* IMAGE DU PRODUIT */}
               <img
                 src={
                   produit?.images?.[0] ||
@@ -83,23 +63,92 @@ function SellerPayments() {
               />
 
               <div className="payment-info">
-                <h3>{produit?.nom || "Produit indisponible"}</h3>
 
+                {/* PRODUIT */}
+                <h3>
+                  {produit?.nom || "Produit indisponible"}
+                </h3>
+
+                {/* ACHETEUR */}
                 <p>
                   <strong>Acheteur :</strong>{" "}
                   {acheteur?.nom || "Acheteur indisponible"}
                 </p>
 
+                {/* TYPE DE VENTE */}
+                {payment.typeVente === "lot" &&
+  payment.quantiteParLot && (
+    <p>
+      <strong>Composition :</strong>{" "}
+      {payment.quantiteParLot}{" "}
+      {formatUnitePluriel(
+        payment.unite,
+        payment.quantiteParLot
+      )}{" "}
+      / lot
+    </p>
+  )}
+
+                {/* QUANTITÉ */}
                 <p>
-                  <strong>Montant :</strong>{" "}
-                  {Number(payment.montant || 0).toLocaleString("fr-FR")} FCFA
+                  <strong>Quantité :</strong>{" "}
+                  {getOrderQuantityLabel(payment)}
                 </p>
 
+                {/* UNITÉ */}
+                {payment.unite && (
+                  <p>
+                    <strong>Unité :</strong>{" "}
+                    {formatUnite(payment.unite)}
+                  </p>
+                )}
+
+                {/* COMPOSITION DU LOT */}
+                {payment.typeVente === "lot" &&
+                  payment.quantiteParLot && (
+                    <p>
+                      <strong>Composition :</strong>{" "}
+                      {payment.quantiteParLot}{" "}
+                      {formatUnite(payment.unite)}{" "}
+                      / lot
+                    </p>
+                  )}
+
+                {/* PRIX UNITAIRE */}
+                {payment.prixUnitaire !== undefined && (
+                  <p>
+                    <strong>Prix unitaire :</strong>{" "}
+                    {Number(
+                      payment.prixUnitaire
+                    ).toLocaleString("fr-FR")}{" "}
+                    FCFA
+                    {payment.typeVente === "lot"
+                      ? " / lot"
+                      : payment.unite
+                      ? ` / ${formatUnite(
+                          payment.unite
+                        )}`
+                      : ""}
+                  </p>
+                )}
+
+                {/* MONTANT */}
+                <p className="payment-total">
+                  <strong>Montant :</strong>{" "}
+                  {Number(
+                    payment.montant || 0
+                  ).toLocaleString("fr-FR")}{" "}
+                  FCFA
+                </p>
+
+                {/* MÉTHODE */}
                 <p>
                   <strong>Méthode :</strong>{" "}
-                  {payment.methodePaiement || "Non renseignée"}
+                  {payment.methodePaiement ||
+                    "Non renseignée"}
                 </p>
 
+                {/* STATUT */}
                 <p
                   className={
                     payment.statutPaiement === "Payé"
@@ -109,15 +158,22 @@ function SellerPayments() {
                 >
                   {payment.statutPaiement === "Payé"
                     ? "✅ Payé"
-                    : `⏳ ${payment.statutPaiement || "En attente"}`}
+                    : `⏳ ${
+                        payment.statutPaiement ||
+                        "En attente"
+                      }`}
                 </p>
 
+                {/* DATE */}
                 <p>
                   <strong>Date :</strong>{" "}
                   {payment.createdAt
-                    ? new Date(payment.createdAt).toLocaleDateString("fr-FR")
+                    ? new Date(
+                        payment.createdAt
+                      ).toLocaleDateString("fr-FR")
                     : "Date inconnue"}
                 </p>
+
               </div>
             </div>
           );
