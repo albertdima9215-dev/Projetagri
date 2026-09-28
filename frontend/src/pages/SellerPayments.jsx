@@ -76,18 +76,20 @@ function SellerPayments() {
                 </p>
 
                 {/* TYPE DE VENTE */}
-                {payment.typeVente === "lot" &&
-  payment.quantiteParLot && (
-    <p>
-      <strong>Composition :</strong>{" "}
-      {payment.quantiteParLot}{" "}
-      {formatUnitePluriel(
-        payment.unite,
-        payment.quantiteParLot
-      )}{" "}
-      / lot
-    </p>
-  )}
+                {payment.typeVente && (
+                  <p>
+                    <strong>Type de vente :</strong>{" "}
+                    {payment.typeVente === "poids"
+                      ? "Au poids"
+                      : payment.typeVente === "unite"
+                      ? payment.unite === "piece"
+                        ? "À l'unité"
+                        : `Par ${formatUnite(
+                            payment.unite
+                          )}`
+                      : "Par lot"}
+                  </p>
+                )}
 
                 {/* QUANTITÉ */}
                 <p>
@@ -105,14 +107,17 @@ function SellerPayments() {
 
                 {/* COMPOSITION DU LOT */}
                 {payment.typeVente === "lot" &&
-                  payment.quantiteParLot && (
-                    <p>
-                      <strong>Composition :</strong>{" "}
-                      {payment.quantiteParLot}{" "}
-                      {formatUnite(payment.unite)}{" "}
-                      / lot
-                    </p>
-                  )}
+  payment.quantiteParLot && (
+    <p>
+      <strong>Composition :</strong>{" "}
+      {payment.quantiteParLot}{" "}
+      {formatUnitePluriel(
+        payment.unite,
+        payment.quantiteParLot
+      )}{" "}
+      / lot
+    </p>
+  )}
 
                 {/* PRIX UNITAIRE */}
                 {payment.prixUnitaire !== undefined && (

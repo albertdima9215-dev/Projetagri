@@ -146,7 +146,7 @@
    COLONNE GAUCHE
    ========================================================= */
 
-.payment-main {
+.payment-grid .payment-main {
   min-width: 0;
 
   display: flex;
@@ -160,7 +160,7 @@
    CARTES
    ========================================================= */
 
-.payment-card {
+.payment-grid .payment-main .payment-card {
   background: #ffffff;
 
   border: 1px solid #e3e9e5;
@@ -535,7 +535,7 @@
    COLONNE DROITE
    ========================================================= */
 
-.payment-sidebar {
+.payment-grid .payment-sidebar {
   min-width: 0;
 
   position: sticky;
@@ -552,14 +552,14 @@
    CARTE TOTAL
    ========================================================= */
 
-.total-card {
+.payment-sidebar .total-card {
   padding: 25px;
 
   box-shadow:
     0 7px 25px rgba(25, 55, 39, 0.075);
 }
 
-.total-header {
+.payment-sidebar .total-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -1329,5 +1329,306 @@
 
   .payment-method {
     align-items: flex-start;
+  }
+}
+
+/* =========================================================
+   SELLER PAYMENTS
+   ========================================================= */
+
+.payments-container {
+  width: 100%;
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 30px 20px 50px;
+  box-sizing: border-box;
+}
+
+/* =========================
+   TITRE
+   ========================= */
+
+.payments-container h1 {
+  margin: 0 0 28px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #1f2937;
+  letter-spacing: -0.5px;
+}
+
+/* =========================
+   MESSAGE VIDE
+   ========================= */
+
+.payments-container > p {
+  padding: 35px 20px;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  color: #6b7280;
+  font-size: 15px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+/* =========================
+   LISTE DES PAIEMENTS
+   ========================= */
+
+.payments-container {
+  display: block;
+}
+
+/* =========================
+   CARTE PAIEMENT
+   ========================= */
+
+.payments-container .payment-card {
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 18px;
+
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.payments-container .payment-card:hover {
+  transform: translateY(-2px);
+  border-color: #d1d5db;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+   IMAGE PRODUIT
+   ========================= */
+
+.payment-card > img {
+  width: 180px;
+  height: 180px;
+  flex-shrink: 0;
+
+  object-fit: cover;
+  border-radius: 14px;
+
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
+}
+
+/* =========================
+   INFORMATIONS
+   ========================= */
+
+.payment-info {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Nom du produit */
+
+.payment-info h3 {
+  margin: 0 0 12px;
+
+  font-size: 21px;
+  font-weight: 700;
+
+  color: #111827;
+}
+
+/* Paragraphes */
+
+.payment-info p {
+  margin: 7px 0;
+
+  color: #4b5563;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.payment-info p strong {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+/* =========================
+   MONTANT
+   ========================= */
+
+.payment-info .payment-total {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+
+  margin-top: 15px;
+  margin-bottom: 12px;
+  padding: 9px 13px;
+
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 9px;
+
+  color: #166534;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.payment-info .payment-total strong {
+  color: #166534;
+}
+
+/* =========================
+   STATUT
+   ========================= */
+
+.payment-info .paid,
+.payment-info .pending {
+  display: inline-flex;
+  align-items: center;
+
+  width: fit-content;
+
+  margin-top: 5px;
+  padding: 7px 12px;
+
+  border-radius: 999px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.payment-info .paid {
+  color: #166534;
+  background: #dcfce7;
+  border: 1px solid #bbf7d0;
+}
+
+.payment-info .pending {
+  color: #92400e;
+  background: #fef3c7;
+  border: 1px solid #fde68a;
+}
+
+/* =========================
+   INFORMATIONS SECONDAIRES
+   ========================= */
+
+.payment-info p:last-child {
+  margin-top: 13px;
+  padding-top: 12px;
+
+  border-top: 1px solid #f0f0f0;
+
+  color: #9ca3af;
+  font-size: 13px;
+}
+
+/* =========================================================
+   TABLETTE
+   ========================================================= */
+
+@media (max-width: 768px) {
+  .payments-container {
+    padding: 25px 15px 40px;
+  }
+
+  .payments-container h1 {
+    font-size: 26px;
+    margin-bottom: 22px;
+  }
+
+  .payments-container .payment-card {
+    gap: 18px;
+    padding: 16px;
+  }
+
+  .payment-card > img {
+    width: 140px;
+    height: 140px;
+  }
+
+  .payment-info h3 {
+    font-size: 19px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .payments-container {
+    padding: 20px 12px 35px;
+  }
+
+  .payments-container h1 {
+    margin-bottom: 18px;
+    font-size: 23px;
+  }
+
+  .payments-container .payment-card {
+    display: block;
+    padding: 14px;
+    border-radius: 16px;
+  }
+
+  .payment-card > img {
+    display: block;
+
+    width: 100%;
+    height: 210px;
+
+    margin-bottom: 16px;
+
+    border-radius: 12px;
+  }
+
+  .payment-info h3 {
+    margin-bottom: 13px;
+    font-size: 19px;
+  }
+
+  .payment-info p {
+    font-size: 14px;
+  }
+
+  .payment-info .payment-total {
+    font-size: 16px;
+  }
+}
+
+/* =========================================================
+   PETIT MOBILE
+   ========================================================= */
+
+@media (max-width: 380px) {
+  .payments-container {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  .payments-container .payment-card {
+    padding: 12px;
+  }
+
+  .payment-card > img {
+    height: 180px;
+  }
+
+  .payment-info h3 {
+    font-size: 18px;
+  }
+
+  .payment-info p {
+    font-size: 13px;
   }
 }
