@@ -14,13 +14,17 @@
 /* =========================================================
    GALERIE PRODUIT
    ========================================================= */
+.producstDetails .product-details{
+  display: flex;
+  flex-direction: column;
+}
 
-.product-image {
+.producstDetails .product-details .product-image {
   position: sticky;
   top: 25px;
 }
 
-.main-image {
+.producstDetails .product-details .main-image {
   display: block;
   width: 100%;
   height: 520px;

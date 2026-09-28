@@ -4,6 +4,8 @@ import "../css/payments.css";
 
 function SellerPayments() {
   const [payments, setPayments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetchPayments();
@@ -11,6 +13,9 @@ function SellerPayments() {
 
   const fetchPayments = async () => {
     try {
+      setLoading(true);
+      setError("");
+
       const token = localStorage.getItem("token");
 
       const res = await api.get("/orders/seller-payments", {
@@ -19,11 +24,41 @@ function SellerPayments() {
         },
       });
 
-      setPayments(res.data);
+      console.log("PAIEMENTS VENDEUR =", res.data);
+
+      setPayments(Array.isArray(res.data) ? res.data : []);
     } catch (error) {
-      console.log(error);
+      console.error("Erreur récupération paiements :", error);
+      setError(
+        error.response?.data?.message ||
+          "Impossible de récupérer les paiements."
+      );
+    } finally {
+      setLoading(false);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="payments-container">
+        <h1>Paiements reçus</h1>
+        <p>Chargement des paiements...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="payments-container">
+        <h1>Paiements reçus</h1>
+        <p className="payment-error">{error}</p>
+
+        <button onClick={fetchPayments}>
+          Réessayer
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="payments-container">
@@ -32,40 +67,61 @@ function SellerPayments() {
       {payments.length === 0 ? (
         <p>Aucun paiement reçu.</p>
       ) : (
-        payments.map((payment) => (
-          <div key={payment._id} className="payment-card">
-            <img
-              src={payment.produit.images?.[0] || payment.produit.image}
-              alt={payment.produit.nom}
-            />
+        payments.map((payment) => {
+          const produit = payment.produit;
+          const acheteur = payment.acheteur;
 
-            <div className="payment-info">
-              <h3>{payment.produit.nom}</h3>
+          return (
+            <div key={payment._id} className="payment-card">
+              <img
+                src={
+                  produit?.images?.[0] ||
+                  produit?.image ||
+                  "/placeholder-product.png"
+                }
+                alt={produit?.nom || "Produit"}
+              />
 
-              <p>
-                <strong>Acheteur :</strong> {payment.acheteur.nom}
-              </p>
+              <div className="payment-info">
+                <h3>{produit?.nom || "Produit indisponible"}</h3>
 
-              <p>
-                <strong>Montant :</strong> {payment.montant} FCFA
-              </p>
+                <p>
+                  <strong>Acheteur :</strong>{" "}
+                  {acheteur?.nom || "Acheteur indisponible"}
+                </p>
 
-              <p>
-                <strong>Méthode :</strong> {payment.methodePaiement}
-              </p>
+                <p>
+                  <strong>Montant :</strong>{" "}
+                  {Number(payment.montant || 0).toLocaleString("fr-FR")} FCFA
+                </p>
 
-              <p className={payment.statutPaiement === "Payé" ? "paid" : "pending"}>
-  {payment.statutPaiement === "Payé"
-    ? "✅ Payé"
-    : `⏳ ${payment.statutPaiement}`}
-</p>
+                <p>
+                  <strong>Méthode :</strong>{" "}
+                  {payment.methodePaiement || "Non renseignée"}
+                </p>
 
-              <p>
-                <strong>Date :</strong> {new Date(payment.createdAt).toLocaleDateString("fr-FR")}
-              </p>
+                <p
+                  className={
+                    payment.statutPaiement === "Payé"
+                      ? "paid"
+                      : "pending"
+                  }
+                >
+                  {payment.statutPaiement === "Payé"
+                    ? "✅ Payé"
+                    : `⏳ ${payment.statutPaiement || "En attente"}`}
+                </p>
+
+                <p>
+                  <strong>Date :</strong>{" "}
+                  {payment.createdAt
+                    ? new Date(payment.createdAt).toLocaleDateString("fr-FR")
+                    : "Date inconnue"}
+                </p>
+              </div>
             </div>
-          </div>
-        ))
+          );
+        })
       )}
     </div>
   );
