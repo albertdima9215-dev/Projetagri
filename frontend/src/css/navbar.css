@@ -292,6 +292,18 @@
   line-height: 1.45;
 }
 
+.notification-trigger {
+  background: none;
+  border: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
 
 /* =========================================================
    VOIR TOUTES LES NOTIFICATIONS
@@ -299,19 +311,17 @@
 
 .view-all {
   display: block;
-
   padding: 13px;
-
   text-align: center;
-
   background: #2e7d32;
   color: white;
-
   text-decoration: none;
-
   font-size: 13px;
   font-weight: 700;
-
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  font: inherit;
   transition: background 0.2s ease;
 }
 

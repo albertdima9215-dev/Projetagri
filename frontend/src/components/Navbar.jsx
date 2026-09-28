@@ -1,309 +1,622 @@
-import { useState,useEffect,useRef } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+
 import api from "../services/api";
-import "../css/navbar.css";
-import { useFavorite } from "../context/FavoriteContext";
 import socket from "../services/socket";
 
-//icons
+import "../css/navbar.css";
+
+import { useFavorite } from "../context/FavoriteContext";
+
+// Icons
 import { FaUser } from "react-icons/fa";
 
-
 function Navbar() {
+  const navigate = useNavigate();
+
   const [menuOpen, setMenuOpen] = useState(false);
-  const navRef = useRef();
+
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
 
+  const navRef = useRef(null);
+  const notificationRef = useRef(null);
+
   const token = localStorage.getItem("token");
 
-  const user = JSON.parse(localStorage.getItem("user"));
-  
+  // ==================================================
+  // UTILISATEUR CONNECTÉ
+  // ==================================================
+
+  const user = (() => {
+    try {
+      return JSON.parse(localStorage.getItem("user"));
+    } catch {
+      return null;
+    }
+  })();
+
+  // ==================================================
+  // FAVORIS
+  // ==================================================
+
+  const { favoriteCount } = useFavorite();
+
+  // ==================================================
+  // RÉCUPÉRER LES NOTIFICATIONS
+  // ==================================================
+
+  const fetchNotifications = async () => {
+    try {
+      const currentToken = localStorage.getItem("token");
+
+      if (!currentToken) {
+        setNotifications([]);
+        return;
+      }
+
+      const res = await api.get("/notifications", {
+        headers: {
+          Authorization: `Bearer ${currentToken}`,
+        },
+      });
+
+      setNotifications(
+        Array.isArray(res.data) ? res.data : []
+      );
+    } catch (error) {
+      console.error(
+        "Erreur récupération notifications :",
+        error
+      );
+    }
+  };
+
+  // ==================================================
+  // CHARGEMENT INITIAL
+  // ==================================================
 
   useEffect(() => {
-    function handleClick(e) {
-      if (navRef.current && !navRef.current.contains(e.target)) {
+    if (token) {
+      fetchNotifications();
+    } else {
+      setNotifications([]);
+    }
+  }, [token]);
+
+  // ==================================================
+  // NOTIFICATION SOCKET.IO
+  // ==================================================
+
+  useEffect(() => {
+    const handleNewNotification = (notification) => {
+      console.log(
+        "🔔 Nouvelle notification Navbar :",
+        notification
+      );
+
+      if (!notification?._id) {
+        return;
+      }
+
+      setNotifications((prev) => {
+        const alreadyExists = prev.some(
+          (n) => n._id === notification._id
+        );
+
+        if (alreadyExists) {
+          return prev;
+        }
+
+        return [
+          {
+            ...notification,
+            lu: false,
+          },
+          ...prev,
+        ];
+      });
+    };
+
+    socket.on(
+      "newNotification",
+      handleNewNotification
+    );
+
+    return () => {
+      socket.off(
+        "newNotification",
+        handleNewNotification
+      );
+    };
+  }, []);
+
+  // ==================================================
+  // CLIC EN DEHORS DU NAVBAR
+  // ==================================================
+
+  useEffect(() => {
+    const handleClick = (event) => {
+      if (
+        navRef.current &&
+        !navRef.current.contains(event.target)
+      ) {
         setMenuOpen(false);
       }
-    }
+    };
 
     document.addEventListener("click", handleClick);
 
     return () => {
-      document.removeEventListener("click", handleClick);
+      document.removeEventListener(
+        "click",
+        handleClick
+      );
     };
   }, []);
 
+  // ==================================================
+  // CLIC EN DEHORS DES NOTIFICATIONS
+  // ==================================================
+
   useEffect(() => {
-    fetchNotifications();
+    const handleClickOutside = (event) => {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(
+          event.target
+        )
+      ) {
+        setShowNotifications(false);
+      }
+    };
+
+    document.addEventListener(
+      "mousedown",
+      handleClickOutside
+    );
+
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+    };
   }, []);
 
-  useEffect(() => {
-  if (user?._id) {
-    socket.emit("register", user._id);
-  }
-}, [user]);
+  // ==================================================
+  // NOTIFICATIONS NON LUES
+  // ==================================================
 
-  useEffect(() => {
-  socket.on("newNotification", (notification) => {
-    // ajouter directement à la liste affichée
-    setNotifications((prev) => [
-      {
-        ...notification,
-        _id: Date.now().toString(),
-        lu: false,
-        lien: "/notifications",
-      },
-      ...prev,
-    ]);
+  const unreadCount = notifications.filter(
+    (notification) => !notification.lu
+  ).length;
 
-    if (Notification.permission === "granted") {
-      new window.Notification(notification.titre, {
-        body: notification.message,
-      });
-    }
-  });
+  // ==================================================
+  // OUVRIR / FERMER LES NOTIFICATIONS
+  // ==================================================
 
-  return () => {
-    socket.off("newNotification");
-  };
-}, []);
+  const toggleNotifications = (event) => {
+    event.stopPropagation();
 
-  useEffect(() => {
-  if ("Notification" in window) {
-    Notification.requestPermission();
-  }
-}, []);
-  
-  
-  const logout = () => {
-  localStorage.removeItem("token");
-  localStorage.removeItem("user");
-
-  window.location.href = "/";
+    setShowNotifications((prev) => !prev);
   };
 
-  const fetchNotifications = async () => {
-  try {
-    const token = localStorage.getItem("token");
+  // ==================================================
+  // MARQUER UNE NOTIFICATION COMME LUE
+  // ==================================================
 
-    if (!token) return;
+  const handleNotificationClick = async (
+    event,
+    notification
+  ) => {
+    // Empêche le clic de remonter
+    event.stopPropagation();
 
-    const res = await api.get("/notifications", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const currentToken =
+        localStorage.getItem("token");
 
-    setNotifications(res.data);
+      if (!currentToken) {
+        setShowNotifications(false);
+        return;
+      }
 
-  } catch (error) {
-    console.log(error);
-  }
-};
+      // Marquer comme lue
+      if (
+        !notification.lu &&
+        notification._id
+      ) {
+        await api.put(
+          `/notifications/${notification._id}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${currentToken}`,
+            },
+          }
+        );
 
-  const { favoriteCount } = useFavorite();
-
-  const notificationRef = useRef(null);
-
-  useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (
-      notificationRef.current &&
-      !notificationRef.current.contains(event.target)
-    ) {
+        setNotifications((prev) =>
+          prev.map((n) =>
+            n._id === notification._id
+              ? {
+                  ...n,
+                  lu: true,
+                }
+              : n
+          )
+        );
+      }
+    } catch (error) {
+      console.error(
+        "Erreur marquage notification :",
+        error
+      );
+    } finally {
+      // Toujours fermer le popup
       setShowNotifications(false);
     }
   };
 
-  document.addEventListener("mousedown", handleClickOutside); 
+  // ==================================================
+  // VOIR TOUTES LES NOTIFICATIONS
+  // ==================================================
 
-  return () => {
-    document.removeEventListener(
-      "mousedown",
-      handleClickOutside
-    );
-  };
-}, []);
+  const handleViewAllNotifications = (
+    event
+  ) => {
+    event.stopPropagation();
 
-  const unreadCount = notifications.filter(
-  (n) => !n.lu
-).length;
-
-  const handleNotificationClick = async (notification) => {
-  try {
-    const token = localStorage.getItem("token");
-
-    await api.put(
-      `/notifications/${notification._id}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-
-    // Mettre à jour l'état local
-    setNotifications((prev) =>
-      prev.map((n) =>
-        n._id === notification._id
-          ? { ...n, lu: true }
-          : n
-      )
-    );
-
+    // Fermer le popup
     setShowNotifications(false);
-  } catch (error) {
-    console.log(error);
-  }
-};
+
+    // Aller vers la page notifications
+    navigate("/notifications");
+  };
+
+  // ==================================================
+  // DÉCONNEXION
+  // ==================================================
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    setNotifications([]);
+    setShowNotifications(false);
+    setMenuOpen(false);
+
+    window.location.href = "/";
+  };
+
+  // ==================================================
+  // RENDER
+  // ==================================================
 
   return (
-    <nav className="navbar" ref={navRef} >
+    <nav
+      className="navbar"
+      ref={navRef}
+    >
+      {/* ==================================================
+          LOGO
+      ================================================== */}
+
       <div className="logo-container">
         <div className="logo">
-        <Link to="/">{/*<img className="logoImg" src="/logo3.jpg" alt="logo" />*/} AgriConnect </Link>
+          <Link to="/">
+            AgriConnect
+          </Link>
+        </div>
       </div>
-      </div>
-      
+
+      {/* ==================================================
+          MENU
+      ================================================== */}
+
       <div className="nav-sidebar">
-      <div
-  className="menu-icon"
-  onClick={() => setMenuOpen(!menuOpen)}
->
-        {menuOpen ? "✖" : "☰"}
-      </div>
+        <div
+          className="menu-icon"
+          onClick={() =>
+            setMenuOpen(!menuOpen)
+          }
+        >
+          {menuOpen ? "✖" : "☰"}
+        </div>
 
-      <ul className={menuOpen ? "nav-links active" : "nav-links"}>
-        <li>
-          <Link to="/" onClick={() => setMenuOpen(false)}>
-            Accueil
-          </Link>
-        </li>
+        <ul
+          className={
+            menuOpen
+              ? "nav-links active"
+              : "nav-links"
+          }
+        >
+          {/* ACCUEIL */}
 
-        <li>
-          <Link to="/products" onClick={() => setMenuOpen(false)}>
-            Produits
-          </Link>
-        </li>
-        
-        {token ? (
-        <>
           <li>
-            <Link to="/favorites" className="favorite-link">
-              Favoris
-              {favoriteCount > 0 && (
-              <span className="favorite-badge">
-                {favoriteCount}
-              </span>
-              )}
+            <Link
+              to="/"
+              onClick={() =>
+                setMenuOpen(false)
+              }
+            >
+              Accueil
             </Link>
           </li>
 
+          {/* PRODUITS */}
+
           <li>
-            <div
-  ref={notificationRef}
-  className="notification-menu"
-  onClick={() => setShowNotifications(!showNotifications)}
->
-              
-              Notifs
-              {unreadCount > 0 && (
-                <span className="notification-badge">
-                  {unreadCount}
-                </span>
-              )}
+            <Link
+              to="/products"
+              onClick={() =>
+                setMenuOpen(false)
+              }
+            >
+              Produits
+            </Link>
+          </li>
 
-              {showNotifications && (
-                <div className="notification-dropdown">
+          {token ? (
+            <>
+              {/* ==================================================
+                  FAVORIS
+              ================================================== */}
 
-                  {notifications.length === 0 ? (
-                    <p>Aucune notification</p>
-                  ) : (
-                    notifications.slice(0, 5).map((notification) => (
-                    <Link
-  key={notification._id}
-  to={notification.lien || "/notifications"}
-  className={`dropdown-item ${
-    !notification.lu ? "unread" : ""
-  }`}
-  onClick={() => handleNotificationClick(notification)}
->
-                      <strong>{notification.titre}</strong>
-
-                      <p>                                            {notification.message}
-                      </p>
-                    </Link>
-                  ))
-                )}
-
+              <li>
                 <Link
-        to="/notifications"
-        className="view-all" onClick={() => setShowNotifications(false)}
-      >
-                  Voir toutes les notifications
+                  to="/favorites"
+                  className="favorite-link"
+                  onClick={() =>
+                    setMenuOpen(false)
+                  }
+                >
+                  Favoris
+
+                  {favoriteCount > 0 && (
+                    <span className="favorite-badge">
+                      {favoriteCount}
+                    </span>
+                  )}
                 </Link>
+              </li>
 
-              </div>
-            )}
+              {/* ==================================================
+                  NOTIFICATIONS
+              ================================================== */}
 
-            </div>
-          </li>
+              <li>
+                <div
+                  ref={notificationRef}
+                  className="notification-menu"
+                >
+                  {/* BOUTON POUR OUVRIR LE POPUP */}
 
-          <li>
-            <Link to="/my-orders">
-               Commandes
-            </Link>
-          </li>
+                  <button
+                    type="button"
+                    className="notification-trigger"
+                    onClick={toggleNotifications}
+                  >
+                    Notifs
 
-          <li>
-            <Link to="/my-payments">
-              Paiements
-            </Link>
-          </li>
+                    {unreadCount > 0 && (
+                      <span className="notification-badge">
+                        {unreadCount}
+                      </span>
+                    )}
+                  </button>
 
-          <li>
-            <button className="logoutbtn" onClick={logout}>Déconnexion</button>
-          </li>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-          <li>
-            <NavLink
-  to={user ? `/seller/${user.id}` : "/login"}
-  className={({ isActive }) =>
-    isActive ? "nav-item active" : "nav-item"
-  }
->
-              <FaUser />
-              <span>Profil</span>
-            </NavLink>
-          </li>
-        </>
-        ) : (
-        <>
-          <li>
-            <Link to="/login">Connexion</Link>
-          </li>
+                  {/* POPUP */}
 
-          <li>
-            <Link to="/register">Inscription</Link>
-          </li>
-        </>
-        )}
-        {user?.role === "admin" && (
-          <li>
-            <Link to="/admin">
-              Administration
-            </Link>
-          </li>
-        )}
-        
-      </ul>
+                  {showNotifications && (
+                    <div
+                      className="notification-dropdown"
+                      onClick={(event) =>
+                        event.stopPropagation()
+                      }
+                    >
+                      {notifications.length ===
+                      0 ? (
+                        <p>
+                          Aucune notification
+                        </p>
+                      ) : (
+                        notifications
+                          .slice(0, 5)
+                          .map(
+                            (notification) => (
+                              <Link
+                                key={
+                                  notification._id
+                                }
+                                to={
+                                  notification.lien ||
+                                  "/notifications"
+                                }
+                                className={`dropdown-item ${
+                                  !notification.lu
+                                    ? "unread"
+                                    : ""
+                                }`}
+                                onClick={(event) =>
+                                  handleNotificationClick(
+                                    event,
+                                    notification
+                                  )
+                                }
+                              >
+                                <strong>
+                                  {
+                                    notification.titre
+                                  }
+                                </strong>
+
+                                <p>
+                                  {
+                                    notification.message
+                                  }
+                                </p>
+                              </Link>
+                            )
+                          )
+                      )}
+
+                      {/* VOIR TOUT */}
+
+                      <button
+                        type="button"
+                        className="view-all"
+                        onClick={
+                          handleViewAllNotifications
+                        }
+                      >
+                        Voir toutes les notifications
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </li>
+
+              {/* ==================================================
+                  COMMANDES
+              ================================================== */}
+
+              <li>
+                <Link
+                  to="/my-orders"
+                  onClick={() =>
+                    setMenuOpen(false)
+                  }
+                >
+                  Commandes
+                </Link>
+              </li>
+
+              {/* ==================================================
+                  PAIEMENTS
+              ================================================== */}
+
+              <li>
+                <Link
+                  to="/my-payments"
+                  onClick={() =>
+                    setMenuOpen(false)
+                  }
+                >
+                  Paiements
+                </Link>
+              </li>
+
+              {/* ==================================================
+                  DÉCONNEXION
+              ================================================== */}
+
+              <li>
+                <button
+                  className="logoutbtn"
+                  onClick={logout}
+                >
+                  Déconnexion
+                </button>
+              </li>
+
+              {/* ==================================================
+                  DASHBOARD
+              ================================================== */}
+
+              <li>
+                <Link
+                  to="/dashboard"
+                  onClick={() =>
+                    setMenuOpen(false)
+                  }
+                >
+                  Dashboard
+                </Link>
+              </li>
+
+              {/* ==================================================
+                  PROFIL
+              ================================================== */}
+
+              <li>
+                <NavLink
+                  to={
+                    user
+                      ? `/seller/${
+                          user.id ||
+                          user._id
+                        }`
+                      : "/login"
+                  }
+                  className={({ isActive }) =>
+                    isActive
+                      ? "nav-item active"
+                      : "nav-item"
+                  }
+                  onClick={() =>
+                    setMenuOpen(false)
+                  }
+                >
+                  <FaUser />
+
+                  <span>
+                    Profil
+                  </span>
+                </NavLink>
+              </li>
+            </>
+          ) : (
+            <>
+              {/* CONNEXION */}
+
+              <li>
+                <Link
+                  to="/login"
+                  onClick={() =>
+                    setMenuOpen(false)
+                  }
+                >
+                  Connexion
+                </Link>
+              </li>
+
+              {/* INSCRIPTION */}
+
+              <li>
+                <Link
+                  to="/register"
+                  onClick={() =>
+                    setMenuOpen(false)
+                  }
+                >
+                  Inscription
+                </Link>
+              </li>
+            </>
+          )}
+
+          {/* ==================================================
+              ADMINISTRATION
+          ================================================== */}
+
+          {user?.role === "admin" && (
+            <li>
+              <Link
+                to="/admin"
+                onClick={() =>
+                  setMenuOpen(false)
+                }
+              >
+                Administration
+              </Link>
+            </li>
+          )}
+        </ul>
       </div>
     </nav>
-  )
+  );
 }
 
 export default Navbar;

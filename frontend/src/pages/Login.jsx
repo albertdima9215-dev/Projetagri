@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import socket from "../services/socket";
 import "../css/login.css";
 
 function Login() {
@@ -24,30 +25,55 @@ function Login() {
     try {
       const res = await api.post("/auth/login", formData);
 
+      // Sauvegarder le token
       localStorage.setItem("token", res.data.token);
-      localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      // Sauvegarder l'utilisateur
+      localStorage.setItem(
+        "user",
+        JSON.stringify(res.data.user)
+      );
+
+      // Enregistrer immédiatement l'utilisateur
+      // dans sa room Socket.IO
+      if (res.data.user?._id) {
+        socket.emit("register", res.data.user._id);
+
+        console.log(
+          "Utilisateur enregistré sur Socket.IO :",
+          res.data.user._id
+        );
+      }
 
       alert("Connexion réussie !");
 
       navigate("/");
     } catch (error) {
-      alert(error.response?.data?.message || "Erreur de connexion");
+      console.error("Erreur connexion :", error);
+
+      alert(
+        error.response?.data?.message ||
+        "Erreur de connexion"
+      );
     }
   };
 
   return (
     <div className="login">
-      <form className="login-form" onSubmit={handleSubmit}>
+      <form
+        className="login-form"
+        onSubmit={handleSubmit}
+      >
         <h2>Connexion</h2>
 
         <input
-  type="text"
-  name="identifiant"
-  placeholder="Email ou numéro de téléphone"
-  value={formData.identifiant}
-  onChange={handleChange}
-  required
-/>
+          type="text"
+          name="identifiant"
+          placeholder="Email ou numéro de téléphone"
+          value={formData.identifiant}
+          onChange={handleChange}
+          required
+        />
 
         <input
           type="password"
@@ -67,7 +93,9 @@ function Login() {
           </button>
         </div>
 
-        <button type="submit">Se connecter</button>
+        <button type="submit">
+          Se connecter
+        </button>
       </form>
     </div>
   );

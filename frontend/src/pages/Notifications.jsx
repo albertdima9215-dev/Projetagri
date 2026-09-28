@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
 import api from "../services/api";
+import socket from "../services/socket";
 import "../css/notifications.css";
 
-//Icons
-import { GiCardboardBox} from "react-icons/gi";
-import { FaHeart, FaCar, FaCheck, } from "react-icons/fa";
+// Icons
+import { GiCardboardBox } from "react-icons/gi";
+import {
+  FaHeart,
+  FaCar,
+  FaCheck,
+} from "react-icons/fa";
 import { FaMessage } from "react-icons/fa6";
 import { IoIosNotifications } from "react-icons/io";
 import { MdDeleteForever } from "react-icons/md";
@@ -12,13 +17,15 @@ import { MdDeleteForever } from "react-icons/md";
 function Notifications() {
   const [notifications, setNotifications] = useState([]);
 
-  useEffect(() => {
-    fetchNotifications();
-  }, []);
+  // ==================================================
+  // RÉCUPÉRER LES NOTIFICATIONS
+  // ==================================================
 
   const fetchNotifications = async () => {
     try {
       const token = localStorage.getItem("token");
+
+      if (!token) return;
 
       const res = await api.get("/notifications", {
         headers: {
@@ -26,195 +33,439 @@ function Notifications() {
         },
       });
 
-      setNotifications(res.data);
-
+      setNotifications(
+        Array.isArray(res.data) ? res.data : []
+      );
     } catch (error) {
-      console.log(error);
+      console.error(
+        "Erreur récupération notifications :",
+        error
+      );
     }
   };
 
-  const markAsRead = async (id) => {
-  try {
-    const token = localStorage.getItem("token");
+  // ==================================================
+  // CHARGEMENT INITIAL
+  // ==================================================
 
-    await api.put(
-      `/notifications/${id}`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
+
+  // ==================================================
+  // NOTIFICATIONS EN TEMPS RÉEL
+  // ==================================================
+
+  useEffect(() => {
+    const handleNewNotification = (notification) => {
+      console.log(
+        "🔔 Nouvelle notification reçue :",
+        notification
+      );
+
+      if (!notification?._id) return;
+
+      setNotifications((prev) => {
+        // Éviter les doublons
+        const existe = prev.some(
+          (n) => n._id === notification._id
+        );
+
+        if (existe) {
+          return prev;
+        }
+
+        // Nouvelle notification en haut
+        return [
+          {
+            ...notification,
+            lu: false,
+          },
+          ...prev,
+        ];
+      });
+    };
+
+    socket.on(
+      "newNotification",
+      handleNewNotification
     );
 
-    setNotifications((prev) =>
-  prev.map((n) =>
-    n._id === id ? { ...n, lu: true } : n
-  )
-);
+    return () => {
+      socket.off(
+        "newNotification",
+        handleNewNotification
+      );
+    };
+  }, []);
 
-  } catch (error) {
-    console.log(error);
-  }
-};
+  // ==================================================
+  // MARQUER UNE NOTIFICATION COMME LUE
+  // ==================================================
+
+  const markAsRead = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      await api.put(
+        `/notifications/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setNotifications((prev) =>
+        prev.map((notification) =>
+          notification._id === id
+            ? {
+                ...notification,
+                lu: true,
+              }
+            : notification
+        )
+      );
+    } catch (error) {
+      console.error(
+        "Erreur marquage notification :",
+        error
+      );
+    }
+  };
+
+  // ==================================================
+  // ICONES
+  // ==================================================
 
   const getIcon = (type) => {
-  switch (type) {
-    case "commande":
-      return <GiCardboardBox />;
+    switch (type) {
+      case "commande":
+        return <GiCardboardBox />;
 
-    case "message":
-      return <FaMessage />;
+      case "message":
+        return <FaMessage />;
 
-    case "favori":
-      return <FaHeart />;
+      case "favori":
+        return <FaHeart />;
 
-    case "avis":
-      return "⭐";
+      case "avis":
+        return "⭐";
 
-    case "livraison":
-      return <FaCar />;
+      case "livraison":
+        return <FaCar />;
 
-    default:
-      return <IoIosNotifications />;
-  }
-};
+      default:
+        return <IoIosNotifications />;
+    }
+  };
+
+  // ==================================================
+  // FORMAT DATE
+  // ==================================================
 
   const formatTime = (date) => {
+    if (!date) return "";
 
-  const seconds =
-    Math.floor((Date.now() - new Date(date)) / 1000);
+    const seconds = Math.floor(
+      (Date.now() - new Date(date)) / 1000
+    );
 
-  if (seconds < 60)
-    return "À l'instant";
+    if (seconds < 60) {
+      return "À l'instant";
+    }
 
-  if (seconds < 3600)
-    return `Il y a ${Math.floor(seconds / 60)} min`;
+    if (seconds < 3600) {
+      return `Il y a ${Math.floor(
+        seconds / 60
+      )} min`;
+    }
 
-  if (seconds < 86400)
-    return `Il y a ${Math.floor(seconds / 3600)} h`;
+    if (seconds < 86400) {
+      return `Il y a ${Math.floor(
+        seconds / 3600
+      )} h`;
+    }
 
-  if (seconds < 604800)
-    return `Il y a ${Math.floor(seconds / 86400)} j`;
+    if (seconds < 604800) {
+      return `Il y a ${Math.floor(
+        seconds / 86400
+      )} j`;
+    }
 
-  return new Date(date).toLocaleDateString("fr-FR");
-};
+    return new Date(date).toLocaleDateString(
+      "fr-FR"
+    );
+  };
+
+  // ==================================================
+  // NOTIFICATIONS NON LUES
+  // ==================================================
+
+  const unreadCount = notifications.filter(
+    (notification) => !notification.lu
+  ).length;
+
+  // ==================================================
+  // TOUT MARQUER COMME LU
+  // ==================================================
 
   const markAllAsRead = async () => {
+    try {
+      const token = localStorage.getItem("token");
 
-  try {
+      await api.put(
+        "/notifications/read-all",
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-    const token = localStorage.getItem("token");
+      setNotifications((prev) =>
+        prev.map((notification) => ({
+          ...notification,
+          lu: true,
+        }))
+      );
+    } catch (error) {
+      console.error(
+        "Erreur marquage notifications :",
+        error
+      );
+    }
+  };
 
-    await api.put(
-      "/notifications/read-all",
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+  // ==================================================
+  // SUPPRIMER UNE NOTIFICATION
+  // ==================================================
 
-    setNotifications((prev) =>
-  prev.map((n) => ({ ...n, lu: true }))
-    );
+  const deleteNotification = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
 
-  } catch (error) {
-    console.log(error);
-  }
+      await api.delete(
+        `/notifications/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-};
+      setNotifications((prev) =>
+        prev.filter(
+          (notification) =>
+            notification._id !== id
+        )
+      );
+    } catch (error) {
+      console.error(
+        "Erreur suppression notification :",
+        error
+      );
+    }
+  };
 
-const deleteNotification = async (id) => {
-  try {
-    const token = localStorage.getItem("token");
+  // ==================================================
+  // SUPPRIMER TOUTES LES NOTIFICATIONS
+  // ==================================================
 
-    await api.delete(`/notifications/${id}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+  const clearAllNotifications = async () => {
+    if (
+      !window.confirm(
+        "Supprimer toutes les notifications ?"
+      )
+    ) {
+      return;
+    }
 
-    setNotifications((prev) =>
-      prev.filter((n) => n._id !== id)
-    );
+    try {
+      const token = localStorage.getItem("token");
 
-  } catch (error) {
-    console.log(error);
-  }
-};
+      await api.delete(
+        "/notifications/clear/all",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-const clearAllNotifications = async () => {
-  if (!window.confirm("Supprimer toutes les notifications ?")) return;
+      setNotifications([]);
+    } catch (error) {
+      console.error(
+        "Erreur suppression notifications :",
+        error
+      );
+    }
+  };
 
-  try {
-    const token = localStorage.getItem("token");
-
-    await api.delete("/notifications/clear/all", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    setNotifications([]);
-
-  } catch (error) {
-    console.log(error);
-  }
-};
+  // ==================================================
+  // AFFICHAGE
+  // ==================================================
 
   return (
     <div className="notifications-container">
-      <h1>Notifications</h1>
 
-      <button
-  className="read-all-btn"
-  onClick={markAllAsRead}
->
-        <FaCheck /> Tout marquer comme lu
-      </button>
+      {/* ==========================================
+          HEADER
+      ========================================== */}
 
-      <button
-  className="clear-all-btn"
-  onClick={clearAllNotifications}
->
-        <MdDeleteForever /> Vider toutes les notifications
-      </button>
+      <div className="notifications-header">
 
-      {notifications.length === 0 ? (
-        <p>Aucune notification.</p>
-      ) : (
-        notifications.map((notification) => (
-          <div
-            key={notification._id}
-            className={`notification-card ${
-            notification.lu ? "read" : "unread"
-            }`}
-            onClick={() => !notification.lu && markAsRead(notification._id)}
->
-            <h1>
-              {getIcon(notification.type)}                  {notification.titre}
-            </h1>
+        <div>
+          <h1>
+            Notifications
+            {unreadCount > 0 && (
+              <span className="notifications-count">
+                {unreadCount}
+              </span>
+            )}
+          </h1>
 
-            <p>{notification.message}</p>
+          {unreadCount > 0 && (
+            <p>
+              {unreadCount} notification
+              {unreadCount > 1 ? "s" : ""} non lue
+              {unreadCount > 1 ? "s" : ""}
+            </p>
+          )}
+        </div>
 
-          <small>
-          {formatTime(notification.createdAt)}
-          </small>
+      </div>
+
+      {/* ==========================================
+          ACTIONS
+      ========================================== */}
+
+      {notifications.length > 0 && (
+        <div className="notifications-actions">
+
+          {unreadCount > 0 && (
+            <button
+              className="read-all-btn"
+              onClick={markAllAsRead}
+            >
+              <FaCheck />
+              Tout marquer comme lu
+            </button>
+          )}
 
           <button
-  className="delete-notif-btn"
-  onClick={(e) => {
-    e.stopPropagation();
-    deleteNotification(notification._id);
-  }}
->
-            ✖
+            className="clear-all-btn"
+            onClick={clearAllNotifications}
+          >
+            <MdDeleteForever />
+            Vider toutes les notifications
           </button>
+
         </div>
-        ))
       )}
+
+      {/* ==========================================
+          AUCUNE NOTIFICATION
+      ========================================== */}
+
+      {notifications.length === 0 ? (
+
+        <div className="empty-notifications">
+
+          <IoIosNotifications />
+
+          <h2>
+            Aucune notification
+          </h2>
+
+          <p>
+            Vous serez informé ici de vos
+            nouvelles commandes et messages.
+          </p>
+
+        </div>
+
+      ) : (
+
+        /* ==========================================
+           LISTE
+        ========================================== */
+
+        <div className="notifications-list">
+
+          {notifications.map(
+            (notification) => (
+
+              <div
+                key={notification._id}
+                className={`notification-card ${
+                  notification.lu
+                    ? "read"
+                    : "unread"
+                }`}
+                onClick={() => {
+                  if (!notification.lu) {
+                    markAsRead(
+                      notification._id
+                    );
+                  }
+                }}
+              >
+
+                {/* ICONE */}
+
+                <div className="notification-icon">
+                  {getIcon(
+                    notification.type
+                  )}
+                </div>
+
+                {/* CONTENU */}
+
+                <div className="notification-content">
+
+                  <h2>
+                    {notification.titre}
+                  </h2>
+
+                  <p>
+                    {notification.message}
+                  </p>
+
+                  <small>
+                    {formatTime(
+                      notification.createdAt
+                    )}
+                  </small>
+
+                </div>
+
+                {/* SUPPRIMER */}
+
+                <button
+                  className="delete-notif-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+
+                    deleteNotification(
+                      notification._id
+                    );
+                  }}
+                  aria-label="Supprimer la notification"
+                >
+                  <MdDeleteForever />
+                </button>
+
+              </div>
+
+            )
+          )}
+
+        </div>
+      )}
+
     </div>
   );
 }

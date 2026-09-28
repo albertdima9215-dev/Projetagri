@@ -21,30 +21,26 @@ const io = new Server(server, {
 });
 
 // Utilisateurs connectés
-const users = {};
-
 io.on("connection", (socket) => {
   console.log("Utilisateur connecté :", socket.id);
 
   socket.on("register", (userId) => {
-    users[userId] = socket.id;
-    console.log("Utilisateur enregistré :", userId);
+    if (!userId) return;
+
+    socket.join(`user:${userId}`);
+
+    console.log(
+      `Utilisateur ${userId} enregistré sur la room user:${userId}`
+    );
   });
 
   socket.on("disconnect", () => {
-    for (const userId in users) {
-      if (users[userId] === socket.id) {
-        delete users[userId];
-      }
-    }
-
-    console.log("Utilisateur déconnecté");
+    console.log("Utilisateur déconnecté :", socket.id);
   });
 });
 
 // Rendre io accessible dans les contrôleurs
 app.set("io", io);
-app.set("users", users);
 
 // Démarrer le serveur
 server.listen(PORT, () => {

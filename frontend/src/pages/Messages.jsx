@@ -6,6 +6,7 @@ import {
   useState,
 } from "react";
 import api from "../services/api";
+import socket from "../services/socket";
 import "../css/messages.css";
 
 function Messages() {
@@ -141,6 +142,54 @@ function Messages() {
   );
 
   // ==================================================
+// MESSAGES EN TEMPS RÉEL AVEC SOCKET.IO
+// ==================================================
+
+useEffect(() => {
+  const handleNewMessage = (newMessage) => {
+    console.log("💬 Nouveau message reçu :", newMessage);
+
+    if (!newMessage) return;
+
+    const conversationId =
+      newMessage.conversation?._id ||
+      newMessage.conversation;
+
+    if (!conversationId) return;
+
+    // Mettre à jour la liste des conversations
+    fetchConversations(true);
+
+    // Si la conversation reçue est actuellement ouverte
+    if (
+      conversationId.toString() ===
+      selectedConversation?.toString()
+    ) {
+      setMessages((prev) => {
+        const exists = prev.some(
+          (msg) => msg._id === newMessage._id
+        );
+
+        if (exists) {
+          return prev;
+        }
+
+        return [...prev, newMessage];
+      });
+    }
+  };
+
+  socket.on("newMessage", handleNewMessage);
+
+  return () => {
+    socket.off("newMessage", handleNewMessage);
+  };
+}, [
+  selectedConversation,
+  fetchConversations,
+]);
+
+  // ==================================================
   // CHARGEMENT INITIAL
   // ==================================================
 
@@ -157,22 +206,9 @@ function Messages() {
 
     // Première récupération
     fetchMessages(selectedConversation);
-
-    // Vérification automatique
-    const interval = setInterval(() => {
-      fetchMessages(
-        selectedConversation,
-        true
-      );
-
-      fetchConversations(true);
-    }, 2000);
-
-    return () => clearInterval(interval);
   }, [
     selectedConversation,
     fetchMessages,
-    fetchConversations,
   ]);
 
   // ==================================================

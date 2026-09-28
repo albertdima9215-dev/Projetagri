@@ -46,34 +46,91 @@ import ThemeToggle from "./components/ThemeToggle";
 
 
 function App() {
-  
+
+  // ==========================================
+  // 1. ENREGISTRER L'UTILISATEUR SUR SOCKET.IO
+  // ==========================================
   useEffect(() => {
-  const user = JSON.parse(localStorage.getItem("user"));
+    const registerUserSocket = () => {
+      const user = JSON.parse(localStorage.getItem("user"));
 
-  if (user?._id) {
-    socket.emit("register", user._id);
-  }
-}, []);
-
-useEffect(() => {
-  if ("Notification" in window) {
-    Notification.requestPermission().then((permission) => {
-      if (permission === "granted") {
-        subscribeToPush();
+      if (user?._id) {
+        socket.emit("register", user._id);
+        console.log("Socket enregistré pour :", user._id);
       }
-    });
-  }
-}, []);
+    };
 
-useEffect(() => {
-  if ("Notification" in window) {
-    Notification.requestPermission().then((permission) => {
-      if (permission === "granted") {
-        subscribeToPush();
+    // Socket déjà connecté
+    if (socket.connected) {
+      registerUserSocket();
+    }
+
+    // Quand Socket.IO se connecte
+    socket.on("connect", registerUserSocket);
+
+    return () => {
+      socket.off("connect", registerUserSocket);
+    };
+  }, []);
+
+
+  // ==========================================
+  // 2. NOTIFICATIONS EN TEMPS RÉEL
+  // ==========================================
+  useEffect(() => {
+    const handleNewNotification = (notification) => {
+      console.log("🔔 Nouvelle notification :", notification);
+
+      // Notification navigateur si autorisée
+      if (
+        "Notification" in window &&
+        Notification.permission === "granted"
+      ) {
+        new Notification(notification.titre || "AgriConnect", {
+          body: notification.message || "Vous avez une nouvelle notification.",
+          icon: "/pwa-192x192.png",
+        });
       }
-    });
-  }
-}, []);
+
+      // Petit événement personnalisé pour les autres composants
+      window.dispatchEvent(
+        new CustomEvent("agriconnect:new-notification", {
+          detail: notification,
+        })
+      );
+    };
+
+    socket.on("newNotification", handleNewNotification);
+
+    return () => {
+      socket.off("newNotification", handleNewNotification);
+    };
+  }, []);
+
+
+  // ==========================================
+  // 3. NOTIFICATIONS PUSH
+  // ==========================================
+  useEffect(() => {
+    const enablePushNotifications = async () => {
+      if (!("Notification" in window)) return;
+
+      try {
+        const permission = await Notification.requestPermission();
+
+        if (permission === "granted") {
+          await subscribeToPush();
+        }
+      } catch (error) {
+        console.error(
+          "Erreur activation notifications push :",
+          error
+        );
+      }
+    };
+
+    enablePushNotifications();
+  }, []);
 
   
   return (

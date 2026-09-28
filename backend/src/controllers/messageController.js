@@ -1,5 +1,6 @@
 const Conversation = require("../models/Conversation");
 const Message = require("../models/Message");
+const Notification = require("../models/Notification");
 
 // ===============================
 // ENVOYER UN MESSAGE
@@ -71,12 +72,46 @@ const sendMessage = async (req, res) => {
     // CRÉATION DU MESSAGE
     // ===============================
 
+    const User = require("../models/User");
+
+const expediteur = await User.findById(req.user.id)
+  .select("nom photo");
+
     const message = await Message.create({
       conversation: conversation._id,
       expediteur: req.user.id,
       contenu: contenu.trim(),
       automatique: Boolean(automatique),
     });
+
+    const messagePopulate = await Message.findById(message._id)
+  .populate("expediteur", "nom photo");
+
+const io = req.app.get("io");
+
+if (io) {
+  io.to(`user:${destinataireId}`).emit(
+    "newMessage",
+    messagePopulate
+  );
+}
+
+    const notification = await Notification.create({
+  utilisateur: destinataireId,
+  titre: "Nouveau message",
+  message: `Vous avez reçu un nouveau message.`,
+  lien: `/messages/${conversation._id}`,
+  type: "message",
+});
+
+const io = req.app.get("io");
+
+if (io) {
+  io.to(`user:${destinataireId}`).emit(
+    "newNotification",
+    notification
+  );
+}
 
     // ===============================
     // RÉPONSE

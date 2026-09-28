@@ -122,37 +122,29 @@ const createOrder = async (req, res) => {
     commande = await commande.populate("produit");
 
     // =========================
-    // NOTIFICATION BASE DE DONNÉES
-    // =========================
+// NOTIFICATION BASE DE DONNÉES
+// =========================
 
-    await Notification.create({
-      utilisateur: produit.vendeur,
-      titre: "Nouvelle commande",
-      message: `Vous avez reçu une commande pour ${produit.nom}.`,
-      lien: "/seller-orders",
-    });
+const notification = await Notification.create({
+  utilisateur: produit.vendeur,
+  titre: "Nouvelle commande",
+  message: `Vous avez reçu une commande pour ${produit.nom}.`,
+  lien: "/seller-orders",
+  type: "commande",
+});
 
-    // =========================
-    // NOTIFICATION TEMPS RÉEL
-    // =========================
+// =========================
+// NOTIFICATION TEMPS RÉEL
+// =========================
 
-    const io = req.app.get("io");
-    const users = req.app.get("users");
+const io = req.app.get("io");
 
-    if (io && users) {
-      const vendeurSocket =
-        users[produit.vendeur.toString()];
-
-      if (vendeurSocket) {
-        io.to(vendeurSocket).emit(
-          "newNotification",
-          {
-            titre: "Nouvelle commande",
-            message: `Commande reçue pour ${produit.nom}`,
-          }
-        );
-      }
-    }
+if (io) {
+  io.to(`user:${produit.vendeur.toString()}`).emit(
+    "newNotification",
+    notification
+  );
+}
 
     // =========================
     // RÉPONSE
