@@ -256,6 +256,7 @@ function Navbar() {
     } finally {
       // Toujours fermer le popup
       setShowNotifications(false);
+      setMenuOpen(false)
     }
   };
 
@@ -270,6 +271,7 @@ function Navbar() {
 
     // Fermer le popup
     setShowNotifications(false);
+    setMenuOpen(false);
 
     // Aller vers la page notifications
     navigate("/notifications");
@@ -468,7 +470,8 @@ function Navbar() {
                         type="button"
                         className="view-all"
                         onClick={
-                          handleViewAllNotifications
+                  handleViewAllNotifications
+                          
                         }
                       >
                         Voir toutes les notifications

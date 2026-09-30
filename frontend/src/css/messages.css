@@ -14,6 +14,7 @@
   overflow: hidden;
 
   position: relative;
+  
 }
 
 /* =========================================================
@@ -377,7 +378,7 @@
    FORMULAIRE
 ========================================================= */
 
-.message-form {
+.messages-page .message-form {
   min-height: 75px;
 
   padding: 12px 20px;
@@ -394,7 +395,7 @@
   box-sizing: border-box;
 }
 
-.message-form input {
+.messages-page .message-form input {
   flex: 1;
 
   height: 48px;
