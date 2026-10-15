@@ -104,8 +104,6 @@ if (io) {
   type: "message",
 });
 
-const io = req.app.get("io");
-
 if (io) {
   io.to(`user:${destinataireId}`).emit(
     "newNotification",
