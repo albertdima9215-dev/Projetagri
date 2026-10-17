@@ -30,5 +30,7 @@ body.dark .floating-theme-btn {
 @media (max-width: 768px) {
   .floating-theme-btn{
     top: 80px;
+    width: 36px;
+    height: 36px;
   }
 }

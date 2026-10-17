@@ -27,8 +27,10 @@
 }
 
 /* Desktop : on le remonte un peu */
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .floating-whatsapp {
-    bottom: 24px;
+    bottom: 84px;
+    width: 36px;
+    height: 36px;
   }
 }
