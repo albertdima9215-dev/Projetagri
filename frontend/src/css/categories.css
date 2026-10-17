@@ -59,3 +59,64 @@
     font-size: 12px;
   }
 }
+
+/* =========================================
+   MODE SOMBRE — CATEGORIES AGRICONNECT
+========================================= */
+
+body.dark .categories {
+    background: #121a14;
+    transition: background 0.3s ease;
+}
+
+/* Titre de la section */
+body.dark .categories h2 {
+    color: #81c784;
+}
+
+/* Cartes des catégories */
+body.dark .category-card {
+    background: #1e2b21;
+    color: #e8f5e9;
+    border: 1px solid #2e4533;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+    transition:
+        background 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease,
+        box-shadow 0.3s ease,
+        transform 0.3s ease;
+}
+
+/* Survol des cartes */
+body.dark .category-card:hover {
+    background: #263a2a;
+    border-color: #4caf50;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+    transform: translateY(-8px);
+}
+
+/* Icônes */
+body.dark .category-card .category-icon {
+    color: #81c784;
+}
+
+/* Titres des catégories */
+body.dark .category-card h3 {
+    color: #e8f5e9;
+}
+
+/* Adaptation mobile */
+@media (max-width: 768px) {
+    body.dark .category-card {
+        padding: 5px;
+    }
+
+    body.dark .category-card .category-icon {
+        font-size: 20px;
+    }
+
+    body.dark .category-card h3 {
+        font-size: 12px;
+    }
+}

@@ -79,3 +79,89 @@
 }
 
 }
+
+
+
+/* =========================================
+   MODE SOMBRE — FOOTER AGRICONNECT
+========================================= */
+
+body.dark .footer {
+    background: linear-gradient(
+        135deg,
+        #111a13 0%,
+        #18351e 55%,
+        #102517 100%
+    );
+
+    color: #f3f4f6;
+
+    border-top: 1px solid #2e4533;
+
+    transition:
+        background 0.3s ease,
+        color 0.3s ease;
+}
+
+/* Titres des sections */
+body.dark .footer-section h2,
+body.dark .footer-section h3 {
+    color: #a5d6a7;
+}
+
+/* Textes descriptifs */
+body.dark .footer-section p {
+    color: #c2cdc4;
+}
+
+/* Liens */
+body.dark .footer-section a {
+    color: #c2cdc4;
+    transition:
+        color 0.3s ease,
+        padding-left 0.3s ease;
+}
+
+/* Survol des liens */
+body.dark .footer-section a:hover {
+    color: #81c784;
+}
+
+/* Séparateur */
+body.dark .footer hr {
+    border-top-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Bas de page */
+body.dark .footer-bottom {
+    color: #aeb9b0;
+}
+
+/* =========================================
+   RESPONSIVE — MODE SOMBRE
+========================================= */
+
+@media (max-width: 768px) {
+    body.dark .footer {
+        text-align: center;
+    }
+
+    body.dark .footer-section h2,
+    body.dark .footer-section h3 {
+        color: #a5d6a7;
+    }
+
+    body.dark .footer-section p,
+    body.dark .footer-section a {
+        color: #c2cdc4;
+    }
+
+    body.dark .footer-section a:hover {
+        color: #81c784;
+        padding-left: 0;
+    }
+
+    body.dark .footer-bottom {
+        color: #aeb9b0;
+    }
+}

@@ -202,42 +202,6 @@
 }
 
 /* =========================================
-   DARK MODE
-========================================= */
-
-body.dark-mode .testimonials {
-  background: #111714;
-}
-
-body.dark-mode .testimonial-card {
-  background: #1b211e;
-
-  border-color: #2b332e;
-
-  box-shadow:
-    0 8px 25px rgba(0, 0, 0, 0.25);
-}
-
-body.dark-mode .testimonial-card:hover {
-  border-color: rgba(76, 175, 80, 0.4);
-
-  box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.35);
-}
-
-body.dark-mode .text {
-  color: #c8cec9;
-}
-
-body.dark-mode .testimonial-card span {
-  color: #9da59f;
-}
-
-body.dark-mode .testimonial-card::before {
-  color: rgba(76, 175, 80, 0.12);
-}
-
-/* =========================================
    TABLETTE
 ========================================= */
 
@@ -324,4 +288,94 @@ body.dark-mode .testimonial-card::before {
   .testimonial-card span {
     font-size: 12px;
   }
+}
+
+
+/* =========================================
+   MODE SOMBRE — TESTIMONIALS AGRICONNECT
+========================================= */
+
+/* Fond de la section */
+body.dark .testimonials {
+  background: linear-gradient(
+    180deg,
+    #111714 0%,
+    #151e17 100%
+  );
+
+  transition: background 0.3s ease;
+}
+
+/* Décorations en arrière-plan */
+body.dark .testimonials::before,
+body.dark .testimonials::after {
+  background: rgba(76, 175, 80, 0.08);
+}
+
+/* Titre principal */
+body.dark .testimonials h2 {
+  color: #81c784;
+}
+
+/* Trait sous le titre */
+body.dark .testimonials h2::after {
+  background: #66bb6a;
+}
+
+/* Cartes témoignages */
+body.dark .testimonial-card {
+  background: #1a251d;
+  border-color: #2e4032;
+
+  box-shadow:
+    0 8px 25px rgba(0, 0, 0, 0.25);
+
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+/* Survol des cartes */
+body.dark .testimonial-card:hover {
+  background: #202e23;
+  border-color: rgba(129, 199, 132, 0.45);
+
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+/* Guillemets décoratifs */
+body.dark .testimonial-card::before {
+  color: rgba(129, 199, 132, 0.18);
+}
+
+/* Étoiles */
+body.dark .stars {
+  color: #fbbf24;
+}
+
+/* Texte des témoignages */
+body.dark .text {
+  color: #c5d0c7;
+}
+
+/* Nom de l'utilisateur */
+body.dark .testimonial-card h3 {
+  color: #a5d6a7;
+}
+
+/* Rôle ou type d'utilisateur */
+body.dark .testimonial-card span {
+  color: #aab6ac;
+}
+
+/* Transitions douces */
+body.dark .testimonials h2,
+body.dark .testimonial-card h3,
+body.dark .testimonial-card span,
+body.dark .text {
+  transition:
+    color 0.3s ease;
 }

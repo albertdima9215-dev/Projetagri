@@ -715,3 +715,163 @@
   }
 
 }*/
+
+
+/* =========================================================
+   MODE SOMBRE — NAVBAR AGRICONNECT
+   ========================================================= */
+
+body.dark .navbar {
+  background: #151a16;
+  color: #f1f5f2;
+  border-bottom: 1px solid #303a32;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Logo */
+body.dark .logo a {
+  color: #81c784;
+}
+
+/* Liens de navigation */
+body.dark .nav-links li > a:not(.nav-item) {
+  color: #d4ddd5;
+}
+
+body.dark .nav-links li > a:not(.nav-item):hover,
+body.dark .nav-links a.active {
+  color: #a5d6a7;
+  background: #26382a;
+}
+
+/* Favoris et profil */
+body.dark .nav-links .nav-item {
+  color: #d4ddd5;
+}
+
+body.dark .nav-links .nav-item:hover,
+body.dark .nav-links .nav-item.active {
+  color: #a5d6a7;
+  background: #26382a;
+}
+
+/* Menu notifications */
+body.dark .notification-menu {
+  color: #d4ddd5;
+}
+
+body.dark .notification-menu:hover {
+  color: #a5d6a7;
+  background: #26382a;
+}
+
+/* Bouton qui ouvre les notifications */
+body.dark .notification-trigger {
+  color: inherit;
+}
+
+/* Popup des notifications */
+body.dark .notification-dropdown {
+  background: #1d241f;
+  border-color: #364239;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.45);
+}
+
+body.dark .dropdown-item {
+  color: #edf2ee;
+  border-bottom-color: #303a32;
+}
+
+body.dark .dropdown-item:hover {
+  background: #29352c;
+}
+
+body.dark .dropdown-item.unread {
+  background: #26382a;
+  border-left-color: #81c784;
+}
+
+body.dark .dropdown-item strong {
+  color: #a5d6a7;
+}
+
+body.dark .dropdown-item p {
+  color: #c0c9c1;
+}
+
+/* Bouton voir toutes les notifications */
+body.dark .view-all {
+  background: #2e7d32;
+  color: #ffffff;
+}
+
+body.dark .view-all:hover {
+  background: #388e3c;
+}
+
+/* Badges */
+body.dark .favorite-badge,
+body.dark .notification-badge {
+  background: #e53935;
+  color: #ffffff;
+  border-color: #151a16;
+}
+
+/* Bouton du menu mobile */
+body.dark .menu-icon {
+  background: #26382a;
+  color: #a5d6a7;
+}
+
+body.dark .menu-icon:hover {
+  background: #2e7d32;
+  color: #ffffff;
+}
+
+/* Menu déroulant mobile */
+@media (max-width: 768px) {
+  body.dark .nav-links {
+    background: #151a16;
+    border-top-color: #303a32;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4);
+  }
+
+  body.dark .nav-links li > a:not(.nav-item):hover,
+  body.dark .nav-links .nav-item:hover,
+  body.dark .notification-menu:hover {
+    background: #26382a;
+  }
+
+  body.dark .notification-dropdown {
+    background: #1d241f;
+    border-color: #364239;
+  }
+}
+
+/* Déconnexion */
+body.dark .logoutbtn {
+  background: #321f20;
+  color: #ff8a80;
+  border-color: #633535;
+}
+
+body.dark .logoutbtn:hover {
+  background: #c62828;
+  color: #ffffff;
+}
+
+/* Administration */
+body.dark .nav-links li:last-child a[href="/admin"] {
+  color: #ce93d8;
+}
+
+body.dark .nav-links li:last-child a[href="/admin"]:hover {
+  background: #38263d;
+  color: #e1bee7;
+}
+
+/* Bouton de thème intégré au Navbar */
+body.dark .theme-btn {
+  background: #f9a825;
+  color: #151515;
+}

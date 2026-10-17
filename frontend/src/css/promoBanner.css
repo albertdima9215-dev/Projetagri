@@ -536,3 +536,121 @@
     font-size: 8px;
   }
 }
+
+
+
+/* =========================================
+   MODE SOMBRE — PROMO BANNER AGRICONNECT
+========================================= */
+
+body.dark .promo-banner {
+  background: linear-gradient(
+    135deg,
+    #183d20 0%,
+    #214b29 50%,
+    #102b17 100%
+  );
+
+  color: #f1f5f2;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+
+  border: 1px solid #31563a;
+}
+
+/* Décorations circulaires */
+body.dark .promo-banner::before {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+body.dark .promo-banner::after {
+  background: rgba(129, 199, 132, 0.08);
+}
+
+/* Icône ou image promotionnelle */
+body.dark .promo-icon {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Libellé promotionnel */
+body.dark .promo-label {
+  color: #b9f6ca;
+}
+
+/* Titre */
+body.dark .promo-text h2 {
+  color: #ffffff;
+}
+
+/* Description */
+body.dark .promo-text p {
+  color: #d5e5d7;
+}
+
+/* Ancien prix */
+body.dark .promo-old-price {
+  color: #c8e6c9;
+}
+
+/* Nouveau prix */
+body.dark .promo-new-price {
+  color: #ffffff;
+}
+
+/* Badge de réduction */
+body.dark .promo-discount {
+  background: #d32f2f;
+  color: #ffffff;
+}
+
+/* Bouton promotionnel */
+body.dark .promo-btn {
+  background: #f1f8e9;
+  color: #1b5e20;
+  border: 1px solid #c5e1a5;
+}
+
+body.dark .promo-btn:hover {
+  background: #dcedc8;
+  color: #174d1c;
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Flèches du carrousel */
+body.dark .promo-arrow {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+body.dark .promo-arrow:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Indicateurs du carrousel */
+body.dark .promo-dot {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+body.dark .promo-dot.active {
+  background: #ffffff;
+}
+
+/* Message de chargement */
+body.dark .promo-loading-content {
+  color: #e8f5e9;
+}
+
+/* Transitions douces */
+.promo-banner,
+.promo-icon,
+.promo-text h2,
+.promo-text p,
+.promo-btn,
+.promo-arrow {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}

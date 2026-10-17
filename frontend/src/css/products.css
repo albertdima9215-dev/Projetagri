@@ -696,3 +696,251 @@
     font-size: 14px;
   }
 }
+
+
+/* =========================================================
+   MODE SOMBRE — PRODUCTS AGRICONNECT
+   ========================================================= */
+
+/* Fond général */
+body.dark .products-container {
+  color: #e5e7eb;
+  transition: color 0.3s ease;
+}
+
+/* Titre principal */
+body.dark .products-container h1 {
+  color: #81c784;
+}
+
+body.dark .products-container h1::after {
+  background: #66bb6a;
+}
+
+/* =========================================================
+   FILTRES
+   ========================================================= */
+
+body.dark .filters {
+  background: #19231c;
+  border-color: #2e4032;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
+}
+
+body.dark .filters input,
+body.dark .filters select {
+  background: #111a14;
+  color: #e5e7eb;
+  border-color: #37483a;
+}
+
+body.dark .filters input::placeholder {
+  color: #8b9a8e;
+}
+
+body.dark .filters input:hover,
+body.dark .filters select:hover {
+  border-color: #5b8060;
+}
+
+body.dark .filters input:focus,
+body.dark .filters select:focus {
+  background: #17221a;
+  border-color: #81c784;
+  box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.12);
+}
+
+/* Options des listes déroulantes */
+body.dark .filters select option {
+  background: #19231c;
+  color: #e5e7eb;
+}
+
+/* =========================================================
+   COMPTEUR DES RÉSULTATS
+   ========================================================= */
+
+body.dark .results-count {
+  color: #c1cdc3;
+}
+
+body.dark .results-count::before {
+  background: #66bb6a;
+}
+
+/* =========================================================
+   BOUTON RÉINITIALISER
+   ========================================================= */
+
+body.dark .reset-filters {
+  background: #388e3c;
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .reset-filters:hover {
+  background: #43a047;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================================================
+   CARTES PRODUITS
+   ========================================================= */
+
+body.dark .product-card {
+  background: #19231c;
+  color: #e5e7eb;
+  border-color: #2e4032;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.22);
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+body.dark .product-card:hover {
+  background: #1e2b21;
+  border-color: #476b4b;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+/* Image produit */
+body.dark .product-card > img {
+  background: #202a22;
+}
+
+/* =========================================================
+   BOUTON FAVORI
+   ========================================================= */
+
+body.dark .favorite-btn {
+  background: rgba(28, 39, 30, 0.96);
+  color: #c5d0c7;
+  border-color: #425346;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .favorite-btn:hover {
+  background: #2a3b2d;
+  color: #ff6b6b;
+}
+
+/* =========================================================
+   TEXTES DES CARTES
+   ========================================================= */
+
+body.dark .product-card h3 {
+  color: #e5eee6;
+}
+
+body.dark .product-card p {
+  color: #b4c1b6;
+}
+
+/* Type de vente */
+body.dark .product-card .sale-type {
+  background: #243d29;
+  color: #a5d6a7;
+}
+
+/* Prix */
+body.dark .product-card .price,
+body.dark .product-card .product-price {
+  color: #81c784;
+}
+
+/* Stock */
+body.dark .product-card .stock,
+body.dark .product-card .product-stock {
+  color: #a4b1a6;
+}
+
+/* Badge de rupture de stock */
+body.dark .stock-badge {
+  background: #422f1b;
+  color: #fdba74;
+}
+
+body.dark .stock-badge.out {
+  background: #482326;
+  color: #fca5a5;
+}
+
+/* Notes et avis */
+body.dark .product-rating {
+  color: #fbbf24;
+}
+
+body.dark .product-rating span {
+  color: #aab6ac;
+}
+
+/* =========================================================
+   BOUTONS D'ACTION
+   ========================================================= */
+body.dark .product-card .details-btn {
+  background: #388e3c;
+  color: #ffffff;
+}
+
+body.dark .product-card .details-btn:hover {
+  background: #43a047;
+}
+
+/* Partage WhatsApp : conserve le vert reconnaissable */
+body.dark .whatsapp-share-btn {
+  background: #20bd5a;
+  color: #ffffff;
+}
+
+body.dark .whatsapp-share-btn:hover {
+  background: #1da851;
+}
+
+/* Charger plus */
+body.dark .load-more-btn {
+  background: #388e3c;
+  color: #ffffff;
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .load-more-btn:hover {
+  background: #43a047;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* =========================================================
+   SQUELETTES DE CHARGEMENT
+   ========================================================= */
+
+body.dark .skeleton {
+  background: #29352c;
+}
+
+body.dark .skeleton::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
+}
+
+/* Fond des images pendant le chargement */
+body.dark .card img,
+body.dark .product-card img,
+body.dark .dashboard-card img {
+  background: #202a22;
+}
+
+/* Transitions des textes */
+body.dark .product-card h3,
+body.dark .product-card p,
+body.dark .product-card .sale-type,
+body.dark .product-card .price,
+body.dark .product-card .product-price,
+body.dark .results-count {
+  transition: color 0.3s ease, background 0.3s ease;
+}

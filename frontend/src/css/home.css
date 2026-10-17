@@ -1131,3 +1131,249 @@
     font-size: 8px;
   }
 }
+
+
+/* =========================================================
+   AGRICONNECT — MODE SOMBRE HOME
+   À ajouter à la fin du fichier CSS
+   ========================================================= */
+
+/* Fond général */
+body.dark .home {
+  color: #e5e7eb;
+}
+
+/* Titre principal */
+body.dark .home h1 {
+  color: #81c784;
+}
+
+body.dark .home h1::after {
+  background: #81c784;
+}
+
+/* Filtres */
+body.dark .filters {
+  background: #1a251d;
+  border-color: #2e4032;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .filters input,
+body.dark .filters select {
+  background: #202d23;
+  color: #f3f4f6;
+  border-color: #3b5040;
+  color-scheme: dark;
+}
+
+body.dark .filters input::placeholder {
+  color: #9ca3af;
+}
+
+body.dark .filters input:hover,
+body.dark .filters select:hover {
+  border-color: #81c784;
+}
+
+body.dark .filters input:focus,
+body.dark .filters select:focus {
+  background: #26372a;
+  border-color: #81c784;
+  box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.15);
+}
+
+/* En-têtes de section */
+body.dark .section-header h2,
+body.dark .how-it-works h2 {
+  color: #f3f4f6;
+}
+
+body.dark .section-header p,
+body.dark .how-it-works > p {
+  color: #aeb9b0;
+}
+
+/* Bouton Voir tout */
+body.dark .see-all-btn {
+  background: #388e3c;
+  color: #ffffff;
+}
+
+body.dark .see-all-btn:hover {
+  background: #43a047;
+}
+
+/* Cartes produits */
+body.dark .card {
+  background: #1a251d;
+  border-color: #2e4032;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .card:hover {
+  border-color: #4c7953;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+/* Images et conteneurs */
+body.dark .product-image-container {
+  background: #202a22;
+}
+
+body.dark .product-image-container img,
+body.dark .card img {
+  background: #202a22;
+}
+
+/* Bouton Favoris */
+body.dark .favorite-btn {
+  background: rgba(30, 41, 33, 0.94);
+  color: #d1d5db;
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+body.dark .favorite-btn:hover,
+body.dark .favorite-btn.favorite-active {
+  background: #26372a;
+  color: #ff6b6b;
+}
+
+/* Nom des produits */
+body.dark .card h3 {
+  color: #f3f4f6;
+}
+
+/* Descriptions et informations */
+body.dark .card p,
+body.dark .card .location {
+  color: #b0bbb2;
+}
+
+/* Prix */
+body.dark .card h2 {
+  color: #81c784;
+}
+
+/* Type de vente */
+body.dark .card .sale-type {
+  background: #263f2b;
+  color: #a5d6a7;
+}
+
+/* Badge de stock disponible */
+body.dark .stock-badge.in {
+  background: #21452d;
+  color: #a7f3b5;
+}
+
+/* Badge de stock épuisé */
+body.dark .stock-badge.out {
+  background: #4a2528;
+  color: #fca5a5;
+}
+
+/* Notes et avis */
+body.dark .product-rating {
+  color: #fbbf24;
+}
+
+body.dark .product-rating span {
+  color: #aeb9b0;
+}
+
+/* Bouton Voir les détails */
+body.dark .card a {
+  background: #388e3c;
+  color: #ffffff;
+}
+
+body.dark .card a:hover {
+  background: #43a047;
+}
+
+/* Bouton WhatsApp : conserve le vert officiel */
+body.dark .whatsapp-share-btn {
+  background: #25d366;
+  color: #ffffff;
+}
+
+body.dark .whatsapp-share-btn:hover {
+  background: #1ebe5d;
+}
+
+/* Section Comment ça marche */
+body.dark .step {
+  background: #1a251d;
+  border-color: #2e4032;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.22);
+}
+
+body.dark .step:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+body.dark .step-number {
+  background: #388e3c;
+  color: #ffffff;
+}
+
+body.dark .step h3 {
+  color: #f3f4f6;
+}
+
+body.dark .step p {
+  color: #b0bbb2;
+}
+
+/* Chargement */
+body.dark .loading,
+body.dark .search-loading {
+  color: #81c784;
+}
+
+body.dark .search-spinner {
+  border-color: #344c38;
+  border-top-color: #81c784;
+}
+
+/* Skeletons */
+body.dark .skeleton {
+  background: #29362c;
+}
+
+body.dark .skeleton::after {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.07),
+    transparent
+  );
+}
+
+body.dark .skeleton-card {
+  background: #1a251d;
+}
+
+/* Transitions douces */
+body.dark .filters,
+body.dark .filters input,
+body.dark .filters select,
+body.dark .card,
+body.dark .step,
+body.dark .section-header h2,
+body.dark .section-header p,
+body.dark .how-it-works h2,
+body.dark .how-it-works > p,
+body.dark .card h3,
+body.dark .card p,
+body.dark .card h2,
+body.dark .card .location,
+body.dark .card .sale-type,
+body.dark .product-rating span {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}

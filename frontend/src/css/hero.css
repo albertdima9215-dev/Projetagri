@@ -100,3 +100,80 @@
 }
 
 }
+
+/* =========================================
+   MODE SOMBRE — HERO AGRICONNECT
+========================================= */
+
+body.dark .hero {
+  background: #121a14;
+  color: #f1f5f2;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Titre principal */
+body.dark .hero-content h1 {
+  color: #81c784;
+}
+
+/* Texte descriptif */
+body.dark .hero-content p {
+  color: #c2ccc4;
+}
+
+/* Boutons principaux */
+body.dark .hero .btn-primary,
+body.dark .hero .btn-four {
+  background: #2e7d32;
+  color: #ffffff;
+  border: 2px solid #2e7d32;
+}
+
+body.dark .hero .btn-primary:hover,
+body.dark .hero .btn-four:hover {
+  background: #388e3c;
+  border-color: #388e3c;
+}
+
+/* Boutons secondaires */
+body.dark .hero .btn-secondary,
+body.dark .hero .btn-thirty {
+  background: #202b22;
+  color: #81c784;
+  border: 2px solid #66bb6a;
+}
+
+body.dark .hero .btn-secondary:hover,
+body.dark .hero .btn-thirty:hover {
+  background: #2e7d32;
+  color: #ffffff;
+}
+
+/* Image du Hero */
+body.dark .hero-image img {
+  filter: brightness(0.9);
+}
+
+/* Transition douce */
+.hero,
+.hero-content h1,
+.hero-content p,
+.hero .btn-primary,
+.hero .btn-secondary,
+.hero .btn-thirty,
+.hero .btn-four {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* =========================================
+   RESPONSIVE — MOBILE
+========================================= */
+
+@media (max-width: 768px) {
+  body.dark .hero {
+    background: #121a14;
+  }
+}

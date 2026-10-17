@@ -219,58 +219,6 @@
   line-height: 1.7;
 }
 
-/* =========================================
-   MODE SOMBRE
-========================================= */
-
-body.dark-mode .features {
-  background: #111712;
-}
-
-body.dark-mode .features::before,
-body.dark-mode .features::after {
-  background: rgba(76, 175, 80, 0.08);
-}
-
-body.dark-mode .features h2 {
-  color: #66bb6a;
-}
-
-body.dark-mode .feature-card {
-  background: #182019;
-
-  border-color: #29372b;
-
-  box-shadow:
-    0 5px 15px rgba(0, 0, 0, 0.25),
-    0 15px 35px rgba(0, 0, 0, 0.15);
-}
-
-body.dark-mode .feature-card:hover {
-  border-color: #3c5a40;
-
-  box-shadow:
-    0 12px 25px rgba(0, 0, 0, 0.35),
-    0 20px 45px rgba(46, 125, 50, 0.15);
-}
-
-body.dark-mode .feature-card .icon {
-  background: #223624;
-  color: #66bb6a;
-}
-
-body.dark-mode .feature-card:hover .icon {
-  background: #2e7d32;
-  color: #ffffff;
-}
-
-body.dark-mode .feature-card h3 {
-  color: #81c784;
-}
-
-body.dark-mode .feature-card p {
-  color: #b7c1b8;
-}
 
 /* =========================================
    TABLETTE
@@ -408,4 +356,91 @@ body.dark-mode .feature-card p {
   .feature-card p {
     font-size: 11px;
   }
+}
+
+
+/* =========================================
+   MODE SOMBRE — FEATURES AGRICONNECT
+========================================= */
+
+body.dark .features {
+  background: #111712;
+  transition: background 0.3s ease;
+}
+
+/* Décorations en arrière-plan */
+body.dark .features::before,
+body.dark .features::after {
+  background: rgba(76, 175, 80, 0.08);
+}
+
+/* Titre principal */
+body.dark .features h2 {
+  color: #81c784;
+}
+
+/* Trait sous le titre */
+body.dark .features h2::after {
+  background: #66bb6a;
+}
+
+/* Cartes */
+body.dark .feature-card {
+  background: #1a251d;
+  border-color: #2e4032;
+
+  box-shadow:
+    0 5px 15px rgba(0, 0, 0, 0.25),
+    0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* Barre supérieure des cartes */
+body.dark .feature-card::before {
+  background: #66bb6a;
+}
+
+/* Survol des cartes */
+body.dark .feature-card:hover {
+  background: #202e23;
+  border-color: #4c7953;
+
+  box-shadow:
+    0 12px 25px rgba(0, 0, 0, 0.35),
+    0 20px 45px rgba(46, 125, 50, 0.15);
+}
+
+/* Icônes */
+body.dark .feature-card .icon {
+  background: #263b2a;
+  color: #81c784;
+}
+
+/* Icônes au survol */
+body.dark .feature-card:hover .icon {
+  background: #388e3c;
+  color: #ffffff;
+}
+
+/* Titres des cartes */
+body.dark .feature-card h3 {
+  color: #a5d6a7;
+}
+
+/* Descriptions */
+body.dark .feature-card p {
+  color: #c0cbc2;
+}
+
+/* Transitions douces */
+body.dark .features,
+body.dark .feature-card,
+body.dark .feature-card .icon,
+body.dark .feature-card h3,
+body.dark .feature-card p {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 }

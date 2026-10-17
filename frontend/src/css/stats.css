@@ -406,14 +406,12 @@ body.dark-mode .stat-box h3 {
 
   .stat-box {
     min-height: 175px;
-
     padding: 18px 8px;
   }
 
   .stat-box h3 {
     width: 46px;
     height: 46px;
-
     font-size: 23px;
   }
 
@@ -424,4 +422,95 @@ body.dark-mode .stat-box h3 {
   .stat-box p {
     font-size: 11px;
   }
+}
+
+
+/* =========================================
+   MODE SOMBRE — STATISTIQUES AGRICONNECT
+========================================= */
+
+body.dark .stats-section {
+  background: #111712;
+  transition: background 0.3s ease;
+}
+
+/* Décorations d'arrière-plan */
+body.dark .stats-section::before,
+body.dark .stats-section::after {
+  background: rgba(76, 175, 80, 0.09);
+}
+
+/* Titre principal */
+body.dark .stats-section h2 {
+  color: #81c784;
+}
+
+/* Trait sous le titre */
+body.dark .stats-section h2::after {
+  background: #66bb6a;
+}
+
+/* Cartes statistiques */
+body.dark .stat-box {
+  background: linear-gradient(
+    135deg,
+    #1c4727 0%,
+    #245b30 55%,
+    #173b21 100%
+  );
+
+  color: #f3f4f6;
+
+  border: 1px solid #31563a;
+
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.3),
+    0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Décorations dans les cartes */
+body.dark .stat-box::before {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+body.dark .stat-box::after {
+  background: rgba(129, 199, 132, 0.08);
+}
+
+/* Survol des cartes */
+body.dark .stat-box:hover {
+  border-color: #4c7953;
+
+  box-shadow:
+    0 15px 30px rgba(0, 0, 0, 0.4),
+    0 20px 45px rgba(0, 0, 0, 0.25);
+}
+
+/* Icônes */
+body.dark .stat-box h3 {
+  background: rgba(255, 255, 255, 0.12);
+  color: #a5d6a7;
+}
+
+/* Chiffres */
+body.dark .stat-box span {
+  color: #ffffff;
+}
+
+/* Descriptions */
+body.dark .stat-box p {
+  color: #d5e5d7;
+}
+
+/* Transitions douces */
+body.dark .stat-box,
+body.dark .stat-box h3,
+body.dark .stat-box span,
+body.dark .stat-box p {
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 }

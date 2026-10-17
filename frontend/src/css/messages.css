@@ -6,13 +6,9 @@
   width: 100%;
   height: calc(100vh - 70px);
   min-height: 0;
-
   display: flex;
-
   background: #f5f8f5;
-
   overflow: hidden;
-
   position: relative;
   
 }
@@ -67,8 +63,8 @@
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior: contain;
+  /*-webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;*/
 }
 
 /* Conversation */
@@ -198,6 +194,7 @@
   flex-direction: column;
   background: #f8faf8;
   overflow: hidden;
+  scroll-behavior: smooth;
 }
 
 /* =========================================================
@@ -206,53 +203,37 @@
 
 .chat-header {
   height: 75px;
-
   flex-shrink: 0;
-
   display: flex;
   align-items: center;
-
   gap: 13px;
-
   padding: 0 25px;
-
   background: #ffffff;
-
   border-bottom: 1px solid #e5ebe6;
-
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 .chat-user-avatar {
   width: 46px;
   height: 46px;
-
   min-width: 46px;
 }
 
 .chat-user-info h2 {
   margin: 0;
-
   color: #26342a;
-
   font-size: 17px;
 }
 
 .online-status {
   display: block;
-
   margin-top: 4px;
-
   color: #2e7d32;
-
   font-size: 12px;
-
   font-weight: 600;
 }
 
-/* =========================================================
-   MESSAGES
-========================================================= */
+/* MESSAGES */
 
 .messages-list {
   flex: 1;
@@ -264,27 +245,20 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  -webkit-overflow-scrolling: touch;
+  /*-webkit-overflow-scrolling: touch;
   overscroll-behavior-y: contain;
-  touch-action: pan-y;
+  touch-action: pan-y;*/
   scroll-behavior: smooth;
 }
 
 .mobile-back-btn {
   display: none;
-
   border: none;
-
   background: transparent;
-
   color: #2e7d32;
-
   font-size: 28px;
-
   cursor: pointer;
-
   padding: 5px 8px;
-
   line-height: 1;
 }
 
@@ -292,7 +266,6 @@
 
 .message-row {
   width: 100%;
-
   display: flex;
 }
 
@@ -308,27 +281,20 @@
 
 .message {
   max-width: 65%;
-
   padding: 11px 15px;
-
   border-radius: 17px;
-
   position: relative;
-
   box-shadow: 0 2px 7px rgba(0, 0, 0, 0.05);
 }
 
 .message-row.received .message {
   background: #ffffff;
-
   border-bottom-left-radius: 4px;
 }
 
 .message-row.mine .message {
   background: #2e7d32;
-
   color: #ffffff;
-
   border-bottom-right-radius: 4px;
 }
 
@@ -336,11 +302,8 @@
 
 .message strong {
   display: block;
-
   margin-bottom: 5px;
-
   color: #2e7d32;
-
   font-size: 12px;
 }
 
@@ -352,11 +315,8 @@
 
 .message p {
   margin: 0;
-
   line-height: 1.5;
-
   font-size: 15px;
-
   word-break: break-word;
 }
 
@@ -364,56 +324,35 @@
 
 .message small {
   display: block;
-
   margin-top: 5px;
-
   text-align: right;
-
   font-size: 10px;
-
   opacity: 0.65;
 }
 
-/* =========================================================
-   FORMULAIRE
-========================================================= */
+/* FORMULAIRE */
 
 .messages-page .message-form {
   min-height: 75px;
-
   padding: 12px 20px;
-
   display: flex;
   align-items: center;
-
   gap: 12px;
-
   background: #ffffff;
-
   border-top: 1px solid #e5ebe6;
-
   box-sizing: border-box;
 }
 
 .messages-page .message-form input {
   flex: 1;
-
   height: 48px;
-
   padding: 0 18px;
-
   border: 1px solid #dce5df;
-
   border-radius: 25px;
-
   background: #f7faf7;
-
   color: #26342a;
-
   font-size: 15px;
-
   outline: none;
-
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
@@ -421,34 +360,23 @@
 
 .message-form input:focus {
   border-color: #2e7d32;
-
   background: #ffffff;
-
   box-shadow: 0 0 0 4px rgba(46, 125, 50, 0.08);
 }
 
 .message-form button {
   width: 48px;
   height: 48px;
-
   min-width: 48px;
-
   border: none;
-
   border-radius: 50%;
-
   background: #2e7d32;
-
   color: #ffffff;
-
   font-size: 22px;
-
   cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   transition:
     transform 0.2s ease,
     background 0.2s ease;
@@ -456,31 +384,24 @@
 
 .message-form button:hover:not(:disabled) {
   background: #256628;
-
   transform: scale(1.06);
 }
 
 .message-form button:disabled {
   background: #b8c4ba;
-
   cursor: not-allowed;
 }
 
-/* =========================================================
-   ÉTATS VIDES
-========================================================= */
+/* ÉTATS VIDES */
 
 .empty-chat,
 .empty-messages,
 .empty-conversations {
   display: flex;
   flex-direction: column;
-
   align-items: center;
   justify-content: center;
-
   text-align: center;
-
   color: #7b877f;
 }
 
@@ -493,23 +414,17 @@
 .empty-icon {
   width: 75px;
   height: 75px;
-
   margin-bottom: 18px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   border-radius: 50%;
-
   background: #e8f5e9;
-
   font-size: 35px;
 }
 
 .empty-chat h2 {
   margin: 0 0 8px;
-
   color: #26342a;
 }
 
@@ -517,11 +432,8 @@
 .empty-conversations p,
 .empty-messages p {
   max-width: 350px;
-
   margin: 0;
-
   line-height: 1.5;
-
   font-size: 14px;
 }
 
@@ -531,13 +443,11 @@
 
 .empty-messages div {
   font-size: 35px;
-
   margin-bottom: 10px;
 }
 
 .empty-messages h3 {
   margin: 0 0 5px;
-
   color: #26342a;
 }
 
