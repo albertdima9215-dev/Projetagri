@@ -103,3 +103,119 @@
     font-size: 12px;
   }
 }
+
+
+/* =========================================================
+   MODE SOMBRE — NOTIFICATIONS AGRICONNECT
+   ========================================================= */
+
+/* Conteneur principal */
+body.dark .notifications-container {
+  color: #e5e7eb;
+}
+
+/* Titre principal */
+body.dark .notifications-container h1 {
+  color: #81c784;
+}
+
+/* Cartes de notification */
+body.dark .notification-card {
+  background: #1e2921;
+  border: 1px solid #344737;
+  border-left: 5px solid transparent;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .notification-card:hover {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Titres et messages */
+body.dark .notification-card h3 {
+  color: #a5d6a7;
+}
+
+body.dark .notification-card p {
+  color: #d1d5db;
+}
+
+body.dark .notification-card small {
+  color: #9ca89e;
+}
+
+/* Notification non lue */
+body.dark .notification-card.unread {
+  background: #203b27;
+  border-left-color: #66bb6a;
+  color: #e5eee6;
+}
+
+body.dark .notification-card.unread h3 {
+  color: #a5d6a7;
+}
+
+body.dark .notification-card.unread p {
+  color: #d1e2d3;
+}
+
+/* Notification déjà lue */
+body.dark .notification-card.read {
+  background: #252c27;
+  border-left-color: #66736a;
+  opacity: 0.9;
+}
+
+body.dark .notification-card.read h3 {
+  color: #c0d0c2;
+}
+
+body.dark .notification-card.read p {
+  color: #b8c4ba;
+}
+
+/* Message lorsqu'il n'y a aucune notification */
+body.dark .notifications-container > p {
+  color: #b8c4ba;
+}
+
+/* Bouton : tout marquer comme lu */
+body.dark .read-all-btn {
+  background: #388e3c;
+  color: #ffffff;
+}
+
+body.dark .read-all-btn:hover {
+  background: #2e7d32;
+}
+
+/* Bouton : tout supprimer */
+body.dark .clear-all-btn {
+  background: #c62828;
+  color: #ffffff;
+}
+
+body.dark .clear-all-btn:hover {
+  background: #b71c1c;
+}
+
+/* Bouton : supprimer une notification */
+body.dark .delete-notif-btn {
+  color: #ff7070;
+}
+
+body.dark .delete-notif-btn:hover {
+  color: #ff9999;
+}
+
+/* Transitions douces */
+body.dark .notification-card,
+body.dark .notification-card h3,
+body.dark .notification-card p,
+body.dark .notification-card small {
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+

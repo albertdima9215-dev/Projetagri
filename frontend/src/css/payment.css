@@ -1,1298 +1,1619 @@
-
 .payment-page {
-  min-height: calc(100vh - 70px);
-  background: #f4f7f5;
-  color: #17231d;
-  padding-bottom: 70px;
+min-height: calc(100vh - 70px);
+background: #f4f7f5;
+color: #17231d;
+padding-bottom: 70px;
 }
 
 .payment-header {
-  width: 100%;
-  height: 68px;
+width: 100%;
+height: 68px;
 
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+display: flex;
+align-items: center;
+justify-content: space-between;
 
-  padding: 0 5%;
+padding: 0 5%;
 
-  background: #ffffff;
-  border-bottom: 1px solid #e5ebe7;
+background: #ffffff;
+border-bottom: 1px solid #e5ebe7;
 
-  box-sizing: border-box;
+box-sizing: border-box;
 }
 
 .payment-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
+display: inline-flex;
+align-items: center;
+gap: 9px;
 
-  padding: 9px 0;
+padding: 9px 0;
 
-  border: none;
-  background: transparent;
+border: none;
+background: transparent;
 
-  color: #285c3d;
+color: #285c3d;
 
-  font-size: 14px;
-  font-weight: 650;
+font-size: 14px;
+font-weight: 650;
 
-  cursor: pointer;
+cursor: pointer;
 
-  transition:
-    color 0.2s ease,
-    transform 0.2s ease;
+transition:
+color 0.2s ease,
+transform 0.2s ease;
 }
 
 .payment-back:hover:not(:disabled) {
-  color: #174d2a;
-  transform: translateX(-2px);
+color: #174d2a;
+transform: translateX(-2px);
 }
 
 .payment-back:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
+opacity: 0.55;
+cursor: not-allowed;
 }
 
 .payment-back svg {
-  font-size: 13px;
+font-size: 13px;
 }
 
 .payment-secure {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+display: flex;
+align-items: center;
+gap: 8px;
 
-  color: #557062;
+color: #557062;
 
-  font-size: 13px;
-  font-weight: 600;
+font-size: 13px;
+font-weight: 600;
 }
 
 .payment-secure svg {
-  color: #2e7d4f;
-  font-size: 13px;
+color: #2e7d4f;
+font-size: 13px;
 }
 
 .payment-content {
-  width: min(1180px, calc(100% - 48px));
+width: min(1180px, calc(100% - 48px));
 
-  margin: 0 auto;
+margin: 0 auto;
 
-  padding-top: 38px;
+padding-top: 38px;
 }
 
+/* =========================================================
+TITRE
+========================================================= */
+
 .payment-title {
-  margin-bottom: 30px;
+margin-bottom: 30px;
 }
 
 .payment-eyebrow {
-  display: inline-block;
+display: inline-block;
 
-  margin-bottom: 8px;
+margin-bottom: 8px;
 
-  color: #2e7d4f;
+color: #2e7d4f;
 
-  font-size: 11px;
-  font-weight: 800;
+font-size: 11px;
+font-weight: 800;
 
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
+letter-spacing: 0.09em;
+text-transform: uppercase;
 }
 
 .payment-title h1 {
-  margin: 0;
+margin: 0;
 
-  color: #17231d;
+color: #17231d;
 
-  font-size: 34px;
-  line-height: 1.2;
-  font-weight: 800;
+font-size: 34px;
+line-height: 1.2;
+font-weight: 800;
 }
 
 .payment-title p {
-  margin: 9px 0 0;
+margin: 9px 0 0;
 
-  max-width: 650px;
+max-width: 650px;
 
-  color: #6c7971;
+color: #6c7971;
 
-  font-size: 14px;
-  line-height: 1.6;
+font-size: 14px;
+line-height: 1.6;
 }
+
+/* =========================================================
+GRID PRINCIPAL
+========================================================= */
 
 .payment-grid {
-  display: grid;
+display: grid;
 
-  grid-template-columns: minmax(0, 1fr) 355px;
+grid-template-columns: minmax(0, 1fr) 355px;
 
-  gap: 26px;
+gap: 26px;
 
-  align-items: start;
+align-items: start;
 }
 
-.payment-main {
-  min-width: 0;
+/* =========================================================
+COLONNE GAUCHE
+========================================================= */
 
-  display: flex;
-  flex-direction: column;
+.payment-grid .payment-main {
+min-width: 0;
 
-  gap: 20px;
+display: flex;
+flex-direction: column;
+
+gap: 20px;
 }
 
-.payment-card {
-  background: #ffffff;
+/* =========================================================
+CARTES
+========================================================= */
 
-  border: 1px solid #e3e9e5;
-  border-radius: 18px;
+.payment-grid .payment-main .payment-card {
+background: #ffffff;
 
-  box-shadow:
-    0 4px 18px rgba(25, 55, 39, 0.055);
+border: 1px solid #e3e9e5;
+border-radius: 18px;
 
-  box-sizing: border-box;
+box-shadow:
+0 4px 18px rgba(25, 55, 39, 0.055);
+
+box-sizing: border-box;
 }
+
+/* =========================================================
+RÉSUMÉ PRODUIT
+========================================================= */
 
 .product-card {
-  padding: 25px;
+padding: 25px;
 }
 
+/* =========================================================
+EN-TÊTE DES CARTES
+========================================================= */
+
 .card-heading {
-  display: flex;
-  align-items: center;
+display: flex;
+align-items: center;
 
-  gap: 13px;
+gap: 13px;
 
-  margin-bottom: 22px;
+margin-bottom: 22px;
 }
 
 .heading-icon {
-  width: 42px;
-  height: 42px;
+width: 42px;
+height: 42px;
 
-  flex-shrink: 0;
+flex-shrink: 0;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+display: flex;
+align-items: center;
+justify-content: center;
 
-  border-radius: 12px;
+border-radius: 12px;
 
-  background: #eaf5ed;
-  color: #2e7d4f;
+background: #eaf5ed;
+color: #2e7d4f;
 
-  font-size: 16px;
+font-size: 16px;
 }
 
 .card-heading h2 {
-  margin: 0;
+margin: 0;
 
-  color: #17231d;
+color: #17231d;
 
-  font-size: 17px;
-  line-height: 1.3;
-  font-weight: 750;
+font-size: 17px;
+line-height: 1.3;
+font-weight: 750;
 }
 
 .card-heading p {
-  margin: 4px 0 0;
+margin: 4px 0 0;
 
-  color: #87938c;
+color: #87938c;
 
-  font-size: 11px;
-  line-height: 1.4;
+font-size: 11px;
+line-height: 1.4;
 }
 
+/* =========================================================
+PRODUIT
+========================================================= */
+
 .product-summary {
-  display: grid;
+display: grid;
 
-  grid-template-columns: 120px minmax(0, 1fr);
+grid-template-columns: 120px minmax(0, 1fr);
 
-  gap: 22px;
+gap: 22px;
 
-  padding: 18px;
+padding: 18px;
 
-  background: #f8faf8;
+background: #f8faf8;
 
-  border: 1px solid #edf1ee;
-  border-radius: 15px;
+border: 1px solid #edf1ee;
+border-radius: 15px;
 
-  box-sizing: border-box;
+box-sizing: border-box;
 }
 
 .product-image-wrapper {
-  width: 120px;
-  height: 120px;
+width: 120px;
+height: 120px;
 
-  overflow: hidden;
+overflow: hidden;
 
-  border-radius: 14px;
+border-radius: 14px;
 
-  background: #edf3ef;
+background: #edf3ef;
 }
 
 .product-image {
-  display: block;
+display: block;
 
-  width: 100%;
-  height: 100%;
+width: 100%;
+height: 100%;
 
-  object-fit: cover;
+object-fit: cover;
 
-  transition: transform 0.3s ease;
+transition: transform 0.3s ease;
 }
 
 .product-image-wrapper:hover .product-image {
-  transform: scale(1.04);
+transform: scale(1.04);
 }
 
 .product-image-placeholder {
-  width: 100%;
-  height: 100%;
+width: 100%;
+height: 100%;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+display: flex;
+align-items: center;
+justify-content: center;
 
-  color: #7c9485;
+color: #7c9485;
 
-  font-size: 27px;
+font-size: 27px;
 }
 
 .product-info {
-  min-width: 0;
+min-width: 0;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+display: flex;
+flex-direction: column;
+justify-content: center;
 }
 
 .product-info h3 {
-  margin: 0 0 16px;
+margin: 0 0 16px;
 
-  color: #1c2921;
+color: #1c2921;
 
-  font-size: 20px;
-  line-height: 1.25;
-  font-weight: 750;
+font-size: 20px;
+line-height: 1.25;
+font-weight: 750;
 }
 
 .product-details {
-  display: grid;
+display: grid;
 
-  grid-template-columns: repeat(2, minmax(130px, 1fr));
+grid-template-columns: repeat(2, minmax(130px, 1fr));
 
-  gap: 18px;
+gap: 18px;
 }
 
 .detail-item {
-  display: flex;
-  flex-direction: column;
+display: flex;
+flex-direction: column;
 
-  gap: 5px;
+gap: 5px;
 }
 
 .detail-item span {
-  color: #7f8b84;
+color: #7f8b84;
 
-  font-size: 11px;
-  font-weight: 500;
+font-size: 11px;
+font-weight: 500;
 }
 
 .detail-item strong {
-  color: #26372d;
+color: #26372d;
 
-  font-size: 14px;
-  line-height: 1.4;
-  font-weight: 700;
+font-size: 14px;
+line-height: 1.4;
+font-weight: 700;
 }
 
-
 /* =========================================================
-   MÉTHODE DE PAIEMENT
-   ========================================================= */
+MÉTHODE DE PAIEMENT
+========================================================= */
 
 .payment-main > .payment-card:not(.product-card) {
-  padding: 25px;
+padding: 25px;
 }
 
 .payment-method-list {
-  display: flex;
-  flex-direction: column;
+display: flex;
+flex-direction: column;
 
-  gap: 12px;
+gap: 12px;
 }
 
 .payment-method {
-  width: 100%;
+width: 100%;
 
-  display: flex;
-  align-items: center;
+display: flex;
+align-items: center;
 
-  gap: 15px;
+gap: 15px;
 
-  padding: 17px;
+padding: 17px;
 
-  border: 1.5px solid #e2e8e4;
-  border-radius: 14px;
+border: 1.5px solid #e2e8e4;
+border-radius: 14px;
 
-  background: #ffffff;
+background: #ffffff;
 
-  text-align: left;
+text-align: left;
 
-  cursor: pointer;
+cursor: pointer;
 
-  box-sizing: border-box;
+box-sizing: border-box;
 
-  transition:
-    border-color 0.2s ease,
-    background 0.2s ease,
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
+transition:
+border-color 0.2s ease,
+background 0.2s ease,
+box-shadow 0.2s ease,
+transform 0.2s ease;
 }
 
 .payment-method:hover:not(:disabled) {
-  border-color: #91b49d;
-  background: #fbfdfb;
-  transform: translateY(-1px);
+border-color: #91b49d;
+background: #fbfdfb;
+transform: translateY(-1px);
 }
 
 .payment-method.selected {
-  border-color: #2e7d4f;
+border-color: #2e7d4f;
 
-  background: #f1faf4;
+background: #f1faf4;
 
-  box-shadow:
-    0 0 0 3px rgba(46, 125, 79, 0.07);
+box-shadow:
+0 0 0 3px rgba(46, 125, 79, 0.07);
 }
 
 .payment-method:disabled {
-  cursor: not-allowed;
-  opacity: 0.7;
+cursor: not-allowed;
+opacity: 0.7;
 }
 
 .method-icon {
-  width: 45px;
-  height: 45px;
+width: 45px;
+height: 45px;
 
-  flex-shrink: 0;
+flex-shrink: 0;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+display: flex;
+align-items: center;
+justify-content: center;
 
-  border-radius: 12px;
+border-radius: 12px;
 
-  background: #edf3ef;
+background: #edf3ef;
 
-  color: #53675b;
+color: #53675b;
 
-  font-size: 19px;
+font-size: 19px;
 }
 
 .paydunya-icon {
-  background: #fff4e8;
+background: #fff4e8;
 }
 
 .method-content {
-  flex: 1;
-  min-width: 0;
+flex: 1;
+min-width: 0;
 }
 
 .method-title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+display: flex;
+align-items: center;
+justify-content: space-between;
 
-  gap: 12px;
+gap: 12px;
 }
 
 .method-title h3 {
-  margin: 0;
+margin: 0;
 
-  color: #25342b;
+color: #25342b;
 
-  font-size: 14px;
-  font-weight: 750;
+font-size: 14px;
+font-weight: 750;
 }
 
 .method-check {
-  flex-shrink: 0;
+flex-shrink: 0;
 
-  color: #2e7d4f;
+color: #2e7d4f;
 
-  font-size: 17px;
+font-size: 17px;
 }
 
 .method-content p {
-  margin: 6px 0 0;
+margin: 6px 0 0;
 
-  color: #7a877f;
+color: #7a877f;
 
-  font-size: 11px;
-  line-height: 1.55;
+font-size: 11px;
+line-height: 1.55;
 }
 
-
 /* =========================================================
-   SÉCURITÉ
-   ========================================================= */
+SÉCURITÉ
+========================================================= */
 
 .payment-security {
-  display: grid;
+display: grid;
 
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+grid-template-columns: repeat(2, minmax(0, 1fr));
 
-  gap: 12px;
+gap: 12px;
 }
 
 .security-item {
-  display: flex;
-  align-items: flex-start;
+display: flex;
+align-items: flex-start;
 
-  gap: 11px;
+gap: 11px;
 
-  padding: 16px;
+padding: 16px;
 
-  background: #ffffff;
+background: #ffffff;
 
-  border: 1px solid #e3e9e5;
-  border-radius: 14px;
+border: 1px solid #e3e9e5;
+border-radius: 14px;
 
-  box-sizing: border-box;
+box-sizing: border-box;
 }
 
 .security-item > svg {
-  flex-shrink: 0;
+flex-shrink: 0;
 
-  margin-top: 2px;
+margin-top: 2px;
 
-  color: #2e7d4f;
+color: #2e7d4f;
 
-  font-size: 15px;
+font-size: 15px;
 }
 
 .security-item div {
-  min-width: 0;
+min-width: 0;
 }
 
 .security-item strong {
-  display: block;
+display: block;
 
-  margin-bottom: 4px;
+margin-bottom: 4px;
 
-  color: #29382f;
+color: #29382f;
 
-  font-size: 11px;
-  font-weight: 750;
+font-size: 11px;
+font-weight: 750;
 }
 
 .security-item span {
-  display: block;
+display: block;
 
-  color: #7b8981;
+color: #7b8981;
 
-  font-size: 10px;
-  line-height: 1.45;
+font-size: 10px;
+line-height: 1.45;
 }
-
 
 /* =========================================================
-   COLONNE DROITE
-   ========================================================= */
+COLONNE DROITE
+========================================================= */
 
-.payment-sidebar {
-  min-width: 0;
+.payment-grid .payment-sidebar {
+min-width: 0;
 
-  position: sticky;
-  top: 88px;
+position: sticky;
+top: 88px;
 
-  display: flex;
-  flex-direction: column;
+display: flex;
+flex-direction: column;
 
-  gap: 18px;
+gap: 18px;
 }
-
 
 /* =========================================================
-   CARTE TOTAL
-   ========================================================= */
+CARTE TOTAL
+========================================================= */
 
-.total-card {
-  padding: 25px;
+.payment-sidebar .total-card {
+padding: 25px;
 
-  box-shadow:
-    0 7px 25px rgba(25, 55, 39, 0.075);
+box-shadow:
+0 7px 25px rgba(25, 55, 39, 0.075);
 }
 
-.total-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
+.payment-sidebar .total-header {
+display: flex;
+align-items: flex-start;
+justify-content: space-between;
 
-  gap: 12px;
+gap: 12px;
 }
 
 .total-header h2 {
-  margin: 0;
+margin: 0;
 
-  color: #25352c;
+color: #25352c;
 
-  font-size: 17px;
-  line-height: 1.3;
-  font-weight: 750;
+font-size: 17px;
+line-height: 1.3;
+font-weight: 750;
 }
 
 .total-status {
-  flex-shrink: 0;
+flex-shrink: 0;
 
-  padding: 6px 10px;
+padding: 6px 10px;
 
-  border-radius: 20px;
+border-radius: 20px;
 
-  background: #fff6e3;
-  color: #a06d0e;
+background: #fff6e3;
+color: #a06d0e;
 
-  font-size: 10px;
-  font-weight: 750;
+font-size: 10px;
+font-weight: 750;
 
-  white-space: nowrap;
+white-space: nowrap;
 }
 
-
 /* =========================================================
-   PRIX PRINCIPAL
-   ========================================================= */
+PRIX PRINCIPAL
+========================================================= */
 
 .price-block {
-  margin-top: 24px;
+margin-top: 24px;
 }
 
 .price-block span {
-  display: block;
+display: block;
 
-  margin-bottom: 6px;
+margin-bottom: 6px;
 
-  color: #7b877f;
+color: #7b877f;
 
-  font-size: 11px;
+font-size: 11px;
 }
 
 .price-block strong {
-  display: block;
+display: block;
 
-  color: #1f693d;
+color: #1f693d;
 
-  font-size: 32px;
-  line-height: 1.15;
-  font-weight: 850;
+font-size: 32px;
+line-height: 1.15;
+font-weight: 850;
 }
 
 .price-block small {
-  font-size: 14px;
-  font-weight: 750;
+font-size: 14px;
+font-weight: 750;
 }
 
-
 /* =========================================================
-   SÉPARATEUR
-   ========================================================= */
+SÉPARATEUR
+========================================================= */
 
 .price-separator {
-  width: 100%;
-  height: 1px;
+width: 100%;
+height: 1px;
 
-  margin: 21px 0;
+margin: 21px 0;
 
-  background: #e8ede9;
+background: #e8ede9;
 }
 
-
 /* =========================================================
-   LIGNES DU TOTAL
-   ========================================================= */
+LIGNES DU TOTAL
+========================================================= */
 
 .price-line {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+display: flex;
+align-items: center;
+justify-content: space-between;
 
-  gap: 15px;
+gap: 15px;
 
-  margin: 13px 0;
+margin: 13px 0;
 
-  font-size: 12px;
+font-size: 12px;
 }
 
 .price-line span {
-  color: #7a877f;
+color: #7a877f;
 }
 
 .price-line strong {
-  color: #35463c;
+color: #35463c;
 
-  font-size: 12px;
-  font-weight: 700;
+font-size: 12px;
+font-weight: 700;
 
-  text-align: right;
+text-align: right;
 }
 
 .price-line .free {
-  color: #2e7d4f;
+color: #2e7d4f;
 }
 
-
 /* =========================================================
-   TOTAL FINAL
-   ========================================================= */
+TOTAL FINAL
+========================================================= */
 
 .total-final {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+display: flex;
+align-items: center;
+justify-content: space-between;
 
-  gap: 15px;
+gap: 15px;
 }
 
 .total-final span {
-  color: #26352d;
+color: #26352d;
 
-  font-size: 13px;
-  font-weight: 750;
+font-size: 13px;
+font-weight: 750;
 }
 
 .total-final strong {
-  color: #1f693d;
+color: #1f693d;
 
-  font-size: 20px;
-  font-weight: 850;
+font-size: 20px;
+font-weight: 850;
 
-  text-align: right;
+text-align: right;
 }
 
-
 /* =========================================================
-   BOUTON PAIEMENT
-   ========================================================= */
+BOUTON PAIEMENT
+========================================================= */
 
 .pay-btn {
-  width: 100%;
-  min-height: 52px;
+width: 100%;
+min-height: 52px;
 
-  margin-top: 22px;
+margin-top: 22px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+display: flex;
+align-items: center;
+justify-content: center;
 
-  gap: 9px;
+gap: 9px;
 
-  border: none;
-  border-radius: 12px;
+border: none;
+border-radius: 12px;
 
-  background: #2e7d4f;
-  color: #ffffff;
+background: #2e7d4f;
+color: #ffffff;
 
-  font-size: 13px;
-  font-weight: 750;
+font-size: 13px;
+font-weight: 750;
 
-  cursor: pointer;
+cursor: pointer;
 
-  box-shadow:
-    0 5px 14px rgba(46, 125, 79, 0.18);
+box-shadow:
+0 5px 14px rgba(46, 125, 79, 0.18);
 
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+transition:
+background 0.2s ease,
+transform 0.2s ease,
+box-shadow 0.2s ease;
 }
 
 .pay-btn:hover:not(:disabled) {
-  background: #25683f;
+background: #25683f;
 
-  transform: translateY(-1px);
+transform: translateY(-1px);
 
-  box-shadow:
-    0 8px 18px rgba(46, 125, 79, 0.23);
+box-shadow:
+0 8px 18px rgba(46, 125, 79, 0.23);
 }
 
 .pay-btn:active:not(:disabled) {
-  transform: translateY(0);
+transform: translateY(0);
 }
 
 .pay-btn:disabled {
-  background: #9eafa4;
+background: #9eafa4;
 
-  cursor: not-allowed;
+cursor: not-allowed;
 
-  box-shadow: none;
+box-shadow: none;
 }
 
-
 /* =========================================================
-   SPINNER
-   ========================================================= */
+SPINNER
+========================================================= */
 
 .payment-spinner {
-  width: 16px;
-  height: 16px;
+width: 16px;
+height: 16px;
 
-  border: 2px solid rgba(255, 255, 255, 0.35);
-  border-top-color: #ffffff;
+border: 2px solid rgba(255, 255, 255, 0.35);
+border-top-color: #ffffff;
 
-  border-radius: 50%;
+border-radius: 50%;
 
-  animation: payment-spin 0.7s linear infinite;
+animation: payment-spin 0.7s linear infinite;
 }
 
 @keyframes payment-spin {
-  to {
-    transform: rotate(360deg);
-  }
+to {
+transform: rotate(360deg);
+}
 }
 
-
 /* =========================================================
-   NOTE PAIEMENT
-   ========================================================= */
+NOTE PAIEMENT
+========================================================= */
 
 .payment-note {
-  margin: 12px 0 0;
+margin: 12px 0 0;
 
-  color: #89958e;
+color: #89958e;
 
-  font-size: 9px;
-  line-height: 1.55;
+font-size: 9px;
+line-height: 1.55;
 
-  text-align: center;
+text-align: center;
 }
 
-
 /* =========================================================
-   INFORMATIONS COMMANDE
-   ========================================================= */
+INFORMATIONS COMMANDE
+========================================================= */
 
 .order-info-card {
-  padding: 22px 24px;
+padding: 22px 24px;
 }
 
 .order-info-card h3 {
-  margin: 0 0 15px;
+margin: 0 0 15px;
 
-  color: #29382f;
+color: #29382f;
 
-  font-size: 15px;
-  font-weight: 750;
+font-size: 15px;
+font-weight: 750;
 }
 
 .order-info-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+display: flex;
+align-items: center;
+justify-content: space-between;
 
-  gap: 15px;
+gap: 15px;
 
-  padding: 12px 0;
+padding: 12px 0;
 
-  border-bottom: 1px solid #edf1ee;
+border-bottom: 1px solid #edf1ee;
 
-  font-size: 11px;
+font-size: 11px;
 }
 
 .order-info-row:last-child {
-  padding-bottom: 0;
+padding-bottom: 0;
 
-  border-bottom: none;
+border-bottom: none;
 }
 
 .order-info-row span {
-  color: #829087;
+color: #829087;
 }
 
 .order-info-row strong {
-  color: #35463c;
+color: #35463c;
 
-  font-size: 11px;
-  font-weight: 700;
+font-size: 11px;
+font-weight: 700;
 
-  text-align: right;
+text-align: right;
 }
 
 .order-status {
-  color: #a06d0e !important;
+color: #a06d0e !important;
 }
 
-
 /* =========================================================
-   COMMANDE INTROUVABLE
-   ========================================================= */
+COMMANDE INTROUVABLE
+========================================================= */
 
 .payment-empty {
-  width: min(520px, calc(100% - 40px));
+width: min(520px, calc(100% - 40px));
 
-  margin: 90px auto;
-  padding: 45px 35px;
+margin: 90px auto;
+padding: 45px 35px;
 
-  box-sizing: border-box;
+box-sizing: border-box;
 
-  text-align: center;
+text-align: center;
 
-  background: #ffffff;
+background: #ffffff;
 
-  border: 1px solid #e3e9e5;
-  border-radius: 20px;
+border: 1px solid #e3e9e5;
+border-radius: 20px;
 
-  box-shadow:
-    0 10px 35px rgba(25, 55, 39, 0.07);
+box-shadow:
+0 10px 35px rgba(25, 55, 39, 0.07);
 }
 
 .payment-empty-icon {
-  width: 64px;
-  height: 64px;
+width: 64px;
+height: 64px;
 
-  margin: 0 auto 20px;
+margin: 0 auto 20px;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+display: flex;
+align-items: center;
+justify-content: center;
 
-  border-radius: 50%;
+border-radius: 50%;
 
-  background: #eaf5ed;
-  color: #2e7d4f;
+background: #eaf5ed;
+color: #2e7d4f;
 
-  font-size: 24px;
+font-size: 24px;
 }
 
 .payment-empty h2 {
-  margin: 0;
+margin: 0;
 
-  color: #24352b;
+color: #24352b;
 
-  font-size: 22px;
-  font-weight: 750;
+font-size: 22px;
+font-weight: 750;
 }
 
 .payment-empty p {
-  max-width: 410px;
+max-width: 410px;
 
-  margin: 12px auto 25px;
+margin: 12px auto 25px;
 
-  color: #748179;
+color: #748179;
 
-  font-size: 13px;
-  line-height: 1.65;
+font-size: 13px;
+line-height: 1.65;
 }
 
 .payment-back-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+display: inline-flex;
+align-items: center;
+justify-content: center;
 
-  gap: 8px;
+gap: 8px;
 
-  padding: 12px 19px;
+padding: 12px 19px;
 
-  border: none;
-  border-radius: 10px;
+border: none;
+border-radius: 10px;
 
-  background: #2e7d4f;
-  color: #ffffff;
+background: #2e7d4f;
+color: #ffffff;
 
-  font-size: 13px;
-  font-weight: 700;
+font-size: 13px;
+font-weight: 700;
 
-  cursor: pointer;
+cursor: pointer;
 
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
+transition:
+background 0.2s ease,
+transform 0.2s ease;
 }
 
 .payment-back-btn:hover {
-  background: #25683f;
-  transform: translateY(-1px);
+background: #25683f;
+transform: translateY(-1px);
 }
 
-
 /* =========================================================
-   TABLETTE
-   ========================================================= */
+TABLETTE
+========================================================= */
 
 @media (max-width: 950px) {
 
-  .payment-content {
-    width: min(760px, calc(100% - 40px));
-  }
-
-  .payment-grid {
-    grid-template-columns: 1fr;
-
-    gap: 20px;
-  }
-
-  .payment-sidebar {
-    position: static;
-
-    display: grid;
-
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-
-    align-items: start;
-  }
-
-  .total-card {
-    grid-row: span 2;
-  }
-
-  .payment-security {
-    grid-template-columns: 1fr 1fr;
-  }
+.payment-content {
+width: min(760px, calc(100% - 40px));
 }
 
+.payment-grid {
+grid-template-columns: 1fr;
+
+gap: 20px;
+
+}
+
+.payment-sidebar {
+position: static;
+
+display: grid;  
+
+grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);  
+
+align-items: start;
+
+}
+
+.total-card {
+grid-row: span 2;
+}
+
+.payment-security {
+grid-template-columns: 1fr 1fr;
+}
+}
 
 /* =========================================================
-   PETIT DESKTOP / TABLETTE LARGE
-   ========================================================= */
+PETIT DESKTOP / TABLETTE LARGE
+========================================================= */
 
 @media (max-width: 1100px) and (min-width: 951px) {
 
-  .payment-content {
-    width: min(1050px, calc(100% - 40px));
-  }
-
-  .payment-grid {
-    grid-template-columns: minmax(0, 1fr) 320px;
-  }
-
-  .product-summary {
-    grid-template-columns: 105px minmax(0, 1fr);
-  }
-
-  .product-image-wrapper {
-    width: 105px;
-    height: 105px;
-  }
+.payment-content {
+width: min(1050px, calc(100% - 40px));
 }
 
+.payment-grid {
+grid-template-columns: minmax(0, 1fr) 320px;
+}
+
+.product-summary {
+grid-template-columns: 105px minmax(0, 1fr);
+}
+
+.product-image-wrapper {
+width: 105px;
+height: 105px;
+}
+}
 
 /* =========================================================
-   MOBILE
-   ========================================================= */
+MOBILE
+========================================================= */
 
 @media (max-width: 650px) {
 
-  .payment-page {
-    min-height: calc(100vh - 60px);
+.payment-page {
+min-height: calc(100vh - 60px);
 
-    padding-bottom: 35px;
-  }
+padding-bottom: 35px;
 
-
-  /* HEADER */
-
-  .payment-header {
-    height: 60px;
-
-    padding: 0 18px;
-  }
-
-  .payment-back {
-    font-size: 12px;
-  }
-
-  .payment-back span {
-    display: none;
-  }
-
-  .payment-secure {
-    font-size: 11px;
-  }
-
-
-  /* CONTENU */
-
-  .payment-content {
-    width: calc(100% - 24px);
-
-    padding-top: 25px;
-  }
-
-
-  /* TITRE */
-
-  .payment-title {
-    margin-bottom: 22px;
-  }
-
-  .payment-eyebrow {
-    font-size: 9px;
-  }
-
-  .payment-title h1 {
-    font-size: 26px;
-  }
-
-  .payment-title p {
-    margin-top: 8px;
-
-    font-size: 12px;
-  }
-
-
-  /* GRID */
-
-  .payment-grid {
-    display: flex;
-    flex-direction: column;
-
-    gap: 18px;
-  }
-
-
-  /* CARTES */
-
-  .product-card,
-  .payment-main > .payment-card:not(.product-card) {
-    padding: 18px;
-
-    border-radius: 15px;
-  }
-
-  .card-heading {
-    gap: 10px;
-
-    margin-bottom: 17px;
-  }
-
-  .heading-icon {
-    width: 37px;
-    height: 37px;
-
-    border-radius: 10px;
-
-    font-size: 14px;
-  }
-
-  .card-heading h2 {
-    font-size: 15px;
-  }
-
-  .card-heading p {
-    font-size: 10px;
-  }
-
-
-  /* PRODUIT */
-
-  .product-summary {
-    grid-template-columns: 78px minmax(0, 1fr);
-
-    gap: 13px;
-
-    padding: 12px;
-
-    border-radius: 12px;
-  }
-
-  .product-image-wrapper {
-    width: 78px;
-    height: 78px;
-
-    border-radius: 11px;
-  }
-
-  .product-info h3 {
-    margin-bottom: 10px;
-
-    font-size: 15px;
-  }
-
-  .product-details {
-    grid-template-columns: 1fr;
-
-    gap: 7px;
-  }
-
-  .detail-item {
-    gap: 2px;
-  }
-
-  .detail-item span {
-    font-size: 9px;
-  }
-
-  .detail-item strong {
-    font-size: 11px;
-  }
-
-
-  /* MÉTHODES */
-
-  .payment-method {
-    padding: 13px;
-
-    gap: 11px;
-
-    border-radius: 12px;
-  }
-
-  .method-icon {
-    width: 39px;
-    height: 39px;
-
-    border-radius: 10px;
-
-    font-size: 17px;
-  }
-
-  .method-title h3 {
-    font-size: 12px;
-  }
-
-  .method-check {
-    font-size: 14px;
-  }
-
-  .method-content p {
-    font-size: 10px;
-  }
-
-
-  /* SÉCURITÉ */
-
-  .payment-security {
-    grid-template-columns: 1fr;
-  }
-
-  .security-item {
-    padding: 13px;
-  }
-
-
-  /* SIDEBAR */
-
-  .payment-sidebar {
-    position: static;
-
-    display: flex;
-    flex-direction: column;
-
-    gap: 15px;
-  }
-
-
-  /* TOTAL */
-
-  .total-card {
-    padding: 20px;
-  }
-
-  .total-header h2 {
-    font-size: 16px;
-  }
-
-  .total-status {
-    padding: 5px 8px;
-
-    font-size: 9px;
-  }
-
-  .price-block {
-    margin-top: 20px;
-  }
-
-  .price-block strong {
-    font-size: 28px;
-  }
-
-  .price-block small {
-    font-size: 12px;
-  }
-
-  .price-separator {
-    margin: 18px 0;
-  }
-
-  .price-line {
-    font-size: 11px;
-  }
-
-  .price-line strong {
-    font-size: 11px;
-  }
-
-  .total-final strong {
-    font-size: 18px;
-  }
-
-
-  /* BOUTON */
-
-  .pay-btn {
-    min-height: 50px;
-
-    margin-top: 19px;
-
-    font-size: 12px;
-  }
-
-
-  /* INFORMATIONS */
-
-  .order-info-card {
-    padding: 18px;
-  }
-
-  .order-info-card h3 {
-    font-size: 14px;
-  }
-
-  .order-info-row {
-    padding: 10px 0;
-
-    font-size: 10px;
-  }
-
-  .order-info-row strong {
-    font-size: 10px;
-  }
 }
 
+/* HEADER */
+
+.payment-header {
+height: 60px;
+
+padding: 0 18px;
+
+}
+
+.payment-back {
+font-size: 12px;
+}
+
+.payment-back span {
+display: none;
+}
+
+.payment-secure {
+font-size: 11px;
+}
+
+/* CONTENU */
+
+.payment-content {
+width: calc(100% - 24px);
+
+padding-top: 25px;
+
+}
+
+/* TITRE */
+
+.payment-title {
+margin-bottom: 22px;
+}
+
+.payment-eyebrow {
+font-size: 9px;
+}
+
+.payment-title h1 {
+font-size: 26px;
+}
+
+.payment-title p {
+margin-top: 8px;
+
+font-size: 12px;
+
+}
+
+/* GRID */
+
+.payment-grid {
+display: flex;
+flex-direction: column;
+
+gap: 18px;
+
+}
+
+/* CARTES */
+
+.product-card,
+.payment-main > .payment-card:not(.product-card) {
+padding: 18px;
+
+border-radius: 15px;
+
+}
+
+.card-heading {
+gap: 10px;
+
+margin-bottom: 17px;
+
+}
+
+.heading-icon {
+width: 37px;
+height: 37px;
+
+border-radius: 10px;  
+
+font-size: 14px;
+
+}
+
+.card-heading h2 {
+font-size: 15px;
+}
+
+.card-heading p {
+font-size: 10px;
+}
+
+/* PRODUIT */
+
+.product-summary {
+grid-template-columns: 78px minmax(0, 1fr);
+
+gap: 13px;  
+
+padding: 12px;  
+
+border-radius: 12px;
+
+}
+
+.product-image-wrapper {
+width: 78px;
+height: 78px;
+
+border-radius: 11px;
+
+}
+
+.product-info h3 {
+margin-bottom: 10px;
+
+font-size: 15px;
+
+}
+
+.product-details {
+grid-template-columns: 1fr;
+
+gap: 7px;
+
+}
+
+.detail-item {
+gap: 2px;
+}
+
+.detail-item span {
+font-size: 9px;
+}
+
+.detail-item strong {
+font-size: 11px;
+}
+
+/* MÉTHODES */
+
+.payment-method {
+padding: 13px;
+
+gap: 11px;  
+
+border-radius: 12px;
+
+}
+
+.method-icon {
+width: 39px;
+height: 39px;
+
+border-radius: 10px;  
+
+font-size: 17px;
+
+}
+
+.method-title h3 {
+font-size: 12px;
+}
+
+.method-check {
+font-size: 14px;
+}
+
+.method-content p {
+font-size: 10px;
+}
+
+/* SÉCURITÉ */
+
+.payment-security {
+grid-template-columns: 1fr;
+}
+
+.security-item {
+padding: 13px;
+}
+
+/* SIDEBAR */
+
+.payment-sidebar {
+position: static;
+
+display: flex;  
+flex-direction: column;  
+
+gap: 15px;
+
+}
+
+/* TOTAL */
+
+.total-card {
+padding: 20px;
+}
+
+.total-header h2 {
+font-size: 16px;
+}
+
+.total-status {
+padding: 5px 8px;
+
+font-size: 9px;
+
+}
+
+.price-block {
+margin-top: 20px;
+}
+
+.price-block strong {
+font-size: 28px;
+}
+
+.price-block small {
+font-size: 12px;
+}
+
+.price-separator {
+margin: 18px 0;
+}
+
+.price-line {
+font-size: 11px;
+}
+
+.price-line strong {
+font-size: 11px;
+}
+
+.total-final strong {
+font-size: 18px;
+}
+
+/* BOUTON */
+
+.pay-btn {
+min-height: 50px;
+
+margin-top: 19px;  
+
+font-size: 12px;
+
+}
+
+/* INFORMATIONS */
+
+.order-info-card {
+padding: 18px;
+}
+
+.order-info-card h3 {
+font-size: 14px;
+}
+
+.order-info-row {
+padding: 10px 0;
+
+font-size: 10px;
+
+}
+
+.order-info-row strong {
+font-size: 10px;
+}
+}
 
 /* =========================================================
-   TRÈS PETIT MOBILE
-   ========================================================= */
+TRÈS PETIT MOBILE
+========================================================= */
 
 @media (max-width: 380px) {
 
-  .payment-content {
-    width: calc(100% - 18px);
-  }
+.payment-content {
+width: calc(100% - 18px);
+}
 
-  .payment-title h1 {
-    font-size: 23px;
-  }
+.payment-title h1 {
+font-size: 23px;
+}
 
-  .product-summary {
-    grid-template-columns: 65px minmax(0, 1fr);
+.product-summary {
+grid-template-columns: 65px minmax(0, 1fr);
 
-    gap: 10px;
-  }
+gap: 10px;
 
-  .product-image-wrapper {
-    width: 65px;
-    height: 65px;
-  }
+}
 
-  .product-info h3 {
-    font-size: 14px;
-  }
+.product-image-wrapper {
+width: 65px;
+height: 65px;
+}
 
-  .price-block strong {
-    font-size: 25px;
-  }
+.product-info h3 {
+font-size: 14px;
+}
 
-  .payment-method {
-    align-items: flex-start;
-  }
+.price-block strong {
+font-size: 25px;
+}
+
+.payment-method {
+align-items: flex-start;
+}
+}
+
+/* =========================================================
+SELLER PAYMENTS
+========================================================= */
+
+.payments-container {
+width: 100%;
+max-width: 1150px;
+margin: 0 auto;
+padding: 30px 20px 50px;
+box-sizing: border-box;
+}
+
+/* =========================
+TITRE
+========================= */
+
+.payments-container h1 {
+margin: 0 0 28px;
+font-size: 30px;
+font-weight: 700;
+color: #1f2937;
+letter-spacing: -0.5px;
+}
+
+/* =========================
+MESSAGE VIDE
+========================= */
+
+.payments-container > p {
+padding: 35px 20px;
+text-align: center;
+background: #ffffff;
+border: 1px solid #e5e7eb;
+border-radius: 16px;
+color: #6b7280;
+font-size: 15px;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+/* =========================
+LISTE DES PAIEMENTS
+========================= */
+
+.payments-container {
+display: block;
+}
+
+/* =========================
+CARTE PAIEMENT
+========================= */
+
+.payments-container .payment-card {
+display: flex;
+gap: 24px;
+width: 100%;
+margin-bottom: 20px;
+padding: 20px;
+box-sizing: border-box;
+
+background: #ffffff;
+border: 1px solid #e5e7eb;
+border-radius: 18px;
+
+box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+
+transition:
+transform 0.2s ease,
+box-shadow 0.2s ease,
+border-color 0.2s ease;
+}
+
+.payments-container .payment-card:hover {
+transform: translateY(-2px);
+border-color: #d1d5db;
+box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+}
+
+/* =========================
+IMAGE PRODUIT
+========================= */
+
+.payment-card > img {
+width: 180px;
+height: 180px;
+flex-shrink: 0;
+
+object-fit: cover;
+border-radius: 14px;
+
+background: #f3f4f6;
+border: 1px solid #e5e7eb;
+}
+
+/* =========================
+INFORMATIONS
+========================= */
+
+.payment-info {
+flex: 1;
+min-width: 0;
+}
+
+/* Nom du produit */
+
+.payment-info h3 {
+margin: 0 0 12px;
+
+font-size: 21px;
+font-weight: 700;
+
+color: #111827;
+}
+
+/* Paragraphes */
+
+.payment-info p {
+margin: 7px 0;
+
+color: #4b5563;
+font-size: 14px;
+line-height: 1.5;
+}
+
+.payment-info p strong {
+color: #1f2937;
+font-weight: 600;
+}
+
+/* =========================
+MONTANT
+========================= */
+
+.payment-info .payment-total {
+display: inline-flex;
+align-items: center;
+gap: 5px;
+
+margin-top: 15px;
+margin-bottom: 12px;
+padding: 9px 13px;
+
+background: #f0fdf4;
+border: 1px solid #bbf7d0;
+border-radius: 9px;
+
+color: #166534;
+font-size: 17px;
+font-weight: 700;
+}
+
+.payment-info .payment-total strong {
+color: #166534;
+}
+
+/* =========================
+STATUT
+========================= */
+
+.payment-info .paid,
+.payment-info .pending {
+display: inline-flex;
+align-items: center;
+
+width: fit-content;
+
+margin-top: 5px;
+padding: 7px 12px;
+
+border-radius: 999px;
+
+font-size: 13px;
+font-weight: 600;
+}
+
+.payment-info .paid {
+color: #166534;
+background: #dcfce7;
+border: 1px solid #bbf7d0;
+}
+
+.payment-info .pending {
+color: #92400e;
+background: #fef3c7;
+border: 1px solid #fde68a;
+}
+
+/* =========================
+INFORMATIONS SECONDAIRES
+========================= */
+
+.payment-info p:last-child {
+margin-top: 13px;
+padding-top: 12px;
+
+border-top: 1px solid #f0f0f0;
+
+color: #9ca3af;
+font-size: 13px;
+}
+
+/* =========================================================
+TABLETTE
+========================================================= */
+
+@media (max-width: 768px) {
+.payments-container {
+padding: 25px 15px 40px;
+}
+
+.payments-container h1 {
+font-size: 26px;
+margin-bottom: 22px;
+}
+
+.payments-container .payment-card {
+gap: 18px;
+padding: 16px;
+}
+
+.payment-card > img {
+width: 140px;
+height: 140px;
+}
+
+.payment-info h3 {
+font-size: 19px;
+}
+}
+
+/* =========================================================
+MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+.payments-container {
+padding: 20px 12px 35px;
+}
+
+.payments-container h1 {
+margin-bottom: 18px;
+font-size: 23px;
+}
+
+.payments-container .payment-card {
+display: block;
+padding: 14px;
+border-radius: 16px;
+}
+
+.payment-card > img {
+display: block;
+
+width: 100%;  
+height: 210px;  
+
+margin-bottom: 16px;  
+
+border-radius: 12px;
+
+}
+
+.payment-info h3 {
+margin-bottom: 13px;
+font-size: 19px;
+}
+
+.payment-info p {
+font-size: 14px;
+}
+
+.payment-info .payment-total {
+font-size: 16px;
+}
+}
+
+/* =========================================================
+PETIT MOBILE
+========================================================= */
+
+@media (max-width: 380px) {
+.payments-container {
+padding-left: 10px;
+padding-right: 10px;
+}
+
+.payments-container .payment-card {
+padding: 12px;
+}
+
+.payment-card > img {
+height: 180px;
+}
+
+.payment-info h3 {
+font-size: 18px;
+}
+
+.payment-info p {
+font-size: 13px;
+}
 }

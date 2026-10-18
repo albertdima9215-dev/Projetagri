@@ -654,94 +654,6 @@
 }
 
 /* =========================================================
-   DARK MODE
-   ========================================================= */
-
-body.dark-mode .product-info {
-  background: #1b211c;
-  border-color: #303830;
-  color: #eeeeee;
-}
-
-body.dark-mode .product-info h1,
-body.dark-mode .product-info > p strong,
-body.dark-mode .seller-section h3,
-body.dark-mode .reviews-section h2,
-body.dark-mode .review-card h3 {
-  color: #f1f5f1;
-}
-
-body.dark-mode .product-info > p {
-  color: #c5ccc5;
-  border-color: #303830;
-}
-
-body.dark-mode .seller-section {
-  background: #202820;
-  border-color: #343d34;
-}
-
-body.dark-mode .seller-section p {
-  color: #c5ccc5;
-}
-
-body.dark-mode .review-card {
-  background: #1b211c;
-  border-color: #303830;
-}
-
-body.dark-mode .review-card p {
-  color: #c5ccc5;
-}
-
-body.dark-mode .order-content {
-  background: #1b211c;
-  color: #eeeeee;
-}
-
-body.dark-mode .order-product,
-body.dark-mode .order-price,
-body.dark-mode .order-sale-type,
-body.dark-mode .order-label {
-  color: #eeeeee;
-}
-
-body.dark-mode .quantity-control {
-  background: #202820;
-}
-
-body.dark-mode .quantity-input {
-  background: #202820;
-  color: #ffffff;
-}
-
-body.dark-mode .quantity-btn {
-  background: #293329;
-}
-
-body.dark-mode .selected-quantity-box {
-  background: #202820;
-  border-color: #3c6940;
-}
-
-body.dark-mode .selected-quantity-box p {
-  color: #ddd;
-}
-
-body.dark-mode .quantity-limit {
-  color: #aeb6ae;
-}
-
-body.dark-mode .cancel-command-btn {
-  background: #303630;
-  color: #eeeeee;
-}
-
-body.dark-mode .main-image {
-  background: #202620;
-}
-
-/* =========================================================
    TABLETTE
    ========================================================= */
 
@@ -1012,4 +924,318 @@ body.dark-mode .main-image {
   .product-info h2 {
     font-size: 21px;
   }
+}
+
+
+/* =========================================================
+   MODE SOMBRE — PRODUCT DETAILS AGRICONNECT
+   ========================================================= */
+
+/* Conteneur principal */
+body.dark .producstDetails {
+  color: #e5e7eb;
+}
+
+/* =========================================================
+   GALERIE PRODUIT
+   ========================================================= */
+
+body.dark .producstDetails .product-details .main-image {
+  background: #202a22;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .thumbnails img {
+  background: #202a22;
+  border-color: transparent;
+}
+
+body.dark .thumbnails img.active {
+  border-color: #81c784;
+  box-shadow: 0 4px 12px rgba(129, 199, 132, 0.2);
+}
+
+/* =========================================================
+   INFORMATIONS PRODUIT
+   ========================================================= */
+
+body.dark .product-info {
+  background: #19231c;
+  border-color: #2e4032;
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .product-info h1 {
+  color: #e5eee6;
+}
+
+body.dark .product-info h2 {
+  color: #81c784;
+}
+
+body.dark .product-info > p {
+  color: #c2cdc4;
+  border-bottom-color: #2e3b30;
+}
+
+body.dark .product-info > p strong {
+  color: #e5eee6;
+}
+
+/* Type de vente */
+body.dark .product-info .sale-type,
+body.dark .producstDetails .sale-type {
+  background: #243d29;
+  color: #a5d6a7;
+  border: 1px solid #36573b;
+}
+
+/* =========================================================
+   STOCK
+   ========================================================= */
+
+body.dark .out-of-stock {
+  background: #3b2022;
+  border-color: #713438;
+  color: #fca5a5;
+}
+
+body.dark .stock-available {
+  background: #203b27;
+  color: #a5d6a7;
+}
+
+/* =========================================================
+   VENDEUR
+   ========================================================= */
+
+body.dark .seller-section {
+  background: #151e17;
+  border-color: #2e4032;
+}
+
+body.dark .seller-section h3 {
+  color: #e0e9e1;
+}
+
+body.dark .link-nom-vendeur {
+  color: #81c784;
+}
+
+body.dark .link-nom-vendeur:hover {
+  color: #a5d6a7;
+}
+
+body.dark .seller-section p {
+  color: #b8c4ba;
+}
+
+/* =========================================================
+   BOUTONS CONTACT ET COMMANDE
+   ========================================================= */
+
+body.dark .message-btn {
+  background: #388e3c;
+  color: #ffffff;
+}
+
+body.dark .message-btn:hover {
+  background: #43a047;
+}
+
+body.dark .whatsapp-contact-btn {
+  background: #20bd5a;
+  color: #ffffff;
+}
+
+body.dark .whatsapp-contact-btn:hover {
+  background: #1da851;
+}
+
+body.dark .order-btn {
+  background: #374151;
+  color: #ffffff;
+}
+
+body.dark .order-btn:hover {
+  background: #4b5563;
+}
+
+/* =========================================================
+   AVIS CLIENTS
+   ========================================================= */
+
+body.dark .reviews-section h2 {
+  color: #e5eee6;
+}
+
+body.dark .review-card {
+  background: #19231c;
+  border-color: #2e4032;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+body.dark .review-card:hover {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .review-card h3 {
+  color: #e5eee6;
+}
+
+body.dark .review-card p {
+  color: #c2cdc4;
+}
+
+body.dark .review-rating {
+  color: #fbbf24;
+}
+
+body.dark .review-date {
+  color: #9ca89e;
+}
+
+/* =========================================================
+   MODALE DE COMMANDE
+   ========================================================= */
+
+body.dark .order-modal {
+  background: rgba(5, 10, 6, 0.82);
+}
+
+body.dark .order-content {
+  background: #19231c;
+  border: 1px solid #344737;
+  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
+}
+
+/* Titre */
+body.dark .order-title {
+  color: #81c784;
+}
+
+/* Informations du produit commandé */
+body.dark .order-product,
+body.dark .order-price,
+body.dark .order-sale-type {
+  color: #c7d1c9;
+}
+
+body.dark .order-product strong,
+body.dark .order-price strong {
+  color: #e5eee6;
+}
+
+body.dark .order-sale-type strong {
+  color: #81c784;
+}
+
+/* Label quantité */
+body.dark .order-label {
+  color: #e0e9e1;
+}
+
+/* =========================================================
+   CONTRÔLE DE QUANTITÉ
+   ========================================================= */
+
+body.dark .quantity-control {
+  background: #111a14;
+  border-color: #66bb6a;
+}
+
+body.dark .quantity-btn {
+  background: #243d29;
+  color: #a5d6a7;
+}
+
+body.dark .quantity-btn:hover:not(:disabled) {
+  background: #315438;
+}
+
+body.dark .quantity-btn:disabled {
+  color: #738075;
+}
+
+body.dark .quantity-input {
+  background: #111a14;
+  color: #f3f4f6;
+  caret-color: #81c784;
+}
+
+/* Limite du stock */
+body.dark .quantity-limit {
+  color: #aab6ac;
+}
+
+/* =========================================================
+   QUANTITÉ SÉLECTIONNÉE
+   ========================================================= */
+
+body.dark .selected-quantity-box {
+  background: #1b2d20;
+  border-color: #36573b;
+}
+
+body.dark .selected-quantity-icon {
+  background: #294a30;
+}
+
+body.dark .selected-quantity-box p {
+  color: #c7d1c9;
+}
+
+body.dark .selected-quantity-box strong {
+  color: #a5d6a7;
+}
+
+body.dark .selected-quantity-box small {
+  color: #aab6ac;
+}
+
+/* =========================================================
+   TOTAL DE LA COMMANDE
+   ========================================================= */
+
+body.dark .order-total {
+  background: #243d29;
+  color: #a5d6a7;
+}
+
+/* =========================================================
+   BOUTONS DE LA MODALE
+   ========================================================= */
+
+body.dark .confirm-order-btn {
+  background: #388e3c;
+  color: #ffffff;
+}
+
+body.dark .confirm-order-btn:hover {
+  background: #43a047;
+}
+
+body.dark .cancel-command-btn {
+  background: #303a32;
+  color: #e0e9e1;
+}
+
+body.dark .cancel-command-btn:hover {
+  background: #3c493e;
+}
+
+/* =========================================================
+   TRANSITIONS DOUCES
+   ========================================================= */
+
+body.dark .product-info,
+body.dark .seller-section,
+body.dark .review-card,
+body.dark .order-content,
+body.dark .selected-quantity-box,
+body.dark .order-total {
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
 }

@@ -551,6 +551,188 @@
 
   .view-product-btn,
   .favorite-actions .remove-btn {
-    width: 45%;
+    width: 100%;
+    box-sizing: border-box;
   }
+}
+
+
+/* =========================================================
+   MODE SOMBRE — FAVORITES AGRICONNECT
+   ========================================================= */
+
+/* Conteneur principal */
+body.dark .favorites {
+  color: #e5e7eb;
+  transition: color 0.3s ease;
+}
+
+/* Titre */
+body.dark .favorites h1 {
+  color: #81c784;
+}
+
+/* =========================================================
+   CARTES FAVORIS
+   ========================================================= */
+
+body.dark .favorite-card {
+  background: #19231c;
+  border-color: #2e4032;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+body.dark .favorite-card:hover {
+  background: #1e2b21;
+  border-color: #476b4b;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+/* Images */
+body.dark .favorite-image {
+  background: #202a22;
+}
+
+/* Conserve le léger effet de profondeur sur les images */
+body.dark .favorite-image::after {
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.02),
+    rgba(0, 0, 0, 0.2)
+  );
+}
+
+/* =========================================================
+   BOUTON FAVORI SUR L'IMAGE
+   ========================================================= */
+
+body.dark .remove-favorite {
+  background: rgba(28, 39, 30, 0.96);
+  color: #ff7777;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+body.dark .remove-favorite:hover {
+  background: #e53935;
+  color: #ffffff;
+}
+
+/* =========================================================
+   INFORMATIONS DU PRODUIT
+   ========================================================= */
+
+body.dark .favorite-info h3 {
+  color: #e5eee6;
+}
+
+/* Type de vente */
+body.dark .favorite-info .sale-type {
+  background: #243d29;
+  color: #a5d6a7;
+  border-color: #36573b;
+}
+
+/* Prix */
+body.dark .favorite-price {
+  color: #81c784;
+}
+
+/* Stock */
+body.dark .favorite-stock {
+  color: #c0cbc2;
+}
+
+/* Localisation */
+body.dark .favorite-location {
+  color: #aab6ac;
+}
+
+/* =========================================================
+   BOUTONS D'ACTION
+   ========================================================= */
+
+/* Voir le produit */
+body.dark .view-product-btn {
+  background: #388e3c;
+  color: #ffffff;
+}
+
+body.dark .view-product-btn:hover {
+  background: #43a047;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Supprimer des favoris */
+body.dark .favorite-actions .remove-btn {
+  background: #352123;
+  color: #ff9999;
+  border-color: #633438;
+}
+
+body.dark .favorite-actions .remove-btn:hover {
+  background: #e53935;
+  color: #ffffff;
+  border-color: #e53935;
+}
+
+/* =========================================================
+   ÉTAT VIDE : AUCUN FAVORI
+   ========================================================= */
+
+body.dark .empty-favorites {
+  background: linear-gradient(
+    145deg,
+    #17211a,
+    #1c2a20
+  );
+  border-color: #405844;
+}
+
+body.dark .empty-favorites > svg {
+  color: #718b76;
+}
+
+body.dark .empty-favorites h2 {
+  color: #e0e9e1;
+}
+
+body.dark .empty-favorites p {
+  color: #b2beb4;
+}
+
+body.dark .empty-favorites a {
+  background: #388e3c;
+  color: #ffffff;
+}
+
+body.dark .empty-favorites a:hover {
+  background: #43a047;
+}
+
+/* =========================================================
+   BADGE DU NOMBRE DE FAVORIS
+   ========================================================= */
+
+body.dark .favorite-badge {
+  background: #e53935;
+  color: #ffffff;
+  border-color: #19231c;
+}
+
+/* =========================================================
+   TRANSITIONS DOUCES
+   ========================================================= */
+
+body.dark .favorite-info h3,
+body.dark .favorite-price,
+body.dark .favorite-stock,
+body.dark .favorite-location,
+body.dark .empty-favorites h2,
+body.dark .empty-favorites p {
+  transition: color 0.3s ease;
 }

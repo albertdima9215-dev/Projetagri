@@ -256,39 +256,6 @@
   line-height: 1.5;
 }
 
-/* =========================================
-   MODE SOMBRE
-========================================= */
-
-body.dark-mode .stats-section {
-  background: #111712;
-}
-
-body.dark-mode .stats-section::before,
-body.dark-mode .stats-section::after {
-  background: rgba(76, 175, 80, 0.08);
-}
-
-body.dark-mode .stats-section h2 {
-  color: #66bb6a;
-}
-
-body.dark-mode .stat-box {
-  background: #1f6b2a;
-
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.3),
-    0 15px 35px rgba(0, 0, 0, 0.2);
-}
-
-body.dark-mode .stat-box h3 {
-  background: rgba(255, 255, 255, 0.12);
-}
-
-/* =========================================
-   TABLETTE
-========================================= */
-
 @media (max-width: 1000px) {
 
   .stats-section {

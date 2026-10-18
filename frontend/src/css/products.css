@@ -29,9 +29,7 @@
   background: #2e7d32;
 }
 
-/* =========================================================
-   FILTRES
-   ========================================================= */
+/* FILTRES */
 
 .filters {
   display: grid;
@@ -756,10 +754,6 @@ body.dark .filters select option {
   color: #e5e7eb;
 }
 
-/* =========================================================
-   COMPTEUR DES RÉSULTATS
-   ========================================================= */
-
 body.dark .results-count {
   color: #c1cdc3;
 }
@@ -767,10 +761,6 @@ body.dark .results-count {
 body.dark .results-count::before {
   background: #66bb6a;
 }
-
-/* =========================================================
-   BOUTON RÉINITIALISER
-   ========================================================= */
 
 body.dark .reset-filters {
   background: #388e3c;

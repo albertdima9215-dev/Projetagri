@@ -1091,3 +1091,346 @@
     width: 100%;
   }
 }
+
+
+/* =========================================================
+   MODE SOMBRE — MYORDERS / AGRICONNECT
+   Utilise body.dark
+   ========================================================= */
+
+/* CONTENEUR PRINCIPAL */
+body.dark .orders-container {
+  color: #e5e7eb;
+}
+
+body.dark .orders-container h1 {
+  color: #e5eee6;
+}
+
+body.dark .orders-container > p {
+  color: #aebbb1;
+}
+
+/* CARTES DE COMMANDE */
+body.dark .order-card {
+  background: #1b261e;
+  border-color: #344737;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .order-card:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* IMAGES */
+body.dark .order-card > img {
+  background: #273329;
+}
+
+/* INFORMATIONS */
+body.dark .order-card-infos h3,
+body.dark .order-info h3 {
+  color: #e5eee6;
+}
+
+body.dark .order-card-infos p,
+body.dark .order-info p {
+  color: #c2cdc4;
+}
+
+body.dark .order-card-infos strong,
+body.dark .order-info strong {
+  color: #e5eee6;
+}
+
+body.dark .order-card-infos > p:last-of-type {
+  color: #c2cdc4;
+}
+
+/* MONTANT TOTAL */
+body.dark .order-total {
+  background: #203b27;
+  border-left-color: #66bb6a;
+  color: #a5d6a7 !important;
+}
+
+body.dark .order-total strong {
+  color: #a5d6a7 !important;
+}
+
+/* STATUT GÉNÉRAL */
+body.dark .status {
+  background: #303a32;
+  color: #d1d5db !important;
+}
+
+/* PAIEMENT */
+body.dark .payment-paid {
+  color: #86efac !important;
+}
+
+body.dark .payment-pending {
+  color: #fcd34d !important;
+}
+
+/* PROGRESSION DE COMMANDE */
+body.dark .order-progress::before {
+  background: #3b473d;
+}
+
+body.dark .order-progress .step span {
+  background: #374239;
+  color: #c0cbc2;
+  border-color: #1b261e;
+  box-shadow: 0 2px 7px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .order-progress .step p {
+  color: #9ca89e !important;
+}
+
+body.dark .order-progress .step.active span {
+  background: #388e3c;
+  color: #fff;
+  box-shadow: 0 0 0 4px rgba(102, 187, 106, 0.15);
+}
+
+body.dark .order-progress .step.active p {
+  color: #81c784 !important;
+}
+
+/* LIEN VERS LES ARCHIVES */
+body.dark .orders-container .archive-link {
+  background: #455a64;
+  color: #fff;
+}
+
+body.dark .orders-container .archive-link:hover {
+  background: #546e7a;
+}
+
+/* BOUTONS DE COMMANDE */
+body.dark .order-card .order-btns a {
+  background: #388e3c;
+  color: #fff;
+}
+
+body.dark .order-card .order-btns a:hover {
+  background: #43a047;
+}
+
+/* BOUTONS DE PAIEMENT */
+body.dark .order-card .order-btns .pay-order-btn,
+body.dark .order-card .order-btns .pay-now-btn {
+  background: #16a34a;
+  color: #fff;
+}
+
+body.dark .order-card .order-btns .pay-order-btn:hover,
+body.dark .order-card .order-btns .pay-now-btn:hover {
+  background: #15803d;
+}
+
+/* FACTURE */
+body.dark .order-card .downloadBtn {
+  background: #455a64;
+  color: #fff;
+}
+
+body.dark .order-card .downloadBtn:hover {
+  background: #546e7a;
+}
+
+/* AVIS */
+body.dark .order-card .review-btn {
+  background: #374151;
+  color: #fff;
+}
+
+body.dark .order-card .review-btn:hover {
+  background: #4b5563;
+}
+
+/* ARCHIVER */
+body.dark .orders-container .archive-btn {
+  background: #546e7a;
+  color: #fff;
+}
+
+body.dark .orders-container .archive-btn:hover {
+  background: #455a64;
+}
+
+/* ANNULER */
+body.dark .order-card .cancel-order-btn {
+  background: #dc2626;
+  color: #fff;
+}
+
+body.dark .order-card .cancel-order-btn:hover {
+  background: #b91c1c;
+}
+
+/* FILTRES */
+body.dark .orders-filters input,
+body.dark .orders-filters select {
+  background: #202b23;
+  color: #e5eee6;
+  border-color: #465649;
+}
+
+body.dark .orders-filters input::placeholder {
+  color: #9ca89e;
+}
+
+body.dark .orders-filters input:focus,
+body.dark .orders-filters select:focus {
+  border-color: #81c784;
+  box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.12);
+}
+
+body.dark .orders-filters select option,
+body.dark .order-info select option {
+  background: #202b23;
+  color: #e5eee6;
+}
+
+/* INPUTS VENDEUR */
+body.dark .order-info input,
+body.dark .order-info select {
+  background: #202b23;
+  color: #e5eee6;
+  border-color: #465649;
+}
+
+body.dark .order-info input::placeholder {
+  color: #9ca89e;
+}
+
+body.dark .order-info input:focus,
+body.dark .order-info select:focus {
+  border-color: #81c784;
+  box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.12);
+}
+
+/* ACTIONS RAPIDES VENDEUR */
+body.dark .quick-btn {
+  color: #fff;
+  filter: brightness(0.95);
+}
+
+body.dark .quick-btn:hover {
+  filter: brightness(1.1);
+}
+
+/* BADGES DE STATUT VENDEUR */
+/* Les couleurs restent distinctes pour identifier chaque étape. */
+body.dark .status-badge.En-attente {
+  background: #b77908;
+  color: #fff;
+}
+
+body.dark .status-badge.Confirmée {
+  background: #2563eb;
+  color: #fff;
+}
+
+body.dark .status-badge.Expédiée {
+  background: #9333ea;
+  color: #fff;
+}
+
+body.dark .status-badge.Livrée {
+  background: #15803d;
+  color: #fff;
+}
+
+body.dark .status-badge.Annulée {
+  background: #dc2626;
+  color: #fff;
+}
+
+/* STATUT FINAL */
+body.dark .final-status {
+  background: #203b27;
+  color: #a5d6a7 !important;
+}
+
+/* MODAL AVIS */
+body.dark .modal-overlay {
+  background: rgba(0, 0, 0, 0.78);
+}
+
+body.dark .review-modal {
+  background: #1b261e;
+  border: 1px solid #344737;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+body.dark .review-modal h2 {
+  color: #e5eee6;
+}
+
+body.dark .review-modal label {
+  color: #d1d5db;
+}
+
+body.dark .review-modal .star {
+  color: #58635a;
+}
+
+body.dark .review-modal .star.active {
+  color: #fbbf24;
+}
+
+body.dark .review-modal textarea {
+  background: #202b23;
+  color: #e5eee6;
+  border-color: #465649;
+}
+
+body.dark .review-modal textarea::placeholder {
+  color: #9ca89e;
+}
+
+body.dark .review-modal textarea:focus {
+  border-color: #81c784;
+  box-shadow: 0 0 0 3px rgba(129, 199, 132, 0.12);
+}
+
+body.dark .modal-buttons button {
+  color: #e5eee6;
+}
+
+body.dark .modal-buttons button:last-child {
+  background: #388e3c;
+  color: #fff;
+}
+
+/* ONGLETS DES ARCHIVES */
+body.dark .archive-tabs button {
+  background: #303a32;
+  color: #d1d5db;
+}
+
+body.dark .archive-tabs button.active {
+  background: #388e3c;
+  color: #fff;
+}
+
+/* TRANSITIONS */
+body.dark .order-card,
+body.dark .order-total,
+body.dark .orders-filters input,
+body.dark .orders-filters select,
+body.dark .order-info input,
+body.dark .order-info select,
+body.dark .review-modal,
+body.dark .review-modal textarea,
+body.dark .archive-tabs button {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease;
+}

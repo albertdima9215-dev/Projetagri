@@ -926,3 +926,301 @@
   }
 
 }
+
+
+/* =========================================================
+   AGRICONNECT — DASHBOARD MODE SOMBRE
+   ========================================================= */
+
+body.dark .dashboard {
+  color: #e5e7eb;
+}
+
+/* TITRE */
+
+body.dark .dashboard > h1 {
+  color: #86d98b;
+}
+
+/* CARTES STATISTIQUES */
+
+body.dark .stats-grid .stat-card,
+body.dark .stats .stat-card {
+  background: #1e2922;
+  border-color: #344339;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.2);
+}
+
+body.dark .stats-grid .stat-card:hover,
+body.dark .stats .stat-card:hover {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .stats-grid .stat-card h3 {
+  color: #b8c8bb;
+}
+
+body.dark .stats-grid .stat-card h3 svg {
+  color: #86d98b;
+}
+
+body.dark .stats-grid .stat-card p {
+  color: #86d98b;
+}
+
+body.dark .stats-grid .stat-card small {
+  color: #9aa99d;
+}
+
+/* STATISTIQUES PRODUITS */
+
+body.dark .stats .stat-card h2 {
+  background: #293e2e;
+  color: #86d98b;
+}
+
+body.dark .stats .stat-card h3 {
+  color: #86d98b;
+}
+
+body.dark .stats .stat-card p {
+  color: #b4c0b6;
+}
+
+/* GRAPHIQUE */
+
+body.dark .chart-card {
+  background: #1e2922;
+  border-color: #344339;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+body.dark .chart-card h2 {
+  color: #86d98b;
+}
+
+body.dark .chart-card h2 svg {
+  color: #86d98b;
+}
+
+/* AVIS */
+
+body.dark .reviews-card {
+  background: #1e2922;
+  border-color: #344339;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+body.dark .reviews-card h2 {
+  color: #86d98b;
+}
+
+body.dark .review-item {
+  border-bottom-color: #344339;
+}
+
+body.dark .review-header strong {
+  color: #e5e7eb;
+}
+
+body.dark .review-header span {
+  color: #ffc857;
+}
+
+body.dark .review-item p {
+  color: #c0cbc2;
+}
+
+body.dark .review-item small {
+  color: #96a399;
+}
+
+/* CARTES PRODUITS */
+
+body.dark .dashboard-card {
+  background: #1e2922;
+  border-color: #344339;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.22);
+}
+
+body.dark .dashboard-card:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.32);
+}
+
+body.dark .dashboard-card img {
+  background: #26332a;
+}
+
+body.dark .dashboard-card h3 {
+  color: #e5e7eb;
+}
+
+body.dark .dashboard-card p {
+  color: #bdc8bf;
+}
+
+body.dark .dashboard-card p strong {
+  color: #e0e8e1;
+}
+
+body.dark .dashboard-card .badge {
+  background: #293e2e;
+  color: #9be5a0;
+}
+
+/* BOUTONS PRODUITS */
+
+body.dark .actions .btn-modifier {
+  background: #293e2e;
+  color: #9be5a0;
+}
+
+body.dark .actions .btn-modifier:hover {
+  background: #2e7d32;
+  color: #fff;
+}
+
+body.dark .actions button:not(.btn-modifier) {
+  background: #422727;
+  color: #ff9999;
+}
+
+body.dark .actions button:not(.btn-modifier):hover {
+  background: #b83232;
+  color: #fff;
+}
+
+/* FORMULAIRE DE MODIFICATION */
+
+body.dark .edit-form {
+  background: #1e2922;
+  border-color: #344339;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .edit-form h2 {
+  color: #86d98b;
+  border-bottom-color: #344339;
+}
+
+/* LABELS */
+
+body.dark .edit-form label {
+  color: #d0dbd2;
+}
+
+/* CHAMPS DU FORMULAIRE */
+
+body.dark .edit-form input,
+body.dark .edit-form textarea,
+body.dark .edit-form select {
+  background: #151e18;
+  border-color: #3c4c40;
+  color: #e5e7eb;
+}
+
+body.dark .edit-form input:focus,
+body.dark .edit-form textarea:focus,
+body.dark .edit-form select:focus {
+  background: #18231b;
+  border-color: #66bb6a;
+  box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.15);
+}
+
+body.dark .edit-form input::placeholder,
+body.dark .edit-form textarea::placeholder {
+  color: #89978c;
+}
+
+body.dark .edit-form input:disabled,
+body.dark .edit-form textarea:disabled,
+body.dark .edit-form select:disabled {
+  background: #202b23;
+  color: #8d9b90;
+  cursor: not-allowed;
+}
+
+/* SECTION LOT */
+
+body.dark .lot-section {
+  background: #19251d;
+  border-color: #344339;
+}
+
+body.dark .lot-preview {
+  color: #b5c8b8;
+}
+
+body.dark .lot-preview strong {
+  color: #86d98b;
+}
+
+/* GROUPE PRIX */
+
+body.dark .price-group span {
+  background: #293e2e;
+  border-color: #3c5741;
+  border-left: none;
+  color: #9be5a0;
+}
+
+body.dark .price-preview {
+  background: #203326;
+  border-left-color: #66bb6a;
+  color: #b5c8b8;
+}
+
+body.dark .price-preview strong {
+  color: #9be5a0;
+}
+
+/* APERÇU DES IMAGES */
+
+body.dark .preview-item {
+  background: #202b23;
+  border-color: #3c4c40;
+}
+
+body.dark .preview-item span {
+  background: #26332a;
+  color: #c0cbc2;
+}
+
+/* BOUTONS DU FORMULAIRE */
+
+body.dark .edit-actions button[type="submit"] {
+  background: #2e7d32;
+  color: #fff;
+}
+
+body.dark .edit-actions button[type="submit"]:hover {
+  background: #256628;
+}
+
+body.dark .edit-actions button[type="button"] {
+  background: #354139;
+  color: #e0e7e1;
+}
+
+body.dark .edit-actions button[type="button"]:hover {
+  background: #435247;
+}
+
+/* MESSAGE AUCUN PRODUIT */
+
+body.dark .dashboard > p {
+  background: #1e2922;
+  border-color: #435648;
+  color: #b7c4b9;
+}
+
+/* TRANSITIONS ET FOCUS CLAVIER */
+
+body.dark .dashboard > a:focus-visible,
+body.dark .actions button:focus-visible,
+body.dark .edit-actions button:focus-visible {
+  outline: 2px solid #86d98b;
+  outline-offset: 3px;
+}
+
+/* PETITS ÉCRANS : conserver les adaptations existantes */
