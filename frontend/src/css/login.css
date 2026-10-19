@@ -62,3 +62,83 @@
   text-decoration: underline;
 }
 
+
+/* =====================================================
+   AGRICONNECT — LOGIN MODE SOMBRE
+===================================================== */
+
+/* CONTENEUR PRINCIPAL */
+
+body.dark .login {
+  color: #e5e7eb;
+}
+
+/* CARTE DE CONNEXION */
+
+body.dark .login-form {
+  background: #1e2922;
+  border: 1px solid #344339;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* TITRE */
+
+body.dark .login-form h2 {
+  color: #86d98b;
+}
+
+/* CHAMPS DE SAISIE */
+
+body.dark .login-form input {
+  background: #151e18;
+  color: #e5e7eb;
+  border: 1px solid #3c4c40;
+}
+
+/* PLACEHOLDERS */
+
+body.dark .login-form input::placeholder {
+  color: #9aa99d;
+  opacity: 1;
+}
+
+/* FOCUS DES CHAMPS */
+
+body.dark .login-form input:focus {
+  outline: none;
+  border-color: #66bb6a;
+  box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.15);
+}
+
+/* BOUTON DE CONNEXION */
+
+body.dark .login-form button {
+  background: #2e7d32;
+  color: #fff;
+}
+
+body.dark .login-form button:hover {
+  background: #388e3c;
+}
+
+/* MOT DE PASSE OUBLIÉ */
+
+body.dark .forgot-password button {
+  background: transparent;
+  color: #86d98b;
+}
+
+body.dark .forgot-password button:hover {
+  color: #a5e6a9;
+  text-decoration: underline;
+}
+
+/* ACCESSIBILITÉ */
+
+body.dark .login-form input:focus-visible,
+body.dark .login-form button:focus-visible,
+body.dark .forgot-password button:focus-visible {
+  outline: 2px solid #86d98b;
+  outline-offset: 3px;
+}

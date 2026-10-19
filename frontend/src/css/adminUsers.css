@@ -99,3 +99,105 @@
     justify-content:flex-start;
 }
 }
+
+
+/* ==================================================
+   MODE SOMBRE — ADMIN USERS
+================================================== */
+
+body.dark .admin-users {
+  color: #e5e7eb;
+}
+
+/* TITRE */
+
+body.dark .admin-users h1 {
+  color: #86efac;
+}
+
+/* TABLEAU */
+
+body.dark .admin-users table {
+  background: #1e2922;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+/* EN-TÊTE */
+
+body.dark .admin-users thead {
+  background: #245c32;
+  color: #ffffff;
+}
+
+body.dark .admin-users th {
+  color: #f3f4f6;
+  border-bottom-color: #3b4b40;
+}
+
+/* CELLULES */
+
+body.dark .admin-users td {
+  color: #d1d5db;
+  border-bottom-color: #344339;
+}
+
+/* SURVOL DES LIGNES */
+
+body.dark .admin-users tbody tr:hover {
+  background: #26372b;
+}
+
+/* BOUTON MODIFIER */
+
+body.dark .admin-users button:first-child {
+  background: #1976d2;
+  color: #ffffff;
+}
+
+body.dark .admin-users button:first-child:hover {
+  background: #1565c0;
+}
+
+/* BOUTON SUPPRIMER */
+
+body.dark .admin-users button:last-child {
+  background: #c62828;
+  color: #ffffff;
+}
+
+body.dark .admin-users button:last-child:hover {
+  background: #b71c1c;
+}
+
+/* FOCUS CLAVIER */
+
+body.dark .admin-users button:focus-visible {
+  outline: 2px solid #86efac;
+  outline-offset: 3px;
+}
+
+/* ==================================================
+   VERSION MOBILE
+================================================== */
+
+@media (max-width: 768px) {
+
+  body.dark .admin-users tr {
+    background: #1e2922;
+    border: 1px solid #344339;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  body.dark .admin-users td {
+    color: #d1d5db;
+    border-bottom-color: #344339;
+  }
+
+  body.dark .admin-users tbody tr:hover {
+    background: #26372b;
+  }
+
+  body.dark .admin-users td:last-child {
+    border-bottom: none;
+  }
+}

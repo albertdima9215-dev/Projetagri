@@ -21,3 +21,51 @@
     color:white;
     border-color:#2e7d32;
 }
+
+
+/* ================================
+   MODE SOMBRE — SellersMap
+================================ */
+
+body.dark .radius-filter {
+    background: #1e1e1e;
+    border: 1px solid #333;
+    color: #f1f1f1;
+}
+
+body.dark .radius-filter button {
+    background: #2a2a2a;
+    color: #e0e0e0;
+    border: 1px solid #444;
+    transition: background 0.2s ease, color 0.2s ease,
+                border-color 0.2s ease;
+}
+
+body.dark .radius-filter button:hover {
+    background: #353535;
+    border-color: #2e7d32;
+}
+
+body.dark .radius-filter button.active {
+    background: #2e7d32;
+    color: #ffffff;
+    border-color: #2e7d32;
+}
+
+body.dark .radius-filter button:focus-visible {
+    outline: 2px solid #66bb6a;
+    outline-offset: 3px;
+}
+
+/* Adaptation mobile */
+@media (max-width: 600px) {
+    body.dark .radius-filter {
+        gap: 8px;
+        flex-wrap: wrap;
+        padding: 12px;
+    }
+
+    body.dark .radius-filter button {
+        padding: 9px 13px;
+    }
+}

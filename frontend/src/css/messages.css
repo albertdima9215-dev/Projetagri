@@ -925,3 +925,245 @@
     font-size: 13px;
   }
 }
+
+
+/* =========================================================
+   AGRICONNECT — MESSAGERIE : MODE SOMBRE
+========================================================= */
+
+body.dark .messages-page {
+  background: #121a14;
+  color: #e4e9e5;
+}
+
+/* =========================================================
+   CONVERSATIONS
+========================================================= */
+
+body.dark .conversations {
+  background: #1a211c;
+  border-right-color: #303a32;
+}
+
+body.dark .conversations-header {
+  border-bottom-color: #303a32;
+}
+
+body.dark .conversations-header h2 {
+  color: #f1f5f1;
+}
+
+body.dark .conversations-header p {
+  color: #a5b1a7;
+}
+
+body.dark .conversation {
+  background: #1a211c;
+  border-bottom-color: #2c352e;
+  color: #e4e9e5;
+}
+
+body.dark .conversation:hover {
+  background: #252f27;
+}
+
+body.dark .conversation.active {
+  background: #243b29;
+  border-left-color: #4caf50;
+}
+
+body.dark .conversation-info strong {
+  color: #edf3ee;
+}
+
+body.dark .conversation-info p {
+  color: #a5b1a7;
+}
+
+/* Avatars */
+
+body.dark .conversation-avatar,
+body.dark .chat-user-avatar {
+  background: #2e7d32;
+  color: #ffffff;
+}
+
+/* =========================================================
+   CHAT ET EN-TÊTE
+========================================================= */
+
+body.dark .chat {
+  background: #121a14;
+}
+
+body.dark .chat-header {
+  background: #1a211c;
+  border-bottom-color: #303a32;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+body.dark .chat-user-info h2 {
+  color: #f1f5f1;
+}
+
+body.dark .online-status {
+  color: #81c784;
+}
+
+body.dark .mobile-back-btn {
+  color: #81c784;
+}
+
+/* =========================================================
+   LISTE ET BULLES DE MESSAGES
+========================================================= */
+
+body.dark .messages-list {
+  background: #121a14;
+}
+
+body.dark .message-row.received .message {
+  background: #252e27;
+  color: #e8eee9;
+}
+
+body.dark .message-row.received .message strong {
+  color: #81c784;
+}
+
+body.dark .message-row.mine .message {
+  background: #2e7d32;
+  color: #ffffff;
+}
+
+body.dark .message-row.mine .message strong {
+  color: #d9f2dc;
+}
+
+body.dark .message small {
+  color: inherit;
+}
+
+/* =========================================================
+   FORMULAIRE D'ENVOI
+========================================================= */
+
+body.dark .messages-page .message-form {
+  background: #1a211c;
+  border-top-color: #303a32;
+}
+
+body.dark .messages-page .message-form input {
+  background: #252e27;
+  color: #f1f5f1;
+  border-color: #414c43;
+}
+
+body.dark .messages-page .message-form input::placeholder {
+  color: #a5b1a7;
+}
+
+body.dark .messages-page .message-form input:focus {
+  background: #202922;
+  border-color: #4caf50;
+  box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.15);
+}
+
+body.dark .messages-page .message-form button {
+  background: #2e7d32;
+  color: #ffffff;
+}
+
+body.dark .messages-page .message-form button:hover:not(:disabled) {
+  background: #388e3c;
+}
+
+body.dark .messages-page .message-form button:disabled {
+  background: #465349;
+  color: #aab5ac;
+}
+
+/* =========================================================
+   ÉTATS VIDES
+========================================================= */
+
+body.dark .empty-chat,
+body.dark .empty-messages,
+body.dark .empty-conversations {
+  color: #a5b1a7;
+}
+
+body.dark .empty-chat-icon,
+body.dark .empty-icon {
+  background: #243b29;
+  color: #a5d6a7;
+}
+
+body.dark .empty-chat h2,
+body.dark .empty-messages h3 {
+  color: #edf3ee;
+}
+
+/* =========================================================
+   CHARGEMENT — SKELETONS
+========================================================= */
+
+body.dark .conversation-skeleton {
+  background: linear-gradient(
+    90deg,
+    #252e27 25%,
+    #343f36 50%,
+    #252e27 75%
+  );
+  background-size: 200% 100%;
+}
+
+body.dark .message-skeleton {
+  background: linear-gradient(
+    90deg,
+    #252e27 25%,
+    #343f36 50%,
+    #252e27 75%
+  );
+  background-size: 200% 100%;
+}
+
+/* =========================================================
+   ERREUR
+========================================================= */
+
+body.dark .messages-error {
+  background: #4a2020;
+  color: #ffcaca;
+  border: 1px solid #713333;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* =========================================================
+   ACCESSIBILITÉ
+========================================================= */
+
+body.dark .conversation:focus-visible,
+body.dark .mobile-back-btn:focus-visible,
+body.dark .message-form button:focus-visible {
+  outline: 2px solid #81c784;
+  outline-offset: 3px;
+}
+
+/* =========================================================
+   TRANSITIONS
+========================================================= */
+
+body.dark .conversations,
+body.dark .conversation,
+body.dark .chat,
+body.dark .chat-header,
+body.dark .messages-list,
+body.dark .message,
+body.dark .message-form,
+body.dark .message-form input {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}

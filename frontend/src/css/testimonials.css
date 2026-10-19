@@ -149,15 +149,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
   gap: 3px;
-
   margin-bottom: 22px;
-
   color: #f59e0b;
-
   font-size: 23px;
-
   letter-spacing: 1px;
 }
 
@@ -167,14 +162,10 @@
 
 .text {
   margin: 0 auto 25px;
-
   max-width: 330px;
-
   color: #555;
-
   font-size: 16px;
   line-height: 1.7;
-
   font-style: italic;
 }
 
@@ -184,9 +175,7 @@
 
 .testimonial-card h3 {
   margin: 0 0 5px;
-
   color: #2e7d32;
-
   font-size: 18px;
   font-weight: 700;
 }
@@ -197,7 +186,6 @@
 
 .testimonial-card span {
   color: #8a8f8a;
-
   font-size: 14px;
 }
 
@@ -239,14 +227,12 @@
   .testimonials h2 {
     font-size: 27px;
     line-height: 1.25;
-
     margin-bottom: 32px;
   }
 
   .testimonials h2::after {
     width: 45px;
     height: 3px;
-
     margin-top: 12px;
   }
 
@@ -257,7 +243,6 @@
 
   .testimonial-card {
     padding: 25px 20px;
-
     border-radius: 18px;
   }
 
@@ -274,10 +259,8 @@
 
   .text {
     max-width: 100%;
-
     font-size: 14px;
     line-height: 1.6;
-
     margin-bottom: 18px;
   }
 

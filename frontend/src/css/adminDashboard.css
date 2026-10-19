@@ -120,3 +120,107 @@
   color: #777;
 }
 
+
+/* =====================================================
+   AGRICONNECT — ADMIN DASHBOARD MODE SOMBRE
+===================================================== */
+
+/* CONTENEUR PRINCIPAL */
+
+body.dark .admin-dashboard {
+  color: #e5e7eb;
+}
+
+/* TITRE PRINCIPAL */
+
+body.dark .admin-dashboard h1 {
+  color: #86d98b;
+}
+
+/* CARTES STATISTIQUES */
+
+body.dark .admin-dashboard .stats-grid .stat-card,
+body.dark .admin-dashboard .stat-card {
+  background: #1e2922;
+  color: #e5e7eb;
+  border: 1px solid #344339;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .admin-dashboard .stat-card:hover {
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+
+body.dark .admin-dashboard .stat-card h2 {
+  color: #86d98b;
+}
+
+body.dark .admin-dashboard .stat-card p {
+  color: #e5e7eb;
+}
+
+/* CONTENEUR DU GRAPHIQUE */
+
+body.dark .admin-dashboard .orders-chart-container {
+  background: #1e2922;
+  border: 1px solid #344339;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .admin-dashboard .orders-chart-container h3 {
+  color: #86d98b;
+}
+
+/* CARTE GRAPHIQUE */
+
+body.dark .admin-dashboard .chart-card {
+  background: transparent;
+  color: #e5e7eb;
+}
+
+/* MENU ADMINISTRATION */
+
+body.dark .admin-dashboard .admin-menu a {
+  background: #2e7d32;
+  color: #fff;
+  border: 1px solid #3d9142;
+}
+
+body.dark .admin-dashboard .admin-menu a:hover {
+  background: #388e3c;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* ACTIVITÉS RÉCENTES */
+
+body.dark .admin-dashboard .activity-card {
+  background: #1e2922;
+  color: #e5e7eb;
+  border: 1px solid #344339;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .admin-dashboard .activity-card h2 {
+  color: #86d98b;
+}
+
+body.dark .admin-dashboard .activity-item {
+  border-bottom-color: #344339;
+}
+
+body.dark .admin-dashboard .activity-item:last-child {
+  border-bottom: none;
+}
+
+body.dark .admin-dashboard .activity-item small {
+  color: #a8b6ab;
+}
+
+/* ACCESSIBILITÉ */
+
+body.dark .admin-dashboard .admin-menu a:focus-visible {
+  outline: 2px solid #86d98b;
+  outline-offset: 3px;
+}
+
+

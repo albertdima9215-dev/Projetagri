@@ -47,3 +47,74 @@
     display: none;
   }
 }
+
+
+/* =========================================================
+   AGRICONNECT — ADMIN LAYOUT : MODE SOMBRE
+========================================================= */
+
+body.dark .admin-layout {
+    background: #121a14;
+    color: #e4e9e5;
+}
+
+/* Barre latérale */
+
+body.dark .admin-sidebar {
+    background: #1a211c;
+    color: #f1f5f1;
+    border-right: 1px solid #303a32;
+}
+
+body.dark .admin-sidebar h2 {
+    color: #81c784;
+}
+
+/* Liens de navigation */
+
+body.dark .admin-sidebar nav a {
+    color: #e4e9e5;
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+body.dark .admin-sidebar nav a:hover {
+    background: #2b392e;
+    color: #a5d6a7;
+}
+
+/* Lien actif, si la classe active est utilisée */
+
+body.dark .admin-sidebar nav a.active {
+    background: #2e7d32;
+    color: #ffffff;
+}
+
+/* Zone principale */
+
+body.dark .admin-content {
+    background: #121a14;
+    color: #e4e9e5;
+}
+
+/* Accessibilité clavier */
+
+body.dark .admin-sidebar nav a:focus-visible {
+    outline: 2px solid #81c784;
+    outline-offset: 3px;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 768px) {
+    body.dark .admin-layout {
+        background: #121a14;
+    }
+
+    body.dark .admin-content {
+        background: #121a14;
+    }
+}

@@ -1077,3 +1077,430 @@
     width: 100%;
   }
 }
+
+
+/* =========================================================
+   MODE SOMBRE — ADMIN ORDERS
+   ========================================================= */
+
+body.dark .admin-orders {
+  color: #e5e7eb;
+}
+
+/* HEADER */
+
+body.dark .admin-orders-header h1 {
+  color: #86efac;
+}
+
+body.dark .admin-orders-header p {
+  color: #a1a1aa;
+}
+
+body.dark .orders-count {
+  background: #203c2a;
+  color: #86efac;
+}
+
+/* ERREUR */
+
+body.dark .orders-error {
+  background: #3b2023;
+  border-color: #713238;
+  color: #fca5a5;
+}
+
+body.dark .orders-error button {
+  color: #fca5a5;
+}
+
+body.dark .orders-error button:hover {
+  background: #54272c;
+}
+
+/* STATISTIQUES */
+
+body.dark .order-stat-card {
+  background: #1e2922;
+  border-color: #344339;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
+}
+
+body.dark .order-stat-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+}
+
+body.dark .order-stat-icon {
+  background: #203c2a;
+  color: #86efac;
+}
+
+body.dark .order-stat-card h3 {
+  color: #f3f4f6;
+}
+
+body.dark .order-stat-card h3 small,
+body.dark .order-stat-card p {
+  color: #a1a1aa;
+}
+
+/* BARRE DE RECHERCHE ET FILTRES */
+
+body.dark .orders-toolbar {
+  background: #1e2922;
+  border-color: #344339;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.18);
+}
+
+body.dark .orders-search input,
+body.dark .orders-filter {
+  background: #151e18;
+  border-color: #3b4b40;
+  color: #e5e7eb;
+}
+
+body.dark .orders-search input::placeholder {
+  color: #8b949e;
+}
+
+body.dark .orders-search-icon {
+  color: #9ca3af;
+}
+
+body.dark .orders-search input:focus,
+body.dark .orders-filter:focus {
+  background: #19251d;
+  border-color: #4ade80;
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.12);
+}
+
+body.dark .orders-filter option,
+body.dark .order-modal-form select option {
+  background: #1e2922;
+  color: #e5e7eb;
+}
+
+/* TABLEAU */
+
+body.dark .orders-table-wrapper {
+  background: #1e2922;
+  border-color: #344339;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
+}
+
+body.dark .orders-table thead {
+  background: #253329;
+}
+
+body.dark .orders-table th {
+  color: #a7b5aa;
+  border-bottom-color: #3b4b40;
+}
+
+body.dark .orders-table td {
+  border-bottom-color: #303d34;
+  color: #d1d5db;
+}
+
+body.dark .orders-table tbody tr:hover {
+  background: #26372b;
+}
+
+/* PRODUIT */
+
+body.dark .order-product img {
+  border-color: #3b4b40;
+}
+
+body.dark .order-product-placeholder {
+  background: #29372d;
+  color: #a1aaa3;
+}
+
+body.dark .order-product-info strong {
+  color: #f3f4f6;
+}
+
+body.dark .order-product-info span {
+  color: #a1aaa3;
+}
+
+/* CLIENT / VENDEUR */
+
+body.dark .person-name svg {
+  color: #86efac;
+}
+
+body.dark .person-name strong {
+  color: #e5e7eb;
+}
+
+body.dark .order-person > span {
+  color: #a1aaa3;
+}
+
+/* DÉTAILS DE COMMANDE */
+
+body.dark .order-type {
+  background: #203c2a;
+  color: #86efac;
+}
+
+body.dark .order-details p {
+  color: #a1aaa3;
+}
+
+body.dark .order-details p strong {
+  color: #e5e7eb;
+}
+
+/* MONTANT */
+
+body.dark .order-amount strong {
+  color: #f3f4f6;
+}
+
+body.dark .order-unit-price {
+  color: #a1aaa3;
+}
+
+/* PAIEMENT */
+
+body.dark .payment-method {
+  color: #d1d5db;
+}
+
+/* Les badges conservent des couleurs distinctes et lisibles. */
+body.dark .payment-paid,
+body.dark .status-paid {
+  background: #173c2a;
+  color: #86efac;
+}
+
+body.dark .payment-pending,
+body.dark .status-pending {
+  background: #453719;
+  color: #fcd34d;
+}
+
+body.dark .payment-failed,
+body.dark .status-cancelled {
+  background: #482326;
+  color: #fca5a5;
+}
+
+body.dark .status-confirmed {
+  background: #1e3150;
+  color: #93c5fd;
+}
+
+body.dark .status-shipped {
+  background: #382651;
+  color: #d8b4fe;
+}
+
+body.dark .status-delivered {
+  background: #173c2a;
+  color: #86efac;
+}
+
+/* BOUTON D'ACTION */
+
+body.dark .order-action-btn {
+  background: #2e7d32;
+  color: #ffffff;
+}
+
+body.dark .order-action-btn:hover {
+  background: #3b9141;
+}
+
+/* AUCUNE COMMANDE */
+
+body.dark .no-orders {
+  background: #1e2922;
+  border-color: #3b4b40;
+}
+
+body.dark .no-orders-icon {
+  color: #849187;
+}
+
+body.dark .no-orders h3 {
+  color: #e5e7eb;
+}
+
+body.dark .no-orders p {
+  color: #a1aaa3;
+}
+
+/* =========================================================
+   MODAL DE COMMANDE
+   ========================================================= */
+
+body.dark .order-modal {
+  background: #1b261f;
+  color: #e5e7eb;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45);
+}
+
+body.dark .order-modal-header {
+  border-bottom-color: #344339;
+}
+
+body.dark .order-modal-header h2 {
+  color: #86efac;
+}
+
+body.dark .modal-order-id {
+  color: #a1aaa3;
+}
+
+body.dark .order-modal-close {
+  background: #29372d;
+  color: #d1d5db;
+}
+
+body.dark .order-modal-close:hover:not(:disabled) {
+  background: #482326;
+  color: #fca5a5;
+}
+
+body.dark .order-modal-body {
+  color: #e5e7eb;
+}
+
+/* PRODUIT DANS LA MODAL */
+
+body.dark .modal-product {
+  background: #202e24;
+  border-color: #344339;
+}
+
+body.dark .modal-product img {
+  border-color: #3b4b40;
+}
+
+body.dark .modal-product-placeholder {
+  background: #29372d;
+  color: #a1aaa3;
+}
+
+body.dark .modal-product h3 {
+  color: #f3f4f6;
+}
+
+body.dark .modal-product p {
+  color: #a1aaa3;
+}
+
+/* INFORMATIONS DE LA MODAL */
+
+body.dark .modal-info-item {
+  background: #202b23;
+  border-color: #344339;
+}
+
+body.dark .modal-info-item span {
+  color: #a1aaa3;
+}
+
+body.dark .modal-info-item strong {
+  color: #e5e7eb;
+}
+
+body.dark .modal-info-item .modal-total {
+  color: #86efac;
+}
+
+/* LOCALISATION */
+
+body.dark .order-location {
+  background: #202e24;
+  color: #86efac;
+}
+
+body.dark .order-location span {
+  color: #a1aaa3;
+}
+
+body.dark .order-location strong {
+  color: #e5e7eb;
+}
+
+/* FORMULAIRE DE MODIFICATION */
+
+body.dark .order-modal-form label {
+  color: #d1d5db;
+}
+
+body.dark .order-modal-form select {
+  background: #151e18;
+  border-color: #3b4b40;
+  color: #e5e7eb;
+}
+
+body.dark .order-modal-form select:focus {
+  border-color: #4ade80;
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.12);
+}
+
+body.dark .order-modal-form select:disabled {
+  background: #252d27;
+  color: #858d87;
+}
+
+/* FOOTER DE LA MODAL */
+
+body.dark .order-modal-actions {
+  border-top-color: #344339;
+}
+
+body.dark .modal-cancel-btn {
+  background: #303a32;
+  color: #e5e7eb;
+}
+
+body.dark .modal-cancel-btn:hover:not(:disabled) {
+  background: #414d43;
+}
+
+body.dark .modal-save-btn {
+  background: #2e7d32;
+  color: #ffffff;
+}
+
+body.dark .modal-save-btn:hover:not(:disabled) {
+  background: #3b9141;
+}
+
+body.dark .modal-cancel-btn:disabled,
+body.dark .modal-save-btn:disabled {
+  opacity: 0.5;
+}
+
+/* CHARGEMENT */
+
+body.dark .orders-loading {
+  color: #c1c9c3;
+}
+
+body.dark .orders-loading p {
+  color: #a1aaa3;
+}
+
+body.dark .orders-spinner {
+  border-color: #344339;
+  border-top-color: #4ade80;
+}
+
+/* ACCESSIBILITÉ : FOCUS CLAVIER */
+
+body.dark .order-action-btn:focus-visible,
+body.dark .order-modal-close:focus-visible,
+body.dark .modal-cancel-btn:focus-visible,
+body.dark .modal-save-btn:focus-visible,
+body.dark .orders-error button:focus-visible {
+  outline: 2px solid #86efac;
+  outline-offset: 3px;
+}

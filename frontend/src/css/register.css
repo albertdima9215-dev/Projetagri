@@ -129,3 +129,137 @@
   flex: 1;
 }
 
+
+/* =====================================================
+   AGRICONNECT — REGISTER MODE SOMBRE
+===================================================== */
+
+/* CONTENEUR PRINCIPAL */
+
+body.dark .register {
+  color: #e5e7eb;
+}
+
+/* FORMULAIRE */
+
+body.dark .register-form {
+  background: #1e2922;
+  border: 1px solid #344339;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* TITRE */
+
+body.dark .register-form h2 {
+  color: #86d98b;
+}
+
+/* CHAMPS DE SAISIE */
+
+body.dark .register-form input,
+body.dark .register-form select {
+  background: #151e18;
+  color: #e5e7eb;
+  border: 1px solid #3c4c40;
+}
+
+/* PLACEHOLDERS */
+
+body.dark .register-form input::placeholder {
+  color: #9aa99d;
+  opacity: 1;
+}
+
+/* FOCUS */
+
+body.dark .register-form input:focus,
+body.dark .register-form select:focus {
+  outline: none;
+  border-color: #66bb6a;
+  box-shadow: 0 0 0 3px rgba(102, 187, 106, 0.15);
+}
+
+/* BOUTON D'INSCRIPTION */
+
+body.dark .register-form .submit-btn {
+  background: #2e7d32;
+  color: #fff;
+}
+
+body.dark .register-form .submit-btn:hover {
+  background: #388e3c;
+}
+
+/* AFFICHER / MASQUER LE MOT DE PASSE */
+
+body.dark .toggle-password {
+  background: transparent;
+  color: #b8c8bb;
+}
+
+body.dark .toggle-password:hover {
+  color: #86d98b;
+}
+
+/* BARRE DE FORCE DU MOT DE PASSE */
+
+body.dark .strength-bar {
+  background: #354139;
+}
+
+/* Les couleurs .strength-1 à .strength-5 restent inchangées */
+
+/* TEXTE DE FORCE */
+
+body.dark .strength-text {
+  color: #c5d0c7;
+}
+
+/* MESSAGES D'ERREUR ET DE SUCCÈS */
+
+body.dark .error-text {
+  color: #ff8a80;
+}
+
+body.dark .success-text {
+  color: #86d98b;
+}
+
+/* GROUPE TÉLÉPHONE */
+
+body.dark .phone-prefix {
+  background: #29352c;
+  color: #e5e7eb;
+  border-color: #3c4c40;
+}
+
+body.dark .phone-group input {
+  background: #151e18;
+  color: #e5e7eb;
+}
+
+/* OPTIONS DU SELECT */
+
+body.dark .register-form select option {
+  background: #1e2922;
+  color: #e5e7eb;
+}
+
+/* CHAMPS DÉSACTIVÉS */
+
+body.dark .register-form input:disabled,
+body.dark .register-form select:disabled {
+  background: #26332a;
+  color: #89978c;
+  cursor: not-allowed;
+}
+
+/* ACCESSIBILITÉ */
+
+body.dark .register-form input:focus-visible,
+body.dark .register-form select:focus-visible,
+body.dark .register-form .submit-btn:focus-visible,
+body.dark .toggle-password:focus-visible {
+  outline: 2px solid #86d98b;
+  outline-offset: 3px;
+}

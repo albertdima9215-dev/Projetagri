@@ -102,3 +102,120 @@
     padding:10px 0;
 }
 }
+
+
+/* ==================================================
+   MODE SOMBRE — ADMIN PAYMENTS
+================================================== */
+
+/* PAGE ET TITRE */
+
+body.dark .admin-payments {
+  color: #e5e7eb;
+}
+
+body.dark .admin-payments h1 {
+  color: #86efac;
+}
+
+/* TABLEAU */
+
+body.dark .admin-payments table {
+  background: #1e2922;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .admin-payments th {
+  background: #245c32;
+  color: #ffffff;
+}
+
+body.dark .admin-payments td {
+  color: #d1d5db;
+  border-bottom-color: #344339;
+}
+
+body.dark .admin-payments tbody tr:hover {
+  background: #26372b;
+}
+
+/* STATUTS DE PAIEMENT */
+
+body.dark .admin-payments .status {
+  color: #ffffff;
+}
+
+body.dark .admin-payments .pending {
+  background: #a16207;
+  color: #fef3c7;
+}
+
+body.dark .admin-payments .paid {
+  background: #216e39;
+  color: #dcfce7;
+}
+
+body.dark .admin-payments .failed {
+  background: #b91c1c;
+  color: #fee2e2;
+}
+
+/* SÉLECTEUR DE STATUT */
+
+body.dark .admin-payments .status-container select {
+  background: #151e18;
+  color: #e5e7eb;
+  border-color: #465549;
+}
+
+body.dark .admin-payments .status-container select:focus {
+  outline: 2px solid #4ade80;
+  outline-offset: 2px;
+  border-color: #4ade80;
+}
+
+body.dark .admin-payments .status-container select option {
+  background: #1e2922;
+  color: #e5e7eb;
+}
+
+body.dark .admin-payments .status-container select:disabled {
+  background: #29332c;
+  color: #9ca3af;
+  border-color: #3b493e;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ==================================================
+   VERSION MOBILE
+================================================== */
+
+@media (max-width: 768px) {
+
+  body.dark .admin-payments tr {
+    background: #1e2922;
+    border: 1px solid #344339;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  body.dark .admin-payments td {
+    color: #d1d5db;
+    border-bottom-color: #344339;
+  }
+
+  body.dark .admin-payments tbody tr:hover {
+    background: #26372b;
+  }
+
+  body.dark .admin-payments td:last-child {
+    border-bottom: none;
+  }
+}
+
+/* ACCESSIBILITÉ */
+
+body.dark .admin-payments select:focus-visible {
+  outline: 2px solid #86efac;
+  outline-offset: 3px;
+}

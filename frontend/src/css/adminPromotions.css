@@ -264,3 +264,217 @@
     width: 100%;
   }
 }
+
+
+/* ==================================================
+   MODE SOMBRE — ADMIN PROMOTIONS
+================================================== */
+
+/* PAGE PRINCIPALE */
+
+body.dark .admin-promotions {
+  color: #e5e7eb;
+}
+
+body.dark .admin-promotions > h1 {
+  color: #86efac;
+}
+
+/* FORMULAIRE */
+
+body.dark .promotion-form-card {
+  background: #1e2922;
+  color: #e5e7eb;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .promotion-form-card h2,
+body.dark .promotions-list h2 {
+  color: #f3f4f6;
+}
+
+/* LABELS */
+
+body.dark .admin-promotions .form-group label,
+body.dark .admin-promotions .active-checkbox,
+body.dark .promotion-image-preview label {
+  color: #d1d5db;
+}
+
+/* CHAMPS DE FORMULAIRE */
+
+body.dark .admin-promotions .form-group input,
+body.dark .admin-promotions .form-group textarea,
+body.dark .admin-promotions .form-group select {
+  background: #151e18;
+  color: #e5e7eb;
+  border-color: #3b4b40;
+}
+
+body.dark .admin-promotions .form-group input::placeholder,
+body.dark .admin-promotions .form-group textarea::placeholder {
+  color: #8b949e;
+}
+
+body.dark .admin-promotions .form-group input:focus,
+body.dark .admin-promotions .form-group textarea:focus,
+body.dark .admin-promotions .form-group select:focus {
+  border-color: #4ade80;
+  box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.12);
+}
+
+body.dark .admin-promotions .form-group select option {
+  background: #1e2922;
+  color: #e5e7eb;
+}
+
+/* APERÇU DE RÉDUCTION */
+
+body.dark .reduction-preview {
+  background: #173c2a;
+  color: #86efac;
+}
+
+/* CASE À COCHER */
+
+body.dark .active-checkbox input {
+  accent-color: #4ade80;
+}
+
+/* BOUTON DE CRÉATION */
+
+body.dark .create-promotion-btn {
+  background: #2e7d32;
+  color: #ffffff;
+}
+
+body.dark .create-promotion-btn:hover {
+  background: #388e3c;
+}
+
+body.dark .create-promotion-btn:disabled {
+  background: #4b5563;
+  color: #d1d5db;
+  cursor: not-allowed;
+}
+
+/* CARTES DES PROMOTIONS */
+
+body.dark .promotion-admin-card {
+  background: #1e2922;
+  color: #d1d5db;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+}
+
+body.dark .promotion-admin-card img {
+  background: #29372d;
+}
+
+body.dark .promotion-admin-info h3 {
+  color: #86efac;
+}
+
+body.dark .promotion-admin-info p {
+  color: #cbd5e1;
+}
+
+/* PRIX */
+
+body.dark .old-price {
+  color: #9ca3af;
+}
+
+body.dark .promotion-price strong {
+  color: #86efac;
+}
+
+/* BADGE DE RÉDUCTION */
+
+body.dark .discount {
+  background: #482326;
+  color: #fca5a5;
+}
+
+/* STATUT ACTIF / INACTIF */
+
+body.dark .promotion-active {
+  background: #173c2a;
+  color: #86efac;
+}
+
+body.dark .promotion-inactive {
+  background: #482326;
+  color: #fca5a5;
+}
+
+/* BOUTON SUPPRIMER */
+
+body.dark .delete-promotion-btn {
+  background: #c62828;
+  color: #ffffff;
+}
+
+body.dark .delete-promotion-btn:hover {
+  background: #b71c1c;
+}
+
+/* AUCUNE PROMOTION */
+
+body.dark .empty-promotions {
+  background: #1e2922;
+  color: #d1d5db;
+  border: 1px dashed #3b4b40;
+}
+
+/* APERÇU DE L'IMAGE */
+
+body.dark .promotion-image-preview {
+  color: #e5e7eb;
+}
+
+body.dark .promotion-image-preview img {
+  background: #29372d;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .promotion-image-preview p {
+  color: #a1aaa3;
+}
+
+/* ACCESSIBILITÉ */
+
+body.dark .admin-promotions button:focus-visible,
+body.dark .admin-promotions input:focus-visible,
+body.dark .admin-promotions textarea:focus-visible,
+body.dark .admin-promotions select:focus-visible {
+  outline: 2px solid #86efac;
+  outline-offset: 3px;
+}
+
+/* ==================================================
+   RESPONSIVE — MOBILE
+================================================== */
+
+@media (max-width: 768px) {
+
+  body.dark .promotion-form-card {
+    background: #1e2922;
+  }
+
+  body.dark .promotion-admin-card {
+    background: #1e2922;
+    border: 1px solid #344339;
+  }
+
+  body.dark .promotion-admin-card img {
+    background: #29372d;
+  }
+
+  body.dark .promotion-price {
+    color: #d1d5db;
+  }
+
+  body.dark .delete-promotion-btn {
+    width: 100%;
+  }
+}

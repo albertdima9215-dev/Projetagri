@@ -329,3 +329,179 @@
     height: 55px;
   }
 }
+
+
+/* ==================================================
+   MODE SOMBRE — ADMIN PRODUCTS
+================================================== */
+
+/* PAGE PRINCIPALE */
+
+body.dark .admin-products {
+  color: #e5e7eb;
+}
+
+/* HEADER */
+
+body.dark .admin-products-header h1 {
+  color: #86efac;
+}
+
+body.dark .admin-products-header p {
+  color: #a1aaa3;
+}
+
+body.dark .products-count {
+  background: #203c2a;
+  color: #86efac;
+}
+
+/* TABLEAU */
+
+body.dark .admin-table-wrapper {
+  background: #1e2922;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* EN-TÊTE DU TABLEAU */
+
+body.dark .admin-table-wrapper thead {
+  background: #245c32;
+  color: #ffffff;
+}
+
+body.dark .admin-table-wrapper th {
+  border-color: #344339;
+  color: #f3f4f6;
+}
+
+/* LIGNES DU TABLEAU */
+
+body.dark .admin-table-wrapper tbody tr {
+  border-bottom-color: #344339;
+}
+
+body.dark .admin-table-wrapper tbody tr:hover {
+  background: #26372b;
+}
+
+body.dark .admin-table-wrapper tbody tr:last-child {
+  border-bottom-color: transparent;
+}
+
+body.dark .admin-table-wrapper td {
+  color: #d1d5db;
+}
+
+/* INFORMATIONS DU PRODUIT */
+
+body.dark .admin-product-image {
+  background: #29372d;
+}
+
+body.dark .admin-product-info strong {
+  color: #f3f4f6;
+}
+
+body.dark .admin-product-info small {
+  color: #a1aaa3;
+}
+
+/* CATÉGORIE */
+
+body.dark .category-badge {
+  background: #203c2a;
+  color: #86efac;
+}
+
+/* TYPE DE VENTE */
+
+body.dark .sale-type-badge {
+  background: #1e3449;
+  color: #93c5fd;
+}
+
+body.dark .lot-info {
+  color: #a1aaa3;
+}
+
+/* PRIX */
+
+body.dark .product-price {
+  color: #86efac;
+}
+
+/* STOCK */
+
+body.dark .stock-badge {
+  background: #203c2a;
+  color: #86efac;
+}
+
+body.dark .stock-empty {
+  background: #482326;
+  color: #fca5a5;
+}
+
+/* VENDEUR */
+
+body.dark .seller-info strong {
+  color: #e5e7eb;
+}
+
+body.dark .seller-info small {
+  color: #a1aaa3;
+}
+
+/* LOCALISATION */
+
+body.dark .admin-products .location {
+  color: #d1d5db;
+}
+
+/* BOUTON SUPPRIMER */
+
+body.dark .delete-btn {
+  background: #c93645;
+  color: #ffffff;
+}
+
+body.dark .delete-btn:hover {
+  background: #e04756;
+}
+
+/* CHARGEMENT */
+
+body.dark .admin-loading {
+  background: #1e2922;
+  color: #b5beb7;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* AUCUN PRODUIT */
+
+body.dark .admin-empty {
+  background: #1e2922;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+body.dark .admin-empty h3 {
+  color: #86efac;
+}
+
+body.dark .admin-empty p {
+  color: #a1aaa3;
+}
+
+/* ACCESSIBILITÉ */
+
+body.dark .delete-btn:focus-visible {
+  outline: 2px solid #fca5a5;
+  outline-offset: 3px;
+}
+
+/* DÉFILEMENT HORIZONTAL DU TABLEAU */
+
+body.dark .admin-table-wrapper {
+  scrollbar-color: #526357 #1e2922;
+}
