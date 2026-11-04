@@ -492,3 +492,19 @@ export const getOrderQuantityLabel = (order) => {
     formatUnitePluriel(order.unite || "piece", quantite)
   }`;
 };
+
+export const getPrixActuel = (product) => {
+  if (!product) return 0;
+
+  return Number(
+    product.prixActuel ?? product.prix ?? 0
+  );
+};
+
+export const getPrixAvantPromotion = (product) => {
+  if (!product?.promotion) return null;
+
+  return Number(
+    product.promotion.prixAvant
+  );
+};

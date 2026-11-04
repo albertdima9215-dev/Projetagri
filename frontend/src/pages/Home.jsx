@@ -16,6 +16,7 @@ import { optimizeImage } from "../utils/cloudinary";
 import {
   getPrixLabel,
   getStockLabel,
+  getPrixActuel,
 } from "../utils/productFormatters";
 
 function Home() {
@@ -482,13 +483,43 @@ function Home() {
 
               {/* PRIX */}
 
-              <div className="product-price">
+              {/* PRIX ET PROMOTION */}
 
-                <h2>
-                  {getPrixLabel(product)}
-                </h2>
+<div className="product-price">
 
-              </div>
+  {product.promotion ? (
+    <>
+      {/* Prix promotionnel */}
+
+      <h2 className="price-promotion">
+        {getPrixLabel({
+          ...product,
+          prix: getPrixActuel(product),
+        })}
+      </h2>
+
+      {/* Ancien prix */}
+
+      <p className="price-before">
+        {getPrixLabel({
+          ...product,
+          prix: product.prix,
+        })}
+      </p>
+
+      {/* Pourcentage de réduction */}
+
+      <span className="promotion-badge">
+        -{product.promotion.reduction} %
+      </span>
+    </>
+  ) : (
+    <h2>
+      {getPrixLabel(product)}
+    </h2>
+  )}
+
+</div>
 
               {/* STOCK */}
 

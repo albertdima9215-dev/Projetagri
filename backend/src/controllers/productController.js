@@ -3,6 +3,73 @@ const cloudinary = require("../config/cloudinary.js");
 const streamifier = require("streamifier");
 const User = require("../models/User");
 const Review = require("../models/Review");
+const Promotion = require("../models/Promotion");
+
+// --------------------------------------------------
+// AJOUTER LA PROMOTION ACTIVE AU PRODUIT
+// --------------------------------------------------
+
+const ajouterPromotionAuProduit = async (produits) => {
+  const maintenant = new Date();
+
+  const liste = Array.isArray(produits)
+    ? produits
+    : [produits];
+
+  const ids = liste
+    .filter(Boolean)
+    .map((produit) => produit._id);
+
+  const promotions = await Promotion.find({
+    produit: { $in: ids },
+    active: true,
+    dateDebut: { $lte: maintenant },
+    dateFin: { $gte: maintenant },
+  }).sort({ prixPromotion: 1 });
+
+  return liste.map((produit) => {
+    const promotion = promotions.find(
+      (promo) =>
+        promo.produit &&
+        promo.produit.toString() ===
+          produit._id.toString()
+    );
+
+    const produitObjet = produit.toObject
+      ? produit.toObject()
+      : { ...produit };
+
+    if (
+      promotion &&
+      Number(promotion.prixPromotion) > 0 &&
+      Number(promotion.prixPromotion) <
+        Number(produitObjet.prix)
+    ) {
+      produitObjet.promotion = {
+        titre: promotion.titre,
+        prixAvant: Number(produitObjet.prix),
+        prixPromotion: Number(
+          promotion.prixPromotion
+        ),
+        reduction: Number(
+          promotion.reduction || 0
+        ),
+        dateFin: promotion.dateFin,
+      };
+
+      produitObjet.prixActuel = Number(
+        promotion.prixPromotion
+      );
+    } else {
+      produitObjet.promotion = null;
+      produitObjet.prixActuel = Number(
+        produitObjet.prix
+      );
+    }
+
+    return produitObjet;
+  });
+};
 
 /*
 ====================================================
@@ -253,9 +320,7 @@ OBTENIR LES PRODUITS
 */
 
 const getProducts = async (req, res) => {
-
   try {
-
     const {
       search,
       localisation,
@@ -266,56 +331,33 @@ const getProducts = async (req, res) => {
 
     let filtre = {};
 
-
     if (search) {
-
       filtre.nom = {
         $regex: search,
         $options: "i",
       };
-
     }
 
-
     if (localisation) {
-
       filtre.localisation = {
         $regex: localisation,
         $options: "i",
       };
-
     }
-
 
     if (categorie) {
-
       filtre.categorie = categorie;
-
     }
 
+    const total = await Product.countDocuments(filtre);
 
-    const total =
-      await Product.countDocuments(filtre);
-
-
-    const produits =
-      await Product.find(filtre)
-
-        .populate(
-          "vendeur",
-          "nom email telephone"
-        )
-
-        .skip(
-          (page - 1) * Number(limit)
-        )
-
-        .limit(Number(limit))
-
-        .sort({
-          createdAt: -1,
-        });
-
+    const produits = await Product.find(filtre)
+      .populate("vendeur", "nom email telephone")
+      .skip((page - 1) * Number(limit))
+      .limit(Number(limit))
+      .sort({
+        createdAt: -1,
+      });
 
     /*
     =========================
@@ -323,67 +365,60 @@ const getProducts = async (req, res) => {
     =========================
     */
 
-    const produitsAvecAvis =
-      await Promise.all(
+    const produitsAvecAvis = await Promise.all(
+      produits.map(async (produit) => {
+        const reviews = await Review.find({
+          produit: produit._id,
+        });
 
-        produits.map(
-          async (produit) => {
+        const totalReviews = reviews.length;
 
-            const reviews =
-              await Review.find({
-                produit: produit._id,
-              });
+        const averageRating =
+          totalReviews > 0
+            ? (
+                reviews.reduce(
+                  (sum, r) => sum + r.note,
+                  0
+                ) / totalReviews
+              ).toFixed(1)
+            : 0;
 
+        return {
+          ...produit.toObject(),
+          averageRating,
+          totalReviews,
+        };
+      })
+    );
 
-            const totalReviews =
-              reviews.length;
+    /*
+    =========================
+    PROMOTIONS ACTIVES
+    =========================
+    */
 
+    const produitsAvecPromotions =
+      await ajouterPromotionAuProduit(produitsAvecAvis);
 
-            const averageRating =
-              totalReviews > 0
-                ? (
-                    reviews.reduce(
-                      (sum, r) =>
-                        sum + r.note,
-                      0
-                    ) / totalReviews
-                  ).toFixed(1)
-                : 0;
-
-
-            return {
-
-              ...produit.toObject(),
-
-              averageRating,
-
-              totalReviews,
-
-            };
-
-          }
-        )
-      );
-
+    /*
+    =========================
+    RÉPONSE
+    =========================
+    */
 
     res.status(200).json({
-
       total,
 
       page: Number(page),
 
-      totalPages:
-        Math.ceil(
-          total / Number(limit)
-        ),
+      totalPages: Math.ceil(
+        total / Number(limit)
+      ),
 
-      produits:
-        produitsAvecAvis,
-
+      produits: produitsAvecPromotions,
     });
 
   } catch (error) {
-
     console.error(
       "Erreur récupération produits :",
       error
@@ -392,7 +427,6 @@ const getProducts = async (req, res) => {
     res.status(500).json({
       message: error.message,
     });
-
   }
 };
 
@@ -428,7 +462,10 @@ const getProductById = async (req, res) => {
     }
 
 
-    res.status(200).json(produit);
+    const [produitAvecPromotion] =
+  await ajouterPromotionAuProduit([produit]);
+
+  res.status(200).json(produitAvecPromotion);
 
   } catch (error) {
 

@@ -1377,3 +1377,37 @@ body.dark .product-rating span {
     border-color 0.3s ease,
     box-shadow 0.3s ease;
 }
+
+/* =========================================
+   AFFICHAGE DES PRIX PROMOTIONNELS
+========================================= */
+
+.product-price {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.product-price .price-promotion {
+  color: #16803c;
+  font-weight: 800;
+  margin: 0;
+}
+
+.product-price .price-before {
+  color: #888;
+  text-decoration: line-through;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.product-price .promotion-badge {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #16803c;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
