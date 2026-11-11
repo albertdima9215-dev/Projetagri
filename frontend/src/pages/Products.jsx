@@ -10,8 +10,9 @@ import {
 import { useFavorite } from "../context/FavoriteContext";
 import { optimizeImage } from "../utils/cloudinary";
 import {
-  formatUnite,
   getPrixLabel,
+  getPrixActuelLabel,
+  getPrixAvantPromotionLabel,
   getSaleTypeLabel,
   getStockLabel,
 } from "../utils/productFormatters";
@@ -128,40 +129,39 @@ function Products() {
   // Produits filtrés
   // --------------------------------------------------
   const filteredProducts = products
-    .filter((product) =>
-      product.nom
-        ?.toLowerCase()
-        .includes(search.toLowerCase())
-    )
-    .filter((product) =>
-      category
-        ? product.categorie === category
-        : true
-    )
-    .filter((product) =>
-      location
-        ? product.localisation
-            ?.toLowerCase()
-            .includes(location.toLowerCase())
-        : true
-    )
-    .filter((product) =>
-      minPrice
-        ? product.prix >= Number(minPrice)
-        : true
-    )
-    .filter((product) =>
-      maxPrice
-        ? product.prix <= Number(maxPrice)
-        : true
-    )
+        .filter((product) => {
+      const prix = Number(
+        product.prixActuel ?? product.prix ?? 0
+      );
+
+      return minPrice
+        ? prix >= Number(minPrice)
+        : true;
+    })
+    .filter((product) => {
+      const prix = Number(
+        product.prixActuel ?? product.prix ?? 0
+      );
+
+      return maxPrice
+        ? prix <= Number(maxPrice)
+        : true;
+    })
     .sort((a, b) => {
+      const prixA = Number(
+        a.prixActuel ?? a.prix ?? 0
+      );
+
+      const prixB = Number(
+        b.prixActuel ?? b.prix ?? 0
+      );
+
       if (sort === "priceAsc") {
-        return a.prix - b.prix;
+        return prixA - prixB;
       }
 
       if (sort === "priceDesc") {
-        return b.prix - a.prix;
+        return prixB - prixA;
       }
 
       return (
@@ -450,10 +450,28 @@ ${url}`;
                   </span>
                 )}
 
-                {/* PRIX */}
-                <p className="product-price">
-                  {getPrixLabel(product)}
-                </p>
+                {/* PRIX ET PROMOTION */}
+<div className="product-price-container">
+  {product.promotion ? (
+    <>
+      <p className="product-price price-promotion">
+        {getPrixActuelLabel(product)}
+      </p>
+
+      <p className="product-price-before">
+        {getPrixAvantPromotionLabel(product)}
+      </p>
+
+      <span className="promotion-badge">
+        -{product.promotion.reduction} %
+      </span>
+    </>
+  ) : (
+    <p className="product-price">
+      {getPrixLabel(product)}
+    </p>
+  )}
+</div>
 
                 {/* STOCK */}
                 {product.quantite !==

@@ -5,6 +5,8 @@ import "../css/productDetails.css";
 import {
   formatUnite,
   getPrixLabel,
+  getPrixActuelLabel,
+  getPrixAvantPromotionLabel,
   getSaleTypeLabel,
   getQuantiteLabel,
   getOrderLabel,
@@ -119,7 +121,7 @@ function ProductDetails() {
 
 Je suis intéressé(e) par votre produit "${product.nom}".
 
-Prix : ${getPrixLabel(product)}
+Prix : ${getPrixActuelLabel(product)}
 
 Je viens de voir votre annonce sur AgriConnect.`;
 
@@ -245,11 +247,15 @@ const modifierQuantite = (value) => {
     return <h2>Chargement...</h2>;
   }
 
-  const prixUnitaire = Number(product.prix || 0);
-  const quantiteCommande = Number(quantite || 0);
+  const prixUnitaire = Number(
+  product.prixActuel ?? product.prix ?? 0
+);
 
-  const totalCommande =
-    prixUnitaire * quantiteCommande;
+const quantiteCommande = Number(quantite || 0);
+
+const totalCommande =
+  prixUnitaire * quantiteCommande;
+  
 
   return (
     <div className="producstDetails">
@@ -301,8 +307,26 @@ const modifierQuantite = (value) => {
 
         <h1>{product.nom}</h1>
 
-        {/* PRIX */}
-        <h2>{getPrixLabel(product)}</h2>
+        {/* PRIX ET PROMOTION */}
+<div className="detail-price-container">
+  {product.promotion ? (
+    <>
+      <h2 className="detail-price-promotion">
+        {getPrixActuelLabel(product)}
+      </h2>
+
+      <p className="detail-price-before">
+        {getPrixAvantPromotionLabel(product)}
+      </p>
+
+      <span className="detail-promotion-badge">
+        -{product.promotion.reduction} %
+      </span>
+    </>
+  ) : (
+    <h2>{getPrixLabel(product)}</h2>
+  )}
+</div>
 
         <p>
           <strong>
@@ -416,14 +440,26 @@ const modifierQuantite = (value) => {
         </strong>
       </p>
 
-      {/* PRIX */}
+      <div className="order-price">
+  Prix :{" "}
+  {product.promotion ? (
+    <>
+      <strong className="detail-price-promotion">
+        {getPrixActuelLabel(product)}
+      </strong>
 
-      <p className="order-price">
-        Prix :{" "}
-        <strong>
-          {getPrixLabel(product)}
-        </strong>
+      <p className="detail-price-before">
+        {getPrixAvantPromotionLabel(product)}
       </p>
+
+      <span className="detail-promotion-badge">
+        -{product.promotion.reduction} %
+      </span>
+    </>
+  ) : (
+    <strong>{getPrixLabel(product)}</strong>
+  )}
+</div>
 
       {/* TYPE DE VENTE */}
 

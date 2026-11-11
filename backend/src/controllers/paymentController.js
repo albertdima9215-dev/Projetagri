@@ -75,7 +75,7 @@ const createPayment = async (req, res) => {
     invoice.addItem(
       commande.produit.nom,
       commande.quantite,
-      commande.produit.prix,
+      commande.prixUnitaire,
       commande.montant,
       `Commande ${commande._id}`
     );
@@ -293,6 +293,11 @@ const verifyPaymentStatus = async (req, res) => {
     // Vérifier directement le paiement auprès de PayDunya
     await invoice.confirm(token);
 
+    console.log("========== DONNÉES FACTURE PAYDUNYA ==========");
+console.log("Status :", invoice.status);
+console.log("Total amount :", invoice.totalAmount);
+console.log("Invoice :", invoice);
+    
     console.log("Statut PayDunya :", invoice.status);
     console.log("Réponse PayDunya :", invoice.responseText);
 

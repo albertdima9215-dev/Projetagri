@@ -4,6 +4,7 @@ const Notification = require("../models/Notification");
 const Review = require("../models/Review");
 const PushSubscription = require("../models/PushSubscription");
 const webpush = require("../config/webpush");
+const Promotion = require("../models/Promotion");
 
 // Créer une commande
 const createOrder = async (req, res) => {
@@ -70,7 +71,34 @@ const createOrder = async (req, res) => {
     // INFORMATIONS COMMERCIALES
     // =========================
 
-    const prixUnitaire = Number(produit.prix);
+    // Rechercher une promotion active et valable pour ce produit
+const maintenant = new Date();
+
+const promotion = await Promotion.findOne({
+  produit: produit._id,
+  active: true,
+  dateDebut: { $lte: maintenant },
+  dateFin: { $gte: maintenant },
+});
+
+// Déterminer le prix réellement applicable
+let prixUnitaire = Number(produit.prix);
+
+if (promotion) {
+  const prixPromo = Number(promotion.prixPromotion);
+
+  // Vérifier que le prix promotionnel est valide
+  if (
+    Number.isFinite(prixPromo) &&
+    prixPromo > 0 &&
+    prixPromo < Number(produit.prix)
+  ) {
+    prixUnitaire = prixPromo;
+  }
+}
+
+// Calculer le montant uniquement côté serveur
+const montant = prixUnitaire * quantiteCommande;
 
     const typeVente = produit.typeVente || "poids";
 
@@ -80,13 +108,6 @@ const createOrder = async (req, res) => {
       typeVente === "lot"
         ? produit.quantiteParLot
         : null;
-
-    // =========================
-    // CALCUL
-    // =========================
-
-    const montant =
-      prixUnitaire * quantiteCommande;
 
     // =========================
     // DÉDUCTION DU STOCK

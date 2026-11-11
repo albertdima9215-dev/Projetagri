@@ -508,3 +508,29 @@ export const getPrixAvantPromotion = (product) => {
     product.promotion.prixAvant
   );
 };
+
+// --------------------------------------------------
+// PRIX ACTUEL AVEC CONSERVATION DES UNITÉS
+// --------------------------------------------------
+
+export const getPrixActuelLabel = (product) => {
+  if (!product) return "";
+
+  return getPrixLabel({
+    ...product,
+    prix: product.prixActuel ?? product.prix,
+  });
+};
+
+// --------------------------------------------------
+// PRIX ORIGINAL AVANT PROMOTION
+// --------------------------------------------------
+
+export const getPrixAvantPromotionLabel = (product) => {
+  if (!product?.promotion) return "";
+
+  return getPrixLabel({
+    ...product,
+    prix: product.prix,
+  });
+};

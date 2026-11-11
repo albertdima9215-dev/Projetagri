@@ -445,6 +445,41 @@
   box-shadow: 0 8px 18px rgba(46, 125, 50, 0.25);
 }
 
+/* AFFICHAGE DES PROMOTIONS */
+
+.product-price-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.product-price-container .product-price {
+  margin: 0;
+}
+
+.product-price-container .price-promotion {
+  color: #16803c;
+  font-weight: 800;
+}
+
+.product-price-before {
+  color: #888;
+  text-decoration: line-through;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.promotion-badge {
+  background: #e8f5e9;
+  color: #16803c;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
 /* =========================================================
    SKELETON
    ========================================================= */
