@@ -161,7 +161,18 @@ const login = async (req, res) => {
       });
     }
 
+    /*const valeur = identifiant.trim();*/
     const valeur = identifiant.trim();
+
+const telephoneRecherche = valeur.replace(/\s/g, "");
+
+const user = await User.findOne({
+  $or: [
+    { email: valeur.toLowerCase() },
+    { telephoneComplet: telephoneRecherche },
+    { telephone: telephoneRecherche },
+  ],
+});
 
     // Recherche par email OU numéro international
     const user = await User.findOne({
